@@ -11,7 +11,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class ButtonController : MonoBehaviour {
+public class ButtonController : MonoBehaviour
+{
 
     public enum ToolType
     {
@@ -26,9 +27,10 @@ public class ButtonController : MonoBehaviour {
         Office = 3,
         Hotel = 4
     }
+
     private ToolType currentTool;
     private RoomType buildRoom;
-    private GameObject refrenceRoom;
+    private GameObject referenceRoom;
     private GameObject icon;
 
 	void Start ()
@@ -68,7 +70,7 @@ public class ButtonController : MonoBehaviour {
 
     public void SelectInspect()
     {
-        refrenceRoom = null;
+        referenceRoom = null;
         currentTool = ToolType.Inspect;
     }
 
@@ -83,22 +85,22 @@ public class ButtonController : MonoBehaviour {
         switch (type)
         {
             case 0:
-                refrenceRoom = Resources.Load("Prefabs/BrentDemo/RoomLobby") as GameObject;
+                referenceRoom = Resources.Load("Prefabs/BrentDemo/RoomLobby") as GameObject;
                 r.sprite = s;
                 r.color = new Color(.9F, .5F, .1F);
                 break;
             case 1:
-                refrenceRoom = Resources.Load("Prefabs/BrentDemo/RoomShop") as GameObject;
+                referenceRoom = Resources.Load("Prefabs/BrentDemo/RoomShop") as GameObject;
                 r.sprite = s;
                 r.color = new Color(.35F, .8F, .95F);
                 break;
             case 2:
-                refrenceRoom = Resources.Load("Prefabs/BrentDemo/RoomOffice") as GameObject;
+                referenceRoom = Resources.Load("Prefabs/BrentDemo/RoomOffice") as GameObject;
                 r.sprite = s;
                 r.color = new Color(.45F, .9F, .7F);
                 break;
             case 3:
-                refrenceRoom = Resources.Load("Prefabs/BrentDemo/RoomHotel") as GameObject;
+                referenceRoom = Resources.Load("Prefabs/BrentDemo/RoomHotel") as GameObject;
                 r.sprite = s;
                 r.color = new Color(.7F, .2F, .85F);
                 break;
@@ -109,7 +111,7 @@ public class ButtonController : MonoBehaviour {
 
     public void SelectDestruct()
     {
-        refrenceRoom = null;
+        referenceRoom = null;
         currentTool = ToolType.Destroy;
         icon.GetComponent<SpriteRenderer>().sprite = null;
     }
