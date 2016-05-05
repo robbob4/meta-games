@@ -1,7 +1,7 @@
 ﻿// -------------------------------- Graph.cs -----------------------------------
 // Author - Robert Griswold CSS 385
 // Created - May 4, 2016
-// Modified - May 4, 2016
+// Modified - May 5, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a generic graph class with breadth first search
 // and depth first serach.
@@ -11,12 +11,13 @@
 // ----------------------------------------------------------------------------
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine; //only for debug
 
 public class GraphNode<T> : Node<T>
 {
-    private List<int> costs;
+    //private List<int> costs;
 
     public GraphNode() : base() { }
     public GraphNode(T value) : base(value) { }
@@ -33,19 +34,19 @@ public class GraphNode<T> : Node<T>
         }
     }
 
-    public List<int> Costs
-    {
-        get
-        {
-            if (costs == null)
-                costs = new List<int>();
+    //public List<int> Costs
+    //{
+    //    get
+    //    {
+    //        if (costs == null)
+    //            costs = new List<int>();
 
-            return costs;
-        }
-    }
+    //        return costs;
+    //    }
+    //}
 }
 
-public class Graph<T>
+public class Graph<T> : IEnumerable<T>
 {
     private NodeList<T> nodeSet;
 
@@ -70,19 +71,49 @@ public class Graph<T>
         nodeSet.Add(new GraphNode<T>(value));
     }
 
-    public void AddDirectedEdge(GraphNode<T> from, GraphNode<T> to, int cost)
+    //public void AddDirectedEdge(GraphNode<T> from, GraphNode<T> to, int cost)
+    //{
+    //    from.Neighbors.Add(to);
+    //    from.Costs.Add(cost);
+    //}
+
+    public void AddDirectedEdge(GraphNode<T> from, GraphNode<T> to)
     {
         from.Neighbors.Add(to);
-        from.Costs.Add(cost);
     }
 
-    public void AddUndirectedEdge(GraphNode<T> from, GraphNode<T> to, int cost)
+    // overload with GraphNode wrapper
+    public void AddDirectedEdge(T from, T to)
+    {
+        GraphNode<T> gnFrom = (GraphNode<T>)nodeSet.FindByValue(from);
+        GraphNode<T> gnTo = (GraphNode<T>)nodeSet.FindByValue(to);
+
+        gnFrom.Neighbors.Add(gnTo);
+    }
+
+    //public void AddUndirectedEdge(GraphNode<T> from, GraphNode<T> to, int cost)
+    //{
+    //    from.Neighbors.Add(to);
+    //    from.Costs.Add(cost);
+
+    //    to.Neighbors.Add(from);
+    //    to.Costs.Add(cost);
+    //}
+
+    public void AddUndirectedEdge(GraphNode<T> from, GraphNode<T> to)
     {
         from.Neighbors.Add(to);
-        from.Costs.Add(cost);
-
         to.Neighbors.Add(from);
-        to.Costs.Add(cost);
+    }
+
+    // overload with GraphNode wrapper
+    public void AddUndirectedEdge(T from, T to)
+    {
+        GraphNode<T> gnFrom = (GraphNode<T>)nodeSet.FindByValue(from);
+        GraphNode<T> gnTo = (GraphNode<T>)nodeSet.FindByValue(to);
+
+        gnFrom.Neighbors.Add(gnTo);
+        gnTo.Neighbors.Add(gnFrom);
     }
 
     public bool Contains(T value)
@@ -109,7 +140,7 @@ public class Graph<T>
             {
                 // remove the reference to the node and associated cost
                 gnode.Neighbors.RemoveAt(index);
-                gnode.Costs.RemoveAt(index);
+                //gnode.Costs.RemoveAt(index);
             }
         }
 
@@ -126,66 +157,87 @@ public class Graph<T>
         get { return nodeSet.Count; }
     }
 
-    //public Stack<T> DepthFirstSearch(T search)
-    //{
-    //    Queue<GraphNode<T>> q = new Queue<GraphNode<T>>();
-    //    q.Enqueue(this.root);
-    //    while (q.Count > 0)
-    //    {
-    //        TreeNode n = q.Dequeue();
-    //        Console.WriteLine(n.data);
-    //        if (n.left != null)
-    //            q.Enqueue(n.left);
-    //        if (n.right != null)
-    //            q.Enqueue(n.right);
-    //    }
-    //}
+    public IEnumerator<T> GetEnumerator()
+    {
+        throw new NotImplementedException();
+    }
 
-    //public NodeList<T> DepthFirstSearch(T search)
-    //{
-    //    int size = Count;
-    //    NodeList<T> retVal = new NodeList<T>();
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        throw new NotImplementedException();
+    }
 
-    //    // make all nodes not visisted
-    //    for (int i = 1; i <= size; i++)
-    //    {
-    //        nodeSet[i].Visited = false;
-    //    }
+    //TODO: BFS
+    //TODO: Create a seperate entity for visited to allow simultaneous searches?
+    //TODO: Ensure nodes are comparable?
 
-    //    // initial output line
-    //    Debug.Log("Depth-first ordering until " + search + ":");
+    public Stack<T> DepthFirstSearch(T search)
+    {
+        int size = Count;
+        Stack<T> retVal = new Stack<T>();
 
-    //    // for v = 1 to n
-    //    for (int v = 1; v <= size; v++)
-    //    {
-    //        if (nodeSet[v].Visited == false)
-    //            dfsHelper(v, retVal, search);
-    //    }
+        // make all nodes not visisted
+        for (int i = 0; i < size; i++)
+        {
+            nodeSet[i].Visited = false;
+        }
 
-    //    return retVal;
-    //}
+        // initial output line
+        Debug.Log("Depth-first ordering until " + search + ":");
 
-    ////update the retVal NodeList with any relevant nodes
-    //public void dfsHelper(int v, NodeList<T> retVal, T search)
-    //{
-    //    // mark v vistited
-    //    nodeSet[v].Visited = true;
+        // for v = 1 to n
+        for (int v = 0; v < size; v++)
+        {
+            if (nodeSet[v].Visited == false)
+                dfsHelper(v, nodeSet, retVal, search);
 
-    //    // do output
-    //    Debug.Log(nodeSet[v]);
+            //skip if another search found the node
+            if (retVal.Count >= 1 && retVal.Peek().Equals(search))
+            {
+                Debug.Log("Skipping outer loop!");
+                break;
+            }
+        }
 
-    //    // for each adjacent for v
-        
-    //    EdgeNode* current = data[v].edgeHead;
-    //    while (current != NULL && current->adjGraphNode != 0)
-    //    {
-    //        int w = current->adjGraphNode;
+        return retVal;
+    }
 
-    //        if (data[w].visited == false)
-    //            dfsHelper(w);
+    //overload for a full search
+    public Stack<T> DepthFirstSearch()
+    {
+        return DepthFirstSearch(default(T));
+    }
 
-    //        // advance
-    //        current = current->nextEdge;
-    //    }
-    //}
+    //update the retVal NodeList with any relevant nodes
+    public void dfsHelper(int v, NodeList<T> nodes, Stack<T> retVal, T search)
+    {
+        // push the data on the stack
+        retVal.Push(nodes[v].Value);
+        //Debug.Log(nodes[v].Value);
+
+        // found the node we're searching for?
+        if (nodes[v].Value.Equals(search))
+        {
+            Debug.Log("Found it!");
+            return;
+        }
+
+        // mark v vistited
+        nodes[v].Visited = true;
+
+        // for each w adjacent for v
+        int size = ((GraphNode<T>)nodes[v]).Neighbors.Count;
+        for (int w = 0; w < size ; w++)
+        {
+            if (((GraphNode<T>)nodes[v]).Neighbors[w].Visited == false)
+                dfsHelper(w, ((GraphNode<T>)nodes[v]).Neighbors, retVal, search);
+
+            //skip if another search found the node
+            if (retVal.Count >= 1 && retVal.Peek().Equals(search))
+            {
+                Debug.Log("Skipping inner loop!");
+                return;
+            }
+        }
+    }
 }

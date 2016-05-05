@@ -1,14 +1,27 @@
-﻿using UnityEngine;
+﻿// ------------------------ ButtonController.cs -------------------------------
+// Author - Sam Williams CSS 385
+// Created - May 4, 2016
+// Modified - May 4, 2016
+// ----------------------------------------------------------------------------
+// Purpose - Implementation for a block that follows the mouse while adhering 
+// to a grid system for the protoype demo.
+// ----------------------------------------------------------------------------
+// Notes - (Needs comments).
+// ----------------------------------------------------------------------------
+
+using UnityEngine;
 using System.Collections;
 
-public class BlockBehavior : MonoBehaviour {
+public class BlockBehavior : MonoBehaviour
+{
 
 	public bool blockFollowMouse = false;
 	public bool collided = false;
 	public Vector3 target = new Vector3 (0, 0, 0);	
 
-	void Start () {
-		gameObject.GetComponent<Renderer> ().material.color = Color.green;
+	void Start ()
+    {
+		gameObject.GetComponent<Renderer>().material.color = Color.red;
 	}
 	
 	void Update () 
@@ -23,7 +36,7 @@ public class BlockBehavior : MonoBehaviour {
 	{
 		//current mouse position
 		Vector3 currMousePosition = Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0));
-		Debug.Log ("mouse: " + currMousePosition);
+		//Debug.Log ("mouse: " + currMousePosition);
 
 		//target x calculation 
 		int x_relativeToWidth = Mathf.FloorToInt(currMousePosition.x % 4.0f);
