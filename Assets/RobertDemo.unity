@@ -2801,7 +2801,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 465151235}
-  m_LocalRotation: {x: 0.08715575, y: 0, z: 0, w: 0.9961947}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -4427,7 +4427,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 473166, guid: 4f0446c73c833a24ea006ee86b41858d, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 473166, guid: 4f0446c73c833a24ea006ee86b41858d, type: 2}
       propertyPath: m_LocalRotation.x
@@ -6238,6 +6238,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1143546689}
   - 114: {fileID: 1143546690}
+  - 114: {fileID: 1143546691}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -6266,6 +6267,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9789367fb467a8e459290cb09c9b605d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1143546691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1143546688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb3b366f2e229724bab54f397a22c4dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1150755013
@@ -6869,7 +6881,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 410252, guid: ac90cf3aef84cc143a124c259ed3b5f7, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -0.5
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 410252, guid: ac90cf3aef84cc143a124c259ed3b5f7, type: 2}
       propertyPath: m_LocalRotation.x
@@ -9189,7 +9201,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 473166, guid: 4f0446c73c833a24ea006ee86b41858d, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 473166, guid: 4f0446c73c833a24ea006ee86b41858d, type: 2}
       propertyPath: m_LocalRotation.x
@@ -9443,7 +9455,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 473166, guid: 4f0446c73c833a24ea006ee86b41858d, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 473166, guid: 4f0446c73c833a24ea006ee86b41858d, type: 2}
       propertyPath: m_LocalRotation.x
