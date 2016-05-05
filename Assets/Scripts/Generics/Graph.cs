@@ -126,20 +126,20 @@ public class Graph<T>
         get { return nodeSet.Count; }
     }
 
-    public Stack<T> DepthFirstSearch(T search)
-    {
-        Queue<GraphNode<T>> q = new Queue<GraphNode<T>>();
-        q.Enqueue(this.root);
-        while (q.Count > 0)
-        {
-            TreeNode n = q.Dequeue();
-            Console.WriteLine(n.data);
-            if (n.left != null)
-                q.Enqueue(n.left);
-            if (n.right != null)
-                q.Enqueue(n.right);
-        }
-    }
+    //public Stack<T> DepthFirstSearch(T search)
+    //{
+    //    Queue<GraphNode<T>> q = new Queue<GraphNode<T>>();
+    //    q.Enqueue(this.root);
+    //    while (q.Count > 0)
+    //    {
+    //        TreeNode n = q.Dequeue();
+    //        Console.WriteLine(n.data);
+    //        if (n.left != null)
+    //            q.Enqueue(n.left);
+    //        if (n.right != null)
+    //            q.Enqueue(n.right);
+    //    }
+    //}
 
     //public NodeList<T> DepthFirstSearch(T search)
     //{
