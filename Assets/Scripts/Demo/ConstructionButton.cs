@@ -25,9 +25,9 @@ public class ConstructionButton : MonoBehaviour
 	    if(Input.GetAxis("Jump") >= 1) //imiate a UI click or hotkey for a room
         {
             //call construction mode with a room object parameter
-            theConstructor.EnterConstructionMode(new Shop());
-                //attach a room to the mouse
-                //update room center with mouse position adjusted by position threshold
+           theConstructor.EnterConstructionMode(new Shop());
+     //       //attach a room to the mouse
+    //update room center with mouse position adjusted by position threshold
 
         }
 	}
