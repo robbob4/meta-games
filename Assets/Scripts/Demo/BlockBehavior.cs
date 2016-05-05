@@ -21,7 +21,7 @@ public class BlockBehavior : MonoBehaviour
 
 	void Start ()
     {
-		gameObject.GetComponent<Renderer> ().material.color = Color.green;
+		gameObject.GetComponent<Renderer>().material.color = Color.red;
 	}
 	
 	void Update () 
