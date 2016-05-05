@@ -1,4 +1,14 @@
-﻿using UnityEngine;
+﻿// ----------------------------- GameTime.cs ----------------------------------
+// Author - Brent Eaves CSS 385
+// Created - May 4, 2016
+// Modified - May 4, 2016
+// ----------------------------------------------------------------------------
+// Purpose - Implementation for clock timer for the protoype demo.
+// ----------------------------------------------------------------------------
+// Notes - (Needs more comments).
+// ----------------------------------------------------------------------------
+
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 

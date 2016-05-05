@@ -1,4 +1,15 @@
-﻿using UnityEngine;
+﻿// ---------------------------- RoomStats.cs ----------------------------------
+// Author - Brent Eaves CSS 385
+// Created - May 4, 2016
+// Modified - May 4, 2016
+// ----------------------------------------------------------------------------
+// Purpose - Implementation for a UI description box used in conjunction with 
+// the ButtonController to display information about the rooms.
+// ----------------------------------------------------------------------------
+// Notes - (Needs more comments).
+// ----------------------------------------------------------------------------
+
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -36,5 +47,10 @@ public class RoomStats : MonoBehaviour {
     public void SelectHotel()
     {
         titleText.GetComponent<Text>().text = "Hotel";
+    }
+
+    public void SelectNone()
+    {
+        titleText.GetComponent<Text>().text = "Sample";
     }
 }
