@@ -10,7 +10,9 @@
 // at https://msdn.microsoft.com/en-us/library/ms379574(v=vs.80).aspx.
 // ----------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
+using UnityEngine; //only for debug
 
 public class GraphNode<T> : Node<T>
 {
@@ -59,7 +61,6 @@ public class Graph<T>
     // adds a node to the graph
     public void AddNode(GraphNode<T> node)
     {
-        
         nodeSet.Add(node);
     }
 
@@ -124,4 +125,67 @@ public class Graph<T>
     {
         get { return nodeSet.Count; }
     }
+
+    public Stack<T> DepthFirstSearch(T search)
+    {
+        Queue<GraphNode<T>> q = new Queue<GraphNode<T>>();
+        q.Enqueue(this.root);
+        while (q.Count > 0)
+        {
+            TreeNode n = q.Dequeue();
+            Console.WriteLine(n.data);
+            if (n.left != null)
+                q.Enqueue(n.left);
+            if (n.right != null)
+                q.Enqueue(n.right);
+        }
+    }
+
+    //public NodeList<T> DepthFirstSearch(T search)
+    //{
+    //    int size = Count;
+    //    NodeList<T> retVal = new NodeList<T>();
+
+    //    // make all nodes not visisted
+    //    for (int i = 1; i <= size; i++)
+    //    {
+    //        nodeSet[i].Visited = false;
+    //    }
+
+    //    // initial output line
+    //    Debug.Log("Depth-first ordering until " + search + ":");
+
+    //    // for v = 1 to n
+    //    for (int v = 1; v <= size; v++)
+    //    {
+    //        if (nodeSet[v].Visited == false)
+    //            dfsHelper(v, retVal, search);
+    //    }
+
+    //    return retVal;
+    //}
+
+    ////update the retVal NodeList with any relevant nodes
+    //public void dfsHelper(int v, NodeList<T> retVal, T search)
+    //{
+    //    // mark v vistited
+    //    nodeSet[v].Visited = true;
+
+    //    // do output
+    //    Debug.Log(nodeSet[v]);
+
+    //    // for each adjacent for v
+        
+    //    EdgeNode* current = data[v].edgeHead;
+    //    while (current != NULL && current->adjGraphNode != 0)
+    //    {
+    //        int w = current->adjGraphNode;
+
+    //        if (data[w].visited == false)
+    //            dfsHelper(w);
+
+    //        // advance
+    //        current = current->nextEdge;
+    //    }
+    //}
 }

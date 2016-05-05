@@ -17,7 +17,6 @@ public class Node<T>
     // Private member-variables
     private T data;
     private NodeList<T> neighbors = null;
-    private bool visited = false;
 
     public Node() { }
     public Node(T data) : this(data, null) { }
@@ -31,12 +30,6 @@ public class Node<T>
     {
         get { return data; }
         set { data = value; }
-    }
-
-    public bool Visited
-    {
-        get { return visited; }
-        set { visited = value; }
     }
 
     protected NodeList<T> Neighbors
