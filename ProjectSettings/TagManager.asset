@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Patron
+  - Room
+  - Floor
+  - UI
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: UI
+    uniqueID: 763831383
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Patron
+    uniqueID: 28378217
+    locked: 0
+  - name: Room
+    uniqueID: 939199931
+    locked: 0
+  - name: Floor
+    uniqueID: 3756895339
+    locked: 0
+  - name: World
+    uniqueID: 1384591243
+    locked: 0
