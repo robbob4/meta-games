@@ -21,12 +21,6 @@ public class Pathing : MonoBehaviour
     // Use this for fast initialization
     void Awake()
     {
-
-    }
-
-    // Use this for initialization
-    void Start()
-    {
         rooms = new Graph<Destination>();
         Destination lobby = GameObject.Find("Lobby").GetComponent<Destination>();
         rooms.AddNode(lobby);
@@ -41,6 +35,12 @@ public class Pathing : MonoBehaviour
         Destination hotel = GameObject.Find("Hotel").GetComponent<Destination>();
         rooms.AddNode(hotel);
         rooms.AddUndirectedEdge(hotel, office);
+    }
+
+    // Use this for initialization
+    void Start()
+    {
+        
     }
 
     //find the next destiation between two destinations

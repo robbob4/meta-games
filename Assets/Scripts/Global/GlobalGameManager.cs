@@ -27,12 +27,6 @@ public class GlobalGameManager : MonoBehaviour
     // Use this for fast initialization
     void Awake()
     {
-
-    }
-
-    // Use this for initialization
-    void Start ()
-    {
         lobby = GameObject.Find("Lobby").GetComponent<Destination>();
         if (lobby == null)
             Debug.LogError("Lobby not found for " + this + ".");
@@ -40,6 +34,12 @@ public class GlobalGameManager : MonoBehaviour
         cashDisplay = GameObject.Find("Cash").GetComponent<Text>();
         if (cashDisplay == null)
             Debug.LogError("cashDisplay not found for " + this + ".");
+    }
+
+    // Use this for initialization
+    void Start ()
+    {
+        
     }
 	
 	// Update is called once per frame
