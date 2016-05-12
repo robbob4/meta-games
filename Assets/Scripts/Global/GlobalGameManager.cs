@@ -20,6 +20,8 @@ public class GlobalGameManager : MonoBehaviour
     private double cash = 1000000000.0;
     private Destination lobby = null;
     private Text cashDisplay = null;
+    private int demodelay = 1000; //temp
+    public GameObject PatronToSpawn = null;
     #endregion
 
     // Use this for fast initialization
@@ -44,6 +46,15 @@ public class GlobalGameManager : MonoBehaviour
 	void Update ()
     {
         cashDisplay.text = cash.ToString("c");
+
+        //temp
+        if(demodelay-- == 0)
+        {
+            demodelay = 500;
+            PatronToSpawn = Resources.Load("Prefabs/Patron/Patron") as GameObject;
+            GameObject e = (GameObject)Instantiate(PatronToSpawn);
+            e.transform.position = new Vector3(37.5f, 3.2f, -5.0f);
+        }
 	}
 
     public bool Paused
@@ -67,5 +78,10 @@ public class GlobalGameManager : MonoBehaviour
     {
         if (amount > 0)
             cash += amount;
+    }
+
+    public Destination Lobby
+    {
+        get { return lobby; }
     }
 }

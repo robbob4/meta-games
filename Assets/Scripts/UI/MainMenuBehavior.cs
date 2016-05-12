@@ -84,12 +84,12 @@ public class MainMenuBehavior : MonoBehaviour
     #region Button service functions
     private void NewGameButtonService()
     {
-		LoadScene("BrentDemo");
+		LoadScene("Game");
 	}
 
     private void LoadGameButtonService()
     {
-        LoadScene("BrentDemo");
+        LoadScene("Game");
     }
 
     private void CreditsButtonService()

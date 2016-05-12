@@ -67,6 +67,11 @@ public class PatronSpriteUpdate : MonoBehaviour
         animateComp.SetFloat("Horizontal", x);
         //animateComp.SetFloat("Vertical", y);
 
+        if (x == 0)
+        {
+            //TODO: Restart animation
+        }
+
         //determine strongest directional
         if (Mathf.Abs(x) > Mathf.Abs(y))
         {
