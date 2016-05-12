@@ -9,14 +9,14 @@
 // Notes - (Needs comments).
 // ----------------------------------------------------------------------------
 
-//10 hours
+// 10 hours
 
 using UnityEngine;
 using System.Collections;
 
 public class BlockBehavior : MonoBehaviour
 {
-	public bool blockFollowMouse = false;
+	public bool blockFollowMouse = true;
 	public bool collided = true;
 	public Vector3 target = new Vector3 (0, 0, 0);	
 
