@@ -1,9 +1,25 @@
 fileFormatVersion: 2
 guid: e9c5c2715a950aa41a2b7a2e82bef48c
-timeCreated: 1462451158
+timeCreated: 1463066078
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: modernguy02_0
+    21300002: modernguy02_1
+    21300004: modernguy02_2
+    21300006: modernguy02_3
+    21300008: modernguy02_4
+    21300010: modernguy02_5
+    21300012: modernguy02_6
+    21300014: modernguy02_7
+    21300016: modernguy02_8
+    21300018: modernguy02_9
+    21300020: modernguy02_10
+    21300022: modernguy02_11
+    21300024: modernguy02_12
+    21300026: modernguy02_13
+    21300028: modernguy02_14
+    21300030: modernguy02_15
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -30,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -38,7 +54,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -49,7 +65,322 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: modernguy02_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 144
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 24}
+        - {x: -12, y: 20}
+        - {x: -13, y: 12}
+        - {x: -13, y: -12}
+        - {x: -9, y: -24}
+        - {x: 14, y: -24}
+        - {x: 14, y: 21}
+        - {x: 6, y: 24}
+    - name: modernguy02_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 144
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 23}
+        - {x: -12, y: 22}
+        - {x: -12, y: -24}
+        - {x: 3, y: -24}
+        - {x: 12, y: -19}
+        - {x: 12, y: 18}
+        - {x: 11, y: 23}
+    - name: modernguy02_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 144
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 24}
+        - {x: -12, y: 20}
+        - {x: -13, y: 12}
+        - {x: -13, y: -12}
+        - {x: -9, y: -24}
+        - {x: 14, y: -24}
+        - {x: 14, y: 21}
+        - {x: 6, y: 24}
+    - name: modernguy02_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 144
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -9, y: 23}
+        - {x: -11, y: 20}
+        - {x: -11, y: -20}
+        - {x: -3, y: -24}
+        - {x: 9, y: -24}
+        - {x: 13, y: -12}
+        - {x: 13, y: 19}
+        - {x: 7, y: 23}
+    - name: modernguy02_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 96
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 5, y: 24}
+        - {x: -2, y: 24}
+        - {x: -10, y: 23}
+        - {x: -12, y: 19}
+        - {x: -12, y: 0}
+        - {x: -8, y: -20}
+        - {x: -4, y: -24}
+        - {x: 5, y: -24}
+        - {x: 10, y: -22}
+        - {x: 12, y: -2}
+        - {x: 12, y: 15}
+        - {x: 11, y: 20}
+    - name: modernguy02_5
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 96
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 7, y: 23}
+        - {x: -5, y: 23}
+        - {x: -12, y: 21}
+        - {x: -12, y: -22}
+        - {x: 3, y: -24}
+        - {x: 9, y: -24}
+        - {x: 12, y: -21}
+        - {x: 12, y: 14}
+        - {x: 11, y: 19}
+    - name: modernguy02_6
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 96
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 5, y: 24}
+        - {x: -2, y: 24}
+        - {x: -10, y: 23}
+        - {x: -12, y: 19}
+        - {x: -12, y: 0}
+        - {x: -8, y: -20}
+        - {x: -4, y: -24}
+        - {x: 5, y: -24}
+        - {x: 10, y: -22}
+        - {x: 12, y: -2}
+        - {x: 12, y: 15}
+        - {x: 11, y: 20}
+    - name: modernguy02_7
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 96
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -2, y: 23}
+        - {x: -12, y: 20}
+        - {x: -12, y: -8}
+        - {x: -10, y: -22}
+        - {x: -5, y: -24}
+        - {x: 12, y: -24}
+        - {x: 12, y: 23}
+    - name: modernguy02_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 5, y: 24}
+        - {x: -8, y: 24}
+        - {x: -12, y: 18}
+        - {x: -12, y: 4}
+        - {x: -8, y: -24}
+        - {x: 3, y: -24}
+        - {x: 7, y: -20}
+        - {x: 12, y: 0}
+        - {x: 12, y: 21}
+    - name: modernguy02_9
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 48
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 6, y: 23}
+        - {x: -12, y: 23}
+        - {x: -12, y: -24}
+        - {x: 4, y: -24}
+        - {x: 12, y: -20}
+        - {x: 12, y: 21}
+    - name: modernguy02_10
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 48
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 5, y: 24}
+        - {x: -8, y: 24}
+        - {x: -12, y: 18}
+        - {x: -12, y: 4}
+        - {x: -8, y: -24}
+        - {x: 3, y: -24}
+        - {x: 7, y: -20}
+        - {x: 12, y: 0}
+        - {x: 12, y: 21}
+    - name: modernguy02_11
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 48
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11, y: 23}
+        - {x: -12, y: 22}
+        - {x: -12, y: -20}
+        - {x: -11, y: -22}
+        - {x: -5, y: -24}
+        - {x: 5, y: -24}
+        - {x: 10, y: -23}
+        - {x: 12, y: -13}
+        - {x: 12, y: 21}
+        - {x: 6, y: 23}
+    - name: modernguy02_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -9, y: 24}
+        - {x: -13, y: 14}
+        - {x: -13, y: -17}
+        - {x: -7, y: -24}
+        - {x: 8, y: -24}
+        - {x: 14, y: -12}
+        - {x: 14, y: 21}
+        - {x: 10, y: 24}
+    - name: modernguy02_13
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9, y: 23}
+        - {x: -9, y: 23}
+        - {x: -12, y: 22}
+        - {x: -12, y: -24}
+        - {x: 5, y: -24}
+        - {x: 13, y: -13}
+        - {x: 13, y: 15}
+        - {x: 12, y: 19}
+    - name: modernguy02_14
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -9, y: 24}
+        - {x: -13, y: 14}
+        - {x: -13, y: -17}
+        - {x: -7, y: -24}
+        - {x: 8, y: -24}
+        - {x: 14, y: -12}
+        - {x: 14, y: 21}
+        - {x: 10, y: 24}
+    - name: modernguy02_15
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -6, y: 23}
+        - {x: -7, y: 22}
+        - {x: -12, y: 16}
+        - {x: -12, y: -10}
+        - {x: -9, y: -18}
+        - {x: -2, y: -24}
+        - {x: 10, y: -24}
+        - {x: 13, y: -20}
+        - {x: 13, y: 16}
+        - {x: 10, y: 23}
     outline: []
   spritePackingTag: 
   userData: 

@@ -1,13 +1,12 @@
-﻿// ---------------------------- TowerPathing.cs -------------------------------
+﻿// ---------------------------- GraphDemo.cs -------------------------------
 // Author - Robert Griswold CSS 385
 // Created - May 4, 2016
-// Modified - May 5, 2016
+// Modified - May 12, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a driver for the Graph and Node class for the 
 // prototype demo.
 // ----------------------------------------------------------------------------
-// Notes - Will later be used to conduct routing information for patrons and 
-// rooms.
+// Notes - None
 // ----------------------------------------------------------------------------
 
 using System.Collections.Generic;
@@ -15,7 +14,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class TowerPathing : MonoBehaviour
+public class GraphDemo : MonoBehaviour
 {
     //demo variables
     Graph<string> rooms;

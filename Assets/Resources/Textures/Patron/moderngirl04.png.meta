@@ -1,9 +1,25 @@
 fileFormatVersion: 2
 guid: d5804d12cfea0cd439095490b0c2e858
-timeCreated: 1462451158
+timeCreated: 1463066071
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: moderngirl04_0
+    21300002: moderngirl04_1
+    21300004: moderngirl04_2
+    21300006: moderngirl04_3
+    21300008: moderngirl04_4
+    21300010: moderngirl04_5
+    21300012: moderngirl04_6
+    21300014: moderngirl04_7
+    21300016: moderngirl04_8
+    21300018: moderngirl04_9
+    21300020: moderngirl04_10
+    21300022: moderngirl04_11
+    21300024: moderngirl04_12
+    21300026: moderngirl04_13
+    21300028: moderngirl04_14
+    21300030: moderngirl04_15
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -30,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -38,7 +54,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -49,7 +65,330 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: moderngirl04_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 144
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9, y: 24}
+        - {x: -7, y: 24}
+        - {x: -12, y: 22}
+        - {x: -13, y: 14}
+        - {x: -13, y: -11}
+        - {x: -7, y: -24}
+        - {x: 9, y: -24}
+        - {x: 14, y: -15}
+        - {x: 14, y: 13}
+        - {x: 12, y: 21}
+    - name: moderngirl04_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 144
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -10, y: 23}
+        - {x: -14, y: 7}
+        - {x: -14, y: -11}
+        - {x: -9, y: -23}
+        - {x: -7, y: -24}
+        - {x: 6, y: -24}
+        - {x: 13, y: -20}
+        - {x: 13, y: 23}
+    - name: moderngirl04_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 144
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9, y: 24}
+        - {x: -7, y: 24}
+        - {x: -12, y: 22}
+        - {x: -13, y: 14}
+        - {x: -13, y: -11}
+        - {x: -7, y: -24}
+        - {x: 9, y: -24}
+        - {x: 14, y: -15}
+        - {x: 14, y: 13}
+        - {x: 12, y: 21}
+    - name: moderngirl04_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 144
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -7, y: 23}
+        - {x: -12, y: 13}
+        - {x: -12, y: -20}
+        - {x: -3, y: -24}
+        - {x: 10, y: -24}
+        - {x: 15, y: -15}
+        - {x: 15, y: 11}
+        - {x: 10, y: 23}
+    - name: moderngirl04_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 96
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -6, y: 24}
+        - {x: -12, y: 22}
+        - {x: -12, y: -5}
+        - {x: -10, y: -21}
+        - {x: -4, y: -24}
+        - {x: 8, y: -24}
+        - {x: 14, y: -11}
+        - {x: 14, y: 16}
+        - {x: 8, y: 24}
+    - name: moderngirl04_5
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 96
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9, y: 23}
+        - {x: -6, y: 23}
+        - {x: -8, y: 22}
+        - {x: -12, y: 18}
+        - {x: -12, y: -5}
+        - {x: -10, y: -24}
+        - {x: 11, y: -24}
+        - {x: 13, y: -19}
+        - {x: 14, y: -15}
+        - {x: 14, y: 14}
+    - name: moderngirl04_6
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 96
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -6, y: 24}
+        - {x: -12, y: 22}
+        - {x: -12, y: -5}
+        - {x: -10, y: -21}
+        - {x: -4, y: -24}
+        - {x: 8, y: -24}
+        - {x: 14, y: -11}
+        - {x: 14, y: 16}
+        - {x: 8, y: 24}
+    - name: moderngirl04_7
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 96
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -7, y: 23}
+        - {x: -12, y: 21}
+        - {x: -12, y: 0}
+        - {x: -10, y: -22}
+        - {x: -5, y: -24}
+        - {x: 8, y: -24}
+        - {x: 13, y: -22}
+        - {x: 13, y: 23}
+    - name: moderngirl04_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 3, y: 24}
+        - {x: -6, y: 24}
+        - {x: -10, y: 20}
+        - {x: -14, y: 10}
+        - {x: -14, y: -5}
+        - {x: -8, y: -22}
+        - {x: -7, y: -24}
+        - {x: 1, y: -24}
+        - {x: 9, y: -21}
+        - {x: 12, y: 4}
+        - {x: 12, y: 21}
+        - {x: 8, y: 23}
+    - name: moderngirl04_9
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 48
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -6, y: 23}
+        - {x: -14, y: 20}
+        - {x: -14, y: -24}
+        - {x: 3, y: -24}
+        - {x: 11, y: -20}
+        - {x: 12, y: -9}
+        - {x: 12, y: 21}
+        - {x: 9, y: 23}
+    - name: moderngirl04_10
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 48
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 3, y: 24}
+        - {x: -6, y: 24}
+        - {x: -10, y: 20}
+        - {x: -14, y: 10}
+        - {x: -14, y: -5}
+        - {x: -8, y: -22}
+        - {x: -7, y: -24}
+        - {x: 1, y: -24}
+        - {x: 9, y: -21}
+        - {x: 12, y: 4}
+        - {x: 12, y: 21}
+        - {x: 8, y: 23}
+    - name: moderngirl04_11
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 48
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -9, y: 23}
+        - {x: -13, y: 20}
+        - {x: -13, y: -24}
+        - {x: 11, y: -24}
+        - {x: 12, y: -22}
+        - {x: 12, y: 22}
+        - {x: 11, y: 23}
+    - name: moderngirl04_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9, y: 24}
+        - {x: -7, y: 24}
+        - {x: -12, y: 22}
+        - {x: -13, y: 14}
+        - {x: -13, y: -11}
+        - {x: -7, y: -24}
+        - {x: 9, y: -24}
+        - {x: 14, y: -15}
+        - {x: 14, y: 13}
+        - {x: 12, y: 21}
+    - name: moderngirl04_13
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11, y: 23}
+        - {x: -14, y: 9}
+        - {x: -14, y: -12}
+        - {x: -9, y: -23}
+        - {x: -6, y: -24}
+        - {x: 7, y: -24}
+        - {x: 13, y: -21}
+        - {x: 13, y: 23}
+    - name: moderngirl04_14
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9, y: 24}
+        - {x: -7, y: 24}
+        - {x: -12, y: 22}
+        - {x: -13, y: 14}
+        - {x: -13, y: -11}
+        - {x: -7, y: -24}
+        - {x: 9, y: -24}
+        - {x: 14, y: -15}
+        - {x: 14, y: 13}
+        - {x: 12, y: 21}
+    - name: moderngirl04_15
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -10, y: 23}
+        - {x: -12, y: 18}
+        - {x: -12, y: -20}
+        - {x: -3, y: -24}
+        - {x: 11, y: -24}
+        - {x: 15, y: -11}
+        - {x: 15, y: 22}
+        - {x: 9, y: 23}
     outline: []
   spritePackingTag: 
   userData: 
