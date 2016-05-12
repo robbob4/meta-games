@@ -1,7 +1,7 @@
 ﻿// -------------------------------- Node.cs -----------------------------------
 // Author - Robert Griswold CSS 385
 // Created - May 4, 2016
-// Modified - May 5, 2016
+// Modified - May 12, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a generic Node class and NodeList class for use
 // in a graph.
@@ -42,8 +42,7 @@ public class Node<T>
     protected NodeList<T> Neighbors
     {
         get { return neighbors; }
-        set
-        { neighbors = value; }
+        set { neighbors = value; }
     }
 }
 

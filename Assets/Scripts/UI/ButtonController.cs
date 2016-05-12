@@ -1,9 +1,10 @@
 ﻿// ------------------------ ButtonController.cs -------------------------------
 // Author - Brent Eaves CSS 385
+// Author - Robert Griswold CSS 385
 // Created - May 4, 2016
-// Modified - May 4, 2016
+// Modified - May 12, 2016
 // ----------------------------------------------------------------------------
-// Purpose - Implementation for a UI button controller for the protoype demo.
+// Purpose - Implementation for a UI button controller.
 // ----------------------------------------------------------------------------
 // Notes - (Needs comments).
 // ----------------------------------------------------------------------------
@@ -28,15 +29,23 @@ public class ButtonController : MonoBehaviour
         Hotel = 4
     }
 
-    private ToolType currentTool;
+    private ToolType currentTool = ToolType.Inspect;
     private RoomType buildRoom;
     private GameObject referenceRoom;
     private GameObject icon;
+    private RoomStats descriptionBox = null;
 
 	void Start ()
     {
-	    icon = GameObject.Find("BuildObject") as GameObject;
-        currentTool = ToolType.Inspect;
+        #region References
+        icon = GameObject.Find("BuildObject") as GameObject;
+        if (icon == null)
+            Debug.LogError("BuildObject not found for " + this + ".");
+
+        descriptionBox = GameObject.Find("RoomStats").GetComponent<RoomStats>();
+        if (descriptionBox == null)
+            Debug.LogError("RoomStats not found for " + this + ".");
+        #endregion
 	}
 	
 	void Update ()
@@ -44,6 +53,8 @@ public class ButtonController : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             currentTool = ToolType.Inspect;
+            if (descriptionBox != null)
+                descriptionBox.SelectNone();
         }
 
         Vector3 iconPlace;

@@ -1,29 +1,32 @@
 ﻿// -------------------------------- Shop.cs -----------------------------------
 // Author - Robert Griswold CSS 385
-// Created - May 2, 2016
-// Modified - May 3, 2016
+// Created - May 12, 2016
+// Modified - May 12, 2016
 // ----------------------------------------------------------------------------
-// Purpose - Implementation for a shop room that inherits from the room class.
+// Purpose - Implementation for a shop room that inherits from the retail
+// class.
 // ----------------------------------------------------------------------------
-// Notes - Medium size.
+// Notes - Randomly selects an associated Patron interest.
 // ----------------------------------------------------------------------------
 
 using UnityEngine;
 using System.Collections;
 
-public class Shop : Room
+public class Shop : Retail
 {
-	// Use this for fast initialization
-	void Awake ()
+    // Use this for fast initialization
+    void Awake()
     {
-        _roomSize = Room.Size.Medium;
-        _prefabLocation = "Prefabs/Room/Floor"; //TODO: Update this prefab
+        //roomSize = Room.Size.Medium;
+        //prefabLocation = "Prefabs/Room/Floor";
     }
 
     // Use this for initialization
     void Start()
     {
-
+        //Generate the interest type
+        theInterest = (Patron.Interest)Mathf.RoundToInt(Random.Range(-0.5f, 3.4f));
+        visitors = new Patron[capacity];
     }
 
     // Update is called once per frame
@@ -31,12 +34,4 @@ public class Shop : Room
     {
 
     }
-
-    #region Deconstruction
-    //announcment that the room is about to be destroyed
-    public override void Evict()
-    {
-
-    }
-    #endregion
 }

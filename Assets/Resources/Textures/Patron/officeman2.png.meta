@@ -1,9 +1,25 @@
 fileFormatVersion: 2
 guid: 4962dec0e4f63024fb7f6b5b84340213
-timeCreated: 1462451157
+timeCreated: 1463066094
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: officeman2_0
+    21300002: officeman2_1
+    21300004: officeman2_2
+    21300006: officeman2_3
+    21300008: officeman2_4
+    21300010: officeman2_5
+    21300012: officeman2_6
+    21300014: officeman2_7
+    21300016: officeman2_8
+    21300018: officeman2_9
+    21300020: officeman2_10
+    21300022: officeman2_11
+    21300024: officeman2_12
+    21300026: officeman2_13
+    21300028: officeman2_14
+    21300030: officeman2_15
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -30,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -38,7 +54,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -49,7 +65,313 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: officeman2_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 144
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 23}
+        - {x: -13, y: 16}
+        - {x: -13, y: -5}
+        - {x: -12, y: -8}
+        - {x: -8, y: -21}
+        - {x: -6, y: -24}
+        - {x: 9, y: -24}
+        - {x: 14, y: -11}
+        - {x: 14, y: 16}
+        - {x: 10, y: 23}
+    - name: officeman2_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 144
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12, y: 22}
+        - {x: -12, y: -11}
+        - {x: -9, y: -24}
+        - {x: 12, y: -24}
+        - {x: 13, y: -20}
+        - {x: 13, y: 22}
+    - name: officeman2_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 144
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 23}
+        - {x: -13, y: 16}
+        - {x: -13, y: -5}
+        - {x: -12, y: -8}
+        - {x: -8, y: -21}
+        - {x: -6, y: -24}
+        - {x: 9, y: -24}
+        - {x: 14, y: -11}
+        - {x: 14, y: 16}
+        - {x: 10, y: 23}
+    - name: officeman2_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 144
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12, y: 22}
+        - {x: -12, y: -22}
+        - {x: -8, y: -24}
+        - {x: 8, y: -24}
+        - {x: 13, y: -16}
+        - {x: 13, y: 18}
+        - {x: 12, y: 22}
+    - name: officeman2_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 96
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -6, y: 23}
+        - {x: -11, y: 20}
+        - {x: -11, y: -9}
+        - {x: -10, y: -20}
+        - {x: -6, y: -24}
+        - {x: 4, y: -24}
+        - {x: 11, y: -22}
+        - {x: 13, y: -5}
+        - {x: 13, y: 18}
+        - {x: 8, y: 23}
+    - name: officeman2_5
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 96
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12, y: 22}
+        - {x: -13, y: 18}
+        - {x: -13, y: -24}
+        - {x: 13, y: -24}
+        - {x: 13, y: 22}
+    - name: officeman2_6
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 96
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -6, y: 23}
+        - {x: -11, y: 20}
+        - {x: -11, y: -9}
+        - {x: -10, y: -20}
+        - {x: -6, y: -24}
+        - {x: 4, y: -24}
+        - {x: 11, y: -22}
+        - {x: 13, y: -5}
+        - {x: 13, y: 18}
+        - {x: 8, y: 23}
+    - name: officeman2_7
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 96
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11, y: 22}
+        - {x: -13, y: 21}
+        - {x: -13, y: -24}
+        - {x: 2, y: -24}
+        - {x: 13, y: -21}
+        - {x: 13, y: 22}
+    - name: officeman2_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -13, y: 23}
+        - {x: -13, y: -11}
+        - {x: -7, y: -24}
+        - {x: 3, y: -24}
+        - {x: 9, y: -19}
+        - {x: 11, y: -6}
+        - {x: 11, y: 23}
+    - name: officeman2_9
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 48
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -13, y: 22}
+        - {x: -13, y: -22}
+        - {x: -9, y: -24}
+        - {x: 8, y: -24}
+        - {x: 13, y: -22}
+        - {x: 13, y: 18}
+        - {x: 12, y: 22}
+    - name: officeman2_10
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 48
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -13, y: 23}
+        - {x: -13, y: -11}
+        - {x: -7, y: -24}
+        - {x: 3, y: -24}
+        - {x: 9, y: -19}
+        - {x: 11, y: -6}
+        - {x: 11, y: 23}
+    - name: officeman2_11
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 48
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9, y: 22}
+        - {x: -8, y: 22}
+        - {x: -13, y: 20}
+        - {x: -13, y: -16}
+        - {x: -11, y: -24}
+        - {x: 13, y: -24}
+        - {x: 13, y: 4}
+        - {x: 12, y: 19}
+    - name: officeman2_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 23}
+        - {x: -13, y: 16}
+        - {x: -13, y: -5}
+        - {x: -12, y: -8}
+        - {x: -8, y: -21}
+        - {x: -6, y: -24}
+        - {x: 9, y: -24}
+        - {x: 14, y: -11}
+        - {x: 14, y: 16}
+        - {x: 10, y: 23}
+    - name: officeman2_13
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 22}
+        - {x: -12, y: 16}
+        - {x: -12, y: -9}
+        - {x: -6, y: -24}
+        - {x: 7, y: -24}
+        - {x: 13, y: -15}
+        - {x: 13, y: 19}
+        - {x: 12, y: 22}
+    - name: officeman2_14
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 23}
+        - {x: -13, y: 16}
+        - {x: -13, y: -5}
+        - {x: -12, y: -8}
+        - {x: -8, y: -21}
+        - {x: -6, y: -24}
+        - {x: 9, y: -24}
+        - {x: 14, y: -11}
+        - {x: 14, y: 16}
+        - {x: 10, y: 23}
+    - name: officeman2_15
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 22}
+        - {x: -12, y: 18}
+        - {x: -12, y: -6}
+        - {x: -10, y: -21}
+        - {x: -5, y: -24}
+        - {x: 12, y: -24}
+        - {x: 13, y: -21}
+        - {x: 13, y: 21}
+        - {x: 12, y: 22}
     outline: []
   spritePackingTag: 
   userData: 

@@ -1,9 +1,25 @@
 fileFormatVersion: 2
 guid: 347f97e0e64c24a42bf1d23425ee9563
-timeCreated: 1462451157
+timeCreated: 1463066119
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: officewoman2_0
+    21300002: officewoman2_1
+    21300004: officewoman2_2
+    21300006: officewoman2_3
+    21300008: officewoman2_4
+    21300010: officewoman2_5
+    21300012: officewoman2_6
+    21300014: officewoman2_7
+    21300016: officewoman2_8
+    21300018: officewoman2_9
+    21300020: officewoman2_10
+    21300022: officewoman2_11
+    21300024: officewoman2_12
+    21300026: officewoman2_13
+    21300028: officewoman2_14
+    21300030: officewoman2_15
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -30,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -38,7 +54,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -49,7 +65,306 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: officewoman2_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 144
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 8, y: 22}
+        - {x: -6, y: 22}
+        - {x: -12, y: 15}
+        - {x: -13, y: 8}
+        - {x: -13, y: -9}
+        - {x: -7, y: -24}
+        - {x: 8, y: -24}
+        - {x: 14, y: -11}
+        - {x: 14, y: 15}
+    - name: officewoman2_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 144
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 8, y: 21}
+        - {x: -8, y: 21}
+        - {x: -13, y: 13}
+        - {x: -13, y: -4}
+        - {x: -8, y: -22}
+        - {x: -4, y: -24}
+        - {x: 6, y: -24}
+        - {x: 11, y: -22}
+        - {x: 13, y: -12}
+        - {x: 13, y: 17}
+    - name: officewoman2_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 144
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 8, y: 22}
+        - {x: -6, y: 22}
+        - {x: -12, y: 15}
+        - {x: -13, y: 8}
+        - {x: -13, y: -9}
+        - {x: -7, y: -24}
+        - {x: 8, y: -24}
+        - {x: 14, y: -11}
+        - {x: 14, y: 15}
+    - name: officewoman2_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 144
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 21}
+        - {x: -12, y: 9}
+        - {x: -12, y: -12}
+        - {x: -10, y: -21}
+        - {x: -3, y: -24}
+        - {x: 13, y: -24}
+        - {x: 14, y: -15}
+        - {x: 14, y: 21}
+    - name: officewoman2_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 96
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -6, y: 22}
+        - {x: -11, y: 20}
+        - {x: -11, y: 0}
+        - {x: -9, y: -16}
+        - {x: -2, y: -24}
+        - {x: 12, y: -24}
+        - {x: 12, y: 22}
+    - name: officewoman2_5
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 96
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -6, y: 21}
+        - {x: -12, y: 19}
+        - {x: -12, y: -20}
+        - {x: -1, y: -24}
+        - {x: 13, y: -24}
+        - {x: 13, y: 21}
+    - name: officewoman2_6
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 96
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -6, y: 22}
+        - {x: -11, y: 20}
+        - {x: -11, y: 0}
+        - {x: -9, y: -16}
+        - {x: -2, y: -24}
+        - {x: 12, y: -24}
+        - {x: 12, y: 22}
+    - name: officewoman2_7
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 96
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11, y: 21}
+        - {x: -11, y: -24}
+        - {x: 5, y: -24}
+        - {x: 13, y: -19}
+        - {x: 13, y: 15}
+        - {x: 10, y: 21}
+    - name: officewoman2_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -9, y: 22}
+        - {x: -12, y: 21}
+        - {x: -12, y: -20}
+        - {x: -7, y: -24}
+        - {x: 4, y: -24}
+        - {x: 11, y: -13}
+        - {x: 11, y: 17}
+        - {x: 9, y: 22}
+    - name: officewoman2_9
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 48
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12, y: 21}
+        - {x: -13, y: 18}
+        - {x: -13, y: -23}
+        - {x: -12, y: -24}
+        - {x: 12, y: -24}
+        - {x: 12, y: 18}
+        - {x: 9, y: 21}
+    - name: officewoman2_10
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 48
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -9, y: 22}
+        - {x: -12, y: 21}
+        - {x: -12, y: -20}
+        - {x: -7, y: -24}
+        - {x: 4, y: -24}
+        - {x: 11, y: -13}
+        - {x: 11, y: 17}
+        - {x: 9, y: 22}
+    - name: officewoman2_11
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 48
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -13, y: 21}
+        - {x: -13, y: -24}
+        - {x: 11, y: -24}
+        - {x: 11, y: 20}
+        - {x: 9, y: 21}
+    - name: officewoman2_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 7, y: 22}
+        - {x: -8, y: 22}
+        - {x: -13, y: 16}
+        - {x: -13, y: -9}
+        - {x: -7, y: -24}
+        - {x: 8, y: -24}
+        - {x: 14, y: -11}
+        - {x: 14, y: 8}
+        - {x: 12, y: 21}
+    - name: officewoman2_13
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -7, y: 21}
+        - {x: -12, y: 15}
+        - {x: -12, y: -14}
+        - {x: -10, y: -23}
+        - {x: -8, y: -24}
+        - {x: 12, y: -24}
+        - {x: 13, y: -18}
+        - {x: 13, y: 19}
+        - {x: 9, y: 21}
+    - name: officewoman2_14
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 7, y: 22}
+        - {x: -8, y: 22}
+        - {x: -13, y: 16}
+        - {x: -13, y: -9}
+        - {x: -7, y: -24}
+        - {x: 8, y: -24}
+        - {x: 14, y: -11}
+        - {x: 14, y: 8}
+        - {x: 12, y: 21}
+    - name: officewoman2_15
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12, y: 21}
+        - {x: -12, y: -24}
+        - {x: 9, y: -24}
+        - {x: 13, y: -17}
+        - {x: 13, y: 16}
+        - {x: 8, y: 21}
     outline: []
   spritePackingTag: 
   userData: 
