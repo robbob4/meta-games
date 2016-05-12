@@ -36,6 +36,7 @@ public class Patron : MonoBehaviour
     protected Destination finalDest = null;
     protected float speed = 0.1f;
     protected static GlobalGameManager globalGameManager = null;
+    protected static Pathing pather = null;
     private int happiness = 50; //0-100
     private int money = 1; //0-x
     private int currentFloor = 1;
@@ -49,7 +50,11 @@ public class Patron : MonoBehaviour
         #region References
         globalGameManager = GameObject.Find("GameManager").GetComponent<GlobalGameManager>();
         if (globalGameManager == null)
-            Debug.LogError("GameManager not found.");
+            Debug.LogError("GameManager's GlobalGameManager not found for " + this + ".");
+
+        pather = GameObject.Find("GameManager").GetComponent<Pathing>();
+        if (pather == null)
+            Debug.LogError("GameManager's Pathing not found for " + this + ".");
         #endregion
 
         #region Generate interests
@@ -61,13 +66,13 @@ public class Patron : MonoBehaviour
         }
         #endregion
 
-        nextDest = GameObject.Find("Shop").GetComponent<Destination>();
-        finalDest = nextDest;
-        //TODO: Determine next destination from graph
+        //temp
+        finalDest = GameObject.Find("Hotel").GetComponent<Destination>();
+        nextDest = pather.nextDestination(globalGameManager.Lobby, finalDest);
     }
-	
-	// Update is called once per frame
-	void Update()
+
+    // Update is called once per frame
+    void Update()
     {
         #region Move towards next destination
         if (movement == true && globalGameManager.Paused == false && nextDest != null)
@@ -80,12 +85,14 @@ public class Patron : MonoBehaviour
         #endregion
 
         #region Reached next destination
-        if (movement == true && nextDest != null && nextDest.transform.position.x - transform.position.x <= nextDest.transform.lossyScale.x / 2)
+        if (movement == true && nextDest != null && Mathf.Abs(nextDest.transform.position.x - transform.position.x) <= nextDest.transform.lossyScale.x / 2)
         {
-            Debug.Log("Reached next Dest");
-            if (nextDest != finalDest)
+            Debug.Log("Reached " + nextDest);
+
+            //temp
+            if (nextDest == finalDest && nextDest == globalGameManager.Lobby)
             {
-                //TODO: update next destination from graph
+                Destroy(gameObject);
             }
 
             //check if it is a room destination or transportation destination
@@ -94,6 +101,7 @@ public class Patron : MonoBehaviour
                 //TODO: check if this is transportation we need
                 movement = false;
                 nextDest.Visit(this);
+                currentFloor = nextDest.Floor; //temp
             }
             else
             {
@@ -105,6 +113,7 @@ public class Patron : MonoBehaviour
                     {
                         movement = false;
                         nextDest.Visit(this);
+                        currentFloor = nextDest.Floor; //temp
                         Debug.Log("Visiting " + nextDest);
                     }
                     else
@@ -112,7 +121,29 @@ public class Patron : MonoBehaviour
                         Happiness -= 10; //happiness deducation
                     }
                 }
-            }            
+            }
+
+            //find new destination if it is not our final destination
+            if (nextDest != finalDest)
+            {
+                nextDest = pather.nextDestination(nextDest, finalDest);
+            }
+            else
+            {
+                //temp - go home
+                nextDest = pather.nextDestination(finalDest, globalGameManager.Lobby);
+                finalDest = globalGameManager.Lobby;
+            }
+                
+        }
+        #endregion
+
+        #region Unhappy check
+        if (Money <= 0 || Happiness <= 0)
+        {
+            //leave the building
+            nextDest = pather.nextDestination(nextDest, globalGameManager.Lobby);
+            finalDest = globalGameManager.Lobby;
         }
         #endregion
     }
@@ -129,6 +160,9 @@ public class Patron : MonoBehaviour
     // randomly determine whether the interest check passed
     private bool interestCheck(Interest check)
     {
+        if (check == Interest.None)
+            return false;
+
         float prob = Random.Range(0.0f, 100.0f);
         if (prob <= interests[(int)check])
             return true;
@@ -171,7 +205,7 @@ public class Patron : MonoBehaviour
             if (value >= 0)
                 money = value;
             else
-                Debug.Log(value + " is invalid money value for " + this + ".");
+                money = 0;
         }
     }
 

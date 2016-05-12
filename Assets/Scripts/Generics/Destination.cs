@@ -31,6 +31,7 @@ public class Destination : MonoBehaviour
     private bool temp = true; //bool to flag this as a new room
     protected string prefabLocation = "";
     protected static int constructionCost = 0; //0-x
+    [SerializeField] private int floor; // what floor this room is on
 
     //live variables
     [SerializeField] protected Patron.Interest theInterest = Patron.Interest.None; //associated interest
@@ -75,11 +76,26 @@ public class Destination : MonoBehaviour
         if (currentCapacity < MaxCapacity)
         {
             visitors[currentCapacity++] = visitor;
+
+            //temp
+            StartCoroutine(TempEjection());
         }
         else
         {
             Debug.Log(visitor + " cannot enter, " + this + " is full. ");
         }
+    }
+
+    //demo ejection after 3 seconds
+    IEnumerator TempEjection()
+    {
+        Patron visitor = visitors[currentCapacity - 1];
+        visitor.transform.position = new Vector3(visitor.transform.position.x, transform.position.y - 2, visitor.transform.position.z);
+
+        yield return new WaitForSeconds(3);
+
+        visitors[--currentCapacity] = null;
+        visitor.Movement = true;
     }
 
     #region Getters and Setters
@@ -109,6 +125,11 @@ public class Destination : MonoBehaviour
     public int ConstructionCost
     {
         get { return constructionCost; }
+    }
+
+    public int Floor
+    {
+        get { return floor; }
     }
 
     //live variables

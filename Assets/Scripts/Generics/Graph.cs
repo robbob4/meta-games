@@ -170,6 +170,8 @@ public class Graph<T> : IEnumerable<T>
     //TODO: BFS
     //TODO: Create a seperate entity for visited to allow simultaneous searches?
     //TODO: Ensure nodes are comparable?
+    //TODO: hash the nodes so that a node can be searched from for optimization
+    //TODO: Search from any node
 
     public Stack<T> DepthFirstSearch(T search)
     {
@@ -183,7 +185,7 @@ public class Graph<T> : IEnumerable<T>
         }
 
         // initial output line
-        Debug.Log("Depth-first ordering until " + search + ":");
+        //Debug.Log("Depth-first ordering until " + search + ":");
 
         // for v = 1 to n
         for (int v = 0; v < size; v++)
@@ -194,7 +196,7 @@ public class Graph<T> : IEnumerable<T>
             //skip if another search found the node
             if (retVal.Count >= 1 && retVal.Peek().Equals(search))
             {
-                Debug.Log("Skipping outer loop!");
+                //Debug.Log("Skipping outer loop!");
                 break;
             }
         }
@@ -218,7 +220,7 @@ public class Graph<T> : IEnumerable<T>
         // found the node we're searching for?
         if (nodes[v].Value.Equals(search))
         {
-            Debug.Log("Found it!");
+            //Debug.Log("Found it!");
             return;
         }
 
@@ -235,7 +237,7 @@ public class Graph<T> : IEnumerable<T>
             //skip if another search found the node
             if (retVal.Count >= 1 && retVal.Peek().Equals(search))
             {
-                Debug.Log("Skipping inner loop!");
+                //Debug.Log("Skipping inner loop!");
                 return;
             }
         }
