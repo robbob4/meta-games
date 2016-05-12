@@ -6,10 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/DemoHub.unity
+    path: Assets/MainMenu.unity
   - enabled: 1
-    path: Assets/RobertDemo.unity
-  - enabled: 1
-    path: Assets/SamDemo.unity
-  - enabled: 1
-    path: Assets/BrentDemo.unity
+    path: Assets/Game.unity

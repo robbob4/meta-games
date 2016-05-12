@@ -54,6 +54,9 @@ public class ButtonController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
+            if (currentTool == ToolType.Build)
+                SelectDestruct();
+
             currentTool = ToolType.Inspect;
             if (descriptionBox != null)
                 descriptionBox.SelectNone();
@@ -101,28 +104,28 @@ public class ButtonController : MonoBehaviour
         {
             case 0:
                 referenceRoom = Resources.Load("Prefabs/BuilderHelpers/ProxyRoom 1") as GameObject;
-				currentRoom = (GameObject)Instantiate (referenceRoom, Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0)), referenceRoom.transform.rotation);
+				currentRoom = (GameObject)Instantiate (referenceRoom, Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y)), referenceRoom.transform.rotation);
 
 				r.sprite = s;
                 r.color = new Color(.9F, .5F, .1F);
                 break;
-            case 1:
-				referenceRoom = Resources.Load("Prefabs/BuilderHelpers/ProxyRoom 1") as GameObject;
-				currentRoom = (GameObject)Instantiate (referenceRoom, Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0)), referenceRoom.transform.rotation);
+            case 1: //shop
+				referenceRoom = Resources.Load("Prefabs/Room/Shop") as GameObject;
+				currentRoom = (GameObject)Instantiate (referenceRoom, Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y)), referenceRoom.transform.rotation);
 
                 r.sprite = s;
                 r.color = new Color(.35F, .8F, .95F);
                 break;
-            case 2:
-				referenceRoom = Resources.Load("Prefabs/BuilderHelpers/ProxyRoom 1") as GameObject;
-				currentRoom = (GameObject)Instantiate (referenceRoom, Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0)), referenceRoom.transform.rotation);
+            case 2: //Office
+				referenceRoom = Resources.Load("Prefabs/Room/Office") as GameObject;
+				currentRoom = (GameObject)Instantiate (referenceRoom, Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y)), referenceRoom.transform.rotation);
 
                 r.sprite = s;
                 r.color = new Color(.45F, .9F, .7F);
                 break;
             case 3:
 				referenceRoom = Resources.Load("Prefabs/BuilderHelpers/ProxyRoom 1") as GameObject;
-				currentRoom = (GameObject)Instantiate (referenceRoom, Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y, 0)), referenceRoom.transform.rotation);
+				currentRoom = (GameObject)Instantiate (referenceRoom, Camera.main.ScreenToWorldPoint (new Vector3 (Input.mousePosition.x, Input.mousePosition.y)), referenceRoom.transform.rotation);
 
                 r.sprite = s;
                 r.color = new Color(.7F, .2F, .85F);
@@ -134,6 +137,9 @@ public class ButtonController : MonoBehaviour
 
     public void SelectDestruct()
     {
+        if(currentRoom != null)
+            Destroy(currentRoom);
+
         referenceRoom = null;
         currentTool = ToolType.Destroy;
         icon.GetComponent<SpriteRenderer>().sprite = null;

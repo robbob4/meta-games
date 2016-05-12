@@ -1,7 +1,7 @@
 ﻿// ------------------------ ButtonController.cs -------------------------------
 // Author - Sam Williams CSS 385
 // Created - May 4, 2016
-// Modified - May 4, 2016
+// Modified - May 12, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a block that follows the mouse while adhering 
 // to a grid system for the protoype demo.
@@ -22,7 +22,7 @@ public class BlockBehavior : MonoBehaviour
 
 	void Start ()
     {
-		gameObject.GetComponent<Renderer>().material.color = Color.red;
+		//gameObject.GetComponent<Renderer>().material.color = Color.red;
 	}
 	
 	void Update () 
@@ -33,7 +33,7 @@ public class BlockBehavior : MonoBehaviour
 		}
 	}
 
-	//Calculates a blocks "target position - as defined by Robert Gridwold," and sets the center of the blocks position to that vector
+	//Calculates a blocks "target position - as defined by Robert Griswold," and sets the center of the blocks position to that vector
 	void calculateTarget()
 	{
 		//current mouse position
@@ -84,6 +84,7 @@ public class BlockBehavior : MonoBehaviour
 					//block can move
 					Debug.LogFormat ("we moving!");
 					blockFollowMouse = !blockFollowMouse;
+                    transform.position = new Vector3(transform.position.x, transform.position.y, -10); //float above other objects
 				} 
 				// for debug purposes
 				else 
@@ -108,11 +109,11 @@ public class BlockBehavior : MonoBehaviour
 				{
 					Debug.LogFormat ("yo, we staying here");
 					blockFollowMouse = !blockFollowMouse;
-				}
+                    transform.position = new Vector3(transform.position.x, transform.position.y); //return z to 0
+                }
 			}
 		}
 	}
-
 }
 
 
