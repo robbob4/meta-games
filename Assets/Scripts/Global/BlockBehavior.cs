@@ -68,7 +68,7 @@ public class BlockBehavior : MonoBehaviour
 	void OnMouseOver()
 	{
 		// array of the items at the same position as "this" block
-		Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, 1.0f);
+		Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, 0.01f);
 
 		if (Input.GetMouseButtonDown (0) && hitColliders.Length == 1) 
 		{
@@ -79,7 +79,7 @@ public class BlockBehavior : MonoBehaviour
 				Vector3 v3 = new Vector3 (transform.position.x, transform.position.y + 10, transform.position.z);
 
 				//if there is nothing at the 1 height unit above the block, allow the block to move
-				if (!Physics.CheckSphere (v3, 1.0f)) 
+				if (!Physics.CheckSphere (v3, 0.01f)) 
 				{
 					//block can move
 					Debug.LogFormat ("we moving!");
@@ -105,7 +105,7 @@ public class BlockBehavior : MonoBehaviour
 				Debug.LogFormat("there are" + hitColliders.Length + " fools here!");
 
 				// if there is an item below the block, and there is exactly 1 item in the same spot as the block
-				if (Physics.CheckSphere (v3, 2.0f) && hitColliders.Length == 1) 
+				if (Physics.CheckSphere (v3, 0.01f) && hitColliders.Length == 1) 
 				{
 					Debug.LogFormat ("yo, we staying here");
 					blockFollowMouse = !blockFollowMouse;

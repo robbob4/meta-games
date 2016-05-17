@@ -19,9 +19,9 @@ public class Destination : MonoBehaviour
     public enum Size
     {
         Tiny = 1, //1 unit wide
-        Small = 5, //5 units wide
-        Medium = 10, //10 units wide
-        Large = 20 //20 units wide
+        Small = 3, //3 units wide
+        Medium = 5, //5 units wide
+        Large = 10 //10 units wide
     }
     #endregion
 

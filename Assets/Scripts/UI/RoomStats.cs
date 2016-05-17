@@ -29,24 +29,9 @@ public class RoomStats : MonoBehaviour {
         
 	}
 
-    public void SelectLobby ()
+    public void Select(string selection)
     {
-        titleText.GetComponent<Text>().text = "Lobby";
-    }
-
-    public void SelectShop()
-    {
-        titleText.GetComponent<Text>().text = "Shop";
-    }
-
-    public void SelectOffice()
-    {
-        titleText.GetComponent<Text>().text = "Office";
-    }
-
-    public void SelectHotel()
-    {
-        titleText.GetComponent<Text>().text = "Hotel";
+        titleText.GetComponent<Text>().text = selection;
     }
 
     public void SelectNone()
