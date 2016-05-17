@@ -204,11 +204,11 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 8307315}
-  - 114: {fileID: 8307316}
   - 114: {fileID: 8307317}
   - 114: {fileID: 8307318}
   - 114: {fileID: 8307319}
   - 114: {fileID: 8307321}
+  - 114: {fileID: 8307320}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -228,17 +228,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1440809305}
   m_RootOrder: 0
---- !u!114 &8307316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 8307314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efe83e8f7897cce469b031940db83e2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8307317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,6 +264,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PatronToSpawn: {fileID: 0}
+--- !u!114 &8307320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 8307314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae114e54fb603d64b908ebdc05b0152f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RoomToSpawn: {fileID: 0}
+  collided: 1
+  target: {x: 0, y: 0, z: 0}
 --- !u!114 &8307321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1541,6 +1544,10 @@ Prefab:
       propertyPath: floor
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 11463394, guid: 1ff9942673ff61244b1b6b156bd8cf0c, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1ff9942673ff61244b1b6b156bd8cf0c, type: 2}
   m_IsPrefabParent: 0
@@ -1727,24 +1734,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8307316}
-        m_MethodName: SelectRoom
+      - m_Target: {fileID: 8307320}
+        m_MethodName: EnterConstructionMode
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2031085601}
-        m_MethodName: SelectShop
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 100
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2229,20 +2225,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8307316}
-        m_MethodName: SelectRoom
+      - m_Target: {fileID: 8307320}
+        m_MethodName: EnterConstructionMode
         m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 1
-      - m_Target: {fileID: 2031085601}
-        m_MethodName: SelectLobby
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2411,24 +2396,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8307316}
-        m_MethodName: SelectRoom
+      - m_Target: {fileID: 8307320}
+        m_MethodName: EnterConstructionMode
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2031085601}
-        m_MethodName: SelectHotel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 202
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3343,24 +3317,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8307316}
-        m_MethodName: SelectRoom
+      - m_Target: {fileID: 8307320}
+        m_MethodName: EnterConstructionMode
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2031085601}
-        m_MethodName: SelectOffice
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 200
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3475,8 +3438,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8307316}
-        m_MethodName: SelectDestruct
+      - m_Target: {fileID: 8307320}
+        m_MethodName: EnterDeconstructionMode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
