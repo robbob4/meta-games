@@ -1,7 +1,7 @@
 ﻿// ------------------------------- Patron.cs -----------------------------------
 // Author - Robert Griswold CSS 385
 // Created - May 12, 2016
-// Modified - May 12, 2016
+// Modified - May 18, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a base patron.
 // ----------------------------------------------------------------------------
@@ -38,14 +38,14 @@ public class Patron : MonoBehaviour
     protected static GlobalGameManager globalGameManager = null;
     protected static Pathing pather = null;
     private int happiness = 50; //0-100
-    private int money = 1; //0-x
-    private int currentFloor = 1;
+    private int money = 1000; //0-x
+    private int floor = 1; //what floor the patron is on
     private bool movement = true;
     private bool worker = false;
     #endregion
-    
-    // Use this for initialization
-    void Start()
+
+    // Use this for fast initialization
+    void Awake()
     {
         #region References
         globalGameManager = GameObject.Find("GameManager").GetComponent<GlobalGameManager>();
@@ -65,10 +65,12 @@ public class Patron : MonoBehaviour
             interests[i] = Mathf.CeilToInt(Random.Range(min, max));
         }
         #endregion
+    }
 
-        //temp
-        finalDest = GameObject.Find("Hotel").GetComponent<Destination>();
-        nextDest = pather.nextDestination(globalGameManager.Lobby, finalDest);
+    // Use this for initialization
+    void Start()
+    {
+        
     }
 
     // Update is called once per frame
@@ -101,7 +103,7 @@ public class Patron : MonoBehaviour
                 //TODO: check if this is transportation we need
                 movement = false;
                 nextDest.Visit(this);
-                currentFloor = nextDest.Floor; //temp
+                floor = nextDest.Floor; //temp
             }
             else
             {
@@ -113,7 +115,7 @@ public class Patron : MonoBehaviour
                     {
                         movement = false;
                         nextDest.Visit(this);
-                        currentFloor = nextDest.Floor; //temp
+                        floor = nextDest.Floor; //temp
                         Debug.Log("Visiting " + nextDest);
                     }
                     else
@@ -149,12 +151,13 @@ public class Patron : MonoBehaviour
     }
 
     //set next destination
-    public void setDestination(Destination next)
+    public void setDestination(Destination newFinalDest)
     {
-        if (next != null)
-            finalDest = next;
+        if (newFinalDest != null)
+            finalDest = newFinalDest;
         else
-            Debug.Log(next + " is invalid destination for " + this + ".");
+            finalDest = globalGameManager.Lobby;
+        nextDest = pather.nextDestination(globalGameManager.Lobby, finalDest);
     }
 
     // randomly determine whether the interest check passed
@@ -179,8 +182,8 @@ public class Patron : MonoBehaviour
     #region Getters and Setters
     public int CurrentFloor
     {
-        get { return currentFloor; }
-        set { currentFloor = value; }
+        get { return floor; }
+        set { floor = value; }
     }
 
     public int Happiness

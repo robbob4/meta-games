@@ -1,12 +1,12 @@
 ﻿// ------------------------------- Leased.cs ----------------------------------
 // Author - Robert Griswold CSS 385
 // Created - May 12, 2016
-// Modified - May 12, 2016
+// Modified - May 18, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a base leased room that inherits from the room
 // class.
 // ----------------------------------------------------------------------------
-// Notes - Reduced spawn chance to 5%.
+// Notes - Reduced spawn chance to 3%.
 // ----------------------------------------------------------------------------
 
 using UnityEngine;
@@ -14,21 +14,13 @@ using System.Collections;
 
 public class Leased : Room
 {
-    // Use this for fast initialization
-    void Awake()
-    {
-        spawnChance = 5;
-    }
+    #region Variables
+    protected int spawnCount = 0;
+    protected bool rented = false;
+    #endregion
 
-    // Use this for initialization
-    void Start()
+    public Leased() //constructor - only non-unity things here
     {
-        visitors = new Patron[capacity];
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        spawnChance = 3;
     }
 }

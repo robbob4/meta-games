@@ -1,7 +1,7 @@
 ﻿// ---------------------------- Destination.cs --------------------------------
 // Author - Robert Griswold CSS 385
 // Created - May 12, 2016
-// Modified - May 12, 2016
+// Modified - May 18, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a base destination class for use in path 
 // finding.
@@ -27,39 +27,21 @@ public class Destination : MonoBehaviour
 
     #region Variables
     //construction variables
-    [SerializeField] protected static Size roomSize = Size.Small; //width of the room
+    protected string desc = "";
+    protected Size roomSize = Size.Small; //width of the room in units
+    protected int constructionCost = 0; //0-x
     private bool temp = true; //bool to flag this as a new room
-    protected string prefabLocation = "";
-    protected static int constructionCost = 0; //0-x
-    [SerializeField] private int floor; // what floor this room is on
+    private bool transportation = false;
+    [SerializeField] private int floor; //what floor this room is on
 
     //live variables
+    protected int maint; //0-x
+    protected int rent; //0-x
     [SerializeField] protected Patron.Interest theInterest = Patron.Interest.None; //associated interest
-    [SerializeField] private bool transportation;
-    [SerializeField] protected int capacity; //0-x
-    [SerializeField] private int rent; //0-x
-    [SerializeField] private int maint; //0-x
+    protected int capacity; //0-x
+    protected int currentCapacity = 0; //0-capacity
     protected Patron[] visitors;
-    protected int currentCapacity = 0; //0-_capacity
     #endregion
-
-    // Use this for fast initialization
-    void Awake()
-    {
-        
-    }
-
-    // Use this for initialization
-    void Start ()
-    {
-
-    }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-	
-	}
 
     //announcment that the entity is about to be destroyed
     public virtual void Evict()
@@ -67,6 +49,7 @@ public class Destination : MonoBehaviour
         for (int i = 0; i < capacity; i++)
         {
             visitors[i].Movement = true;
+            visitors[i].setDestination(null);
         }
         //set patron finalDest to lobby if applicable
     }
@@ -100,9 +83,19 @@ public class Destination : MonoBehaviour
 
     #region Getters and Setters
     //construction variables
+    public string Description
+    {
+        get { return desc; }
+    }
+
     public Size RoomSize
     {
         get { return roomSize; }
+    }
+
+    public int ConstructionCost
+    {
+        get { return constructionCost; }
     }
 
     public bool Temp
@@ -117,22 +110,17 @@ public class Destination : MonoBehaviour
         }
     }
 
-    public string PrefabLocation
-    {
-        get { return prefabLocation; }
-    }    
-
-    public int ConstructionCost
-    {
-        get { return constructionCost; }
-    }
-
     public int Floor
     {
         get { return floor; }
     }
 
     //live variables
+    public int Maint
+    {
+        get { return maint; }
+    }
+
     public Patron.Interest TheInterest
     {
         get { return theInterest; }
@@ -156,11 +144,6 @@ public class Destination : MonoBehaviour
     public int Rent
     {
         get { return rent; }
-    }
-
-    public int Maint
-    {
-        get { return maint; }
     }
     #endregion
 }

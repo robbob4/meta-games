@@ -361,7 +361,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 470, y: 350}
+  m_SizeDelta: {x: 470, y: 370}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &285219185
 MonoBehaviour:
@@ -399,23 +399,27 @@ MonoBehaviour:
 
     <b>Programming</b>
 
-    Robert Griswold
+    Robert Griswold - UWB
 
-    Samuel Williams
+    Samuel Williams - UWB
 
-    Brent Eaves
+    Brent Eaves - UWB
 
 
     <b>Artwork</b>
 
     Harrison McGuire
 
-    Sithjester <i>(untamed.wild-refuge.net/rpgxp.php)</i>
+    Sithjester <i>(Untamed.Wild-Refuge.net/rpgxp.php)</i>
 
 
     <b>Sound</b>
 
-    N/A'
+    Kiddpark <i>(Freesound.org/people/kiddpark/sounds/201159)</i>
+
+    Enric592 <i>(Freesound.org/people/enric592/sounds/185737)</i>
+
+    Licensed under <i>CreativeCommons.org/licenses/by/3.0</i>'
 --- !u!222 &285219186
 CanvasRenderer:
   m_ObjectHideFlags: 0
