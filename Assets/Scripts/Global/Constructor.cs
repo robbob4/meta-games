@@ -49,7 +49,10 @@ public class Constructor : MonoBehaviour
     
     //construction
     [HideInInspector] public GameObject RoomToSpawn = null;
+	[HideInInspector] public GameObject FloorToSpawn = null;
     private GameObject theRoom = null;
+	private GameObject theFloor = null;
+
     private RoomStats descriptionBox = null;
     private GlobalGameManager globalGameManager = null;
     private ToolType currentTool = ToolType.Inspect;
@@ -152,7 +155,7 @@ public class Constructor : MonoBehaviour
 
 	private void addFloors()
 	{
-		Vector3 underTarget = new Vector3(target.x, target.y - 10, target.z + 1);
+		Vector3 underTarget = new Vector3(target.x, target.y, target.z + 1);
 
 		int size = (int)theRoom.GetComponent<Room>().RoomSize;
 
@@ -171,7 +174,8 @@ public class Constructor : MonoBehaviour
 			}
 				
 			if (!Physics.CheckSphere (underTargetTemp, 0.01f)) { 
-				
+				FloorToSpawn = Resources.Load("Prefabs/Room/Floor") as GameObject;
+				theFloor = (GameObject)Instantiate(FloorToSpawn, underTargetTemp, FloorToSpawn.transform.rotation);
 			}
 		}
 	}
