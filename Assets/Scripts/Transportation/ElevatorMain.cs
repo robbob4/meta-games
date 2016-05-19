@@ -20,10 +20,10 @@ public class ElevatorMain : MonoBehaviour {
 
     struct PatronNode
     {
-        public GameObject gObject = null;
-        public Patron script = null;
-        public Status status = Status.idle;
-        public float timer = 0F;
+        public GameObject gObject;
+        public Patron script;
+        public Status status;
+        public float timer;
     }
 
     private List<PatronNode>[] waitlist;
@@ -104,6 +104,7 @@ public class ElevatorMain : MonoBehaviour {
         PatronNode theNode = new PatronNode();
         theNode.gObject = thePatron;
         theNode.script = temp;
+        theNode.timer = 0F;
         
         // TODO: Determine what floor the destination is on to set if status would be ascending or descending.
 
