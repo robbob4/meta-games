@@ -34,7 +34,7 @@ public class Patron : MonoBehaviour
     protected int[] interests = new int[7]; //array of interests all 1-99
     protected Destination nextDest = null;
     protected Destination finalDest = null;
-    protected float speed = 0.1f;
+    protected float speed = 0.3f;
     protected static GlobalGameManager globalGameManager = null;
     protected static Pathing pather = null;
     private int happiness = 50; //0-100
@@ -91,10 +91,14 @@ public class Patron : MonoBehaviour
         {
             Debug.Log("Reached " + nextDest);
 
-            //temp
+            //temp: move up to this floor
+            transform.position = new Vector3(transform.position.x, nextDest.transform.position.y - 2, transform.position.z);
+
+            //temp: destroy me when done
             if (nextDest == finalDest && nextDest == globalGameManager.Lobby)
             {
                 Destroy(gameObject);
+                Debug.Log("finished");
             }
 
             //check if it is a room destination or transportation destination
@@ -113,6 +117,8 @@ public class Patron : MonoBehaviour
                     //try to visit the room
                     if (nextDest.Visit(this))
                     {
+                        Happiness += 10;
+                        Money -= nextDest.Rent;
                         movement = false;
                         floor = nextDest.Floor; //temp
                     }
@@ -120,7 +126,7 @@ public class Patron : MonoBehaviour
                     {
                         //Status message: crowded
                         globalGameManager.NewStatus(nextDest.name + " is crowded!", true);
-                        Happiness -= 10; //happiness deducation
+                        Happiness -= 20; //happiness deducation
                     }
                 }
             }
@@ -128,13 +134,14 @@ public class Patron : MonoBehaviour
             //find new destination if it is not our final destination
             if (nextDest != finalDest)
             {
-                nextDest = pather.nextDestination(nextDest, finalDest);
+                nextDest = pather.NextDestination(nextDest, finalDest);
             }
             else
             {
                 //temp - go home
-                nextDest = pather.nextDestination(finalDest, globalGameManager.Lobby);
-                finalDest = globalGameManager.Lobby;
+                Destroy(gameObject);
+                //nextDest = pather.NextDestination(finalDest, globalGameManager.Lobby);
+                //finalDest = globalGameManager.Lobby;
             }
                 
         }
@@ -144,8 +151,11 @@ public class Patron : MonoBehaviour
         if (Money <= 0 || Happiness <= 0)
         {
             //leave the building
-            nextDest = pather.nextDestination(nextDest, globalGameManager.Lobby);
+            nextDest = pather.NextDestination(nextDest, globalGameManager.Lobby);
             finalDest = globalGameManager.Lobby;
+
+            if (Happiness <= 0)
+                globalGameManager.NewStatus(this + " is fed up with this tower!", true);
         }
         #endregion
     }
@@ -157,7 +167,7 @@ public class Patron : MonoBehaviour
             finalDest = newFinalDest;
         else
             finalDest = globalGameManager.Lobby;
-        nextDest = pather.nextDestination(globalGameManager.Lobby, finalDest);
+        nextDest = pather.NextDestination(globalGameManager.Lobby, finalDest);
     }
 
     // randomly determine whether the interest check passed

@@ -49,6 +49,7 @@ public class GraphNode<T> : Node<T>
 public class Graph<T> : IEnumerable<T>
 {
     private NodeList<T> nodeSet;
+    private Queue<GraphNode<T>> tempQueue; // used for BFS
 
     public Graph() : this(null) { }
     public Graph(NodeList<T> nodeSet)
@@ -167,19 +168,19 @@ public class Graph<T> : IEnumerable<T>
         throw new NotImplementedException();
     }
 
-    //TODO: BFS
+    //TODO: debug BFS
     //TODO: Create a seperate entity for visited to allow simultaneous searches?
     //TODO: Ensure nodes are comparable?
-    //TODO: hash the nodes so that a node can be searched from for optimization
-    //TODO: Search from any node
+    //TODO: hash the nodes so that a node can be searched from for optimization?
+    //TODO: Search from any node in dfs?
 
+    //depth first search from root
     public Stack<T> DepthFirstSearch(T search)
     {
-        int size = Count;
         Stack<T> retVal = new Stack<T>();
 
         // make all nodes not visisted
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < Count; i++)
         {
             nodeSet[i].Visited = false;
         }
@@ -187,8 +188,8 @@ public class Graph<T> : IEnumerable<T>
         // initial output line
         //Debug.Log("Depth-first ordering until " + search + ":");
 
-        // for v = 1 to n
-        for (int v = 0; v < size; v++)
+        // for v = 0 to n
+        for (int v = 0; v < Count; v++)
         {
             if (nodeSet[v].Visited == false)
                 dfsHelper(v, nodeSet, retVal, search);
@@ -227,9 +228,10 @@ public class Graph<T> : IEnumerable<T>
         // mark v vistited
         nodes[v].Visited = true;
 
-        // for each w adjacent for v
+        // for each w adjacent to v
         int size = ((GraphNode<T>)nodes[v]).Neighbors.Count;
-        for (int w = 0; w < size ; w++)
+        //for (int w = 0; w < size ; w++)
+        for (int w = size - 1; w >= 0; w--)
         {
             if (((GraphNode<T>)nodes[v]).Neighbors[w].Visited == false)
                 dfsHelper(w, ((GraphNode<T>)nodes[v]).Neighbors, retVal, search);
@@ -241,5 +243,98 @@ public class Graph<T> : IEnumerable<T>
                 return;
             }
         }
+    }
+
+    //breadth first search from a node
+    public Stack<T> BreadthFirstSearch(T search, T origin)
+    {
+        Stack<T> retVal = new Stack<T>();
+        tempQueue = new Queue<GraphNode<T>>();
+
+        // make all nodes not visisted
+        for (int i = 0; i < Count; i++)
+        {
+            nodeSet[i].Visited = false;
+        }
+
+        // initial output line
+        Debug.Log("Breadth-first ordering until " + search + ":");
+
+        // find index value
+        int index = 0;
+        if (origin != null)
+        {
+            Node<T> temp = nodeSet.FindByValue(origin);
+            index = nodeSet.IndexOf(temp);
+        }
+
+        //// for v = 0 to n
+        //for (int v = 0; v < Count; v++)
+        //{
+            if (nodeSet[index].Visited == false)
+                bfsHelper(index, nodeSet, retVal, search);
+
+            //skip if another search found the node
+            //if (retVal.Count >= 1 && retVal.Peek().Equals(search))
+            //{
+            //    Debug.Log("Skipping outer loop!");
+            //    break;
+            //}
+
+        //    //loop index back to start
+        //    if (++index == Count)
+        //        index = 0;
+        //}
+
+        return retVal;
+    }
+
+    //overload for a full search from root
+    public Stack<T> BreadthFirstSearch()
+    {
+        return BreadthFirstSearch(default(T), default(T));
+    }
+
+    //overload for a full search from a point
+    public Stack<T> BreadthFirstSearch(T origin)
+    {
+        return BreadthFirstSearch(default(T), origin);
+    }
+
+    //update the retVal NodeList with any relevant nodes
+    public void bfsHelper(int v, NodeList<T> nodes, Stack<T> retVal, T search)
+    {
+        // mark v vistited
+        nodes[v].Visited = true;
+
+        // enqueue the data
+        tempQueue.Enqueue((GraphNode<T>)nodes[v]);
+        
+        // while the queue is not empty
+        while(tempQueue.Count != 0)
+        {
+            GraphNode<T> x = tempQueue.Dequeue();
+            retVal.Push(x.Value);
+            //Debug.Log(x.Value);
+
+            // found the node we're searching for?
+            if (x.Value.Equals(search))
+            {
+                //Debug.Log("Found it!");
+                return;
+            }
+
+            // for each w adjacent to v
+            int size = x.Neighbors.Count;
+            //for (int w = 0; w < size; w++)
+            for (int w = size - 1; w >= 0; w--)
+            {
+                if ((x.Neighbors[w]).Visited == false)
+                {
+                    x.Neighbors[w].Visited = true;
+                    tempQueue.Enqueue((GraphNode<T>)x.Neighbors[w]);
+                }
+            }
+        }        
     }
 }

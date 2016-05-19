@@ -15,21 +15,27 @@ using System.Collections;
 
 public class Pathing : MonoBehaviour
 {
-    //variables
+    #region Variables
     Graph<Destination> rooms;
+    Destination lastDestination = null;
+    #endregion
+
 
     // Use this for fast initialization
     void Awake()
     {
         rooms = new Graph<Destination>();
-        Destination lobby = GameObject.Find("Lobby").GetComponent<Destination>();
-        rooms.AddNode(lobby);
+        Destination fakeLobby = GameObject.Find("FakeLobby").GetComponent<Destination>();
+        if (fakeLobby == null)
+            Debug.Log("FakeLobby destination not found for " + this + ".");
+        rooms.AddNode(fakeLobby);
+        lastDestination = fakeLobby;
 
         //testing
-        Destination shop = GameObject.Find("Shop").GetComponent<Destination>();
-        GameObject.Find("Shop").GetComponent<Room>().Temp = false;
-        rooms.AddNode(shop);
-        rooms.AddUndirectedEdge(lobby, shop);
+        //Destination shop = GameObject.Find("Shop").GetComponent<Destination>();
+        //GameObject.Find("Shop").GetComponent<Room>().Temp = false;
+        //rooms.AddNode(shop);
+        //rooms.AddUndirectedEdge(lobby, shop);
         //Destination office = GameObject.Find("Office").GetComponent<Destination>();
         //rooms.AddNode(office);
         //rooms.AddUndirectedEdge(shop, office);
@@ -49,12 +55,13 @@ public class Pathing : MonoBehaviour
     }
 
     //find the next destiation between two destinations
-    public Destination nextDestination(Destination from, Destination to)
+    public Destination NextDestination(Destination from, Destination to)
     {
         Destination result = null;
 
         //perform the search
-        Stack<Destination> temp = rooms.DepthFirstSearch(to);
+        //Stack<Destination> temp = rooms.DepthFirstSearch(to);
+        Stack<Destination> temp = rooms.BreadthFirstSearch(to, from);
 
         //remove until there are no more results or we reach from point
         while (temp.Count > 0 && temp.Peek() != from)
@@ -65,13 +72,13 @@ public class Pathing : MonoBehaviour
     }
 
     //blind search using strings and name comparison
-    public Destination nextDestination(string from, string to)
+    public Destination NextDestination(string from, string to)
     {
         Destination result = null;
-        
 
         //perform a blind search
-        Stack<Destination> temp = rooms.DepthFirstSearch();
+        //Stack<Destination> temp = rooms.DepthFirstSearch();
+        Stack<Destination> temp = rooms.BreadthFirstSearch();
 
         //pop until destination
         while (temp.Count > 0)
@@ -92,9 +99,20 @@ public class Pathing : MonoBehaviour
         return result;
     }
 
-    public bool pathExists(Destination target)
+    public bool PathExists(Destination origin, Destination target)
     {
-        Stack<Destination> temp = rooms.DepthFirstSearch(target);
+        //todo upgrade dfs for this action
+        //Stack<Destination> temp = rooms.DepthFirstSearch(target);
+        Stack<Destination> temp = rooms.BreadthFirstSearch(target, origin);
         return temp.Pop() == target;
+    }
+
+    //add a new destination
+    //TODO: improve the graphing node logic
+    public void AddDestination(Destination newDest)
+    {
+        rooms.AddNode(newDest);
+        rooms.AddUndirectedEdge(newDest, lastDestination);
+        lastDestination = newDest;
     }
 }

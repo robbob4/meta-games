@@ -7,8 +7,7 @@
 // Destination class. Specifies happiness, spawnchance, and spawnDelayModulo.
 // spawnDelayModulo just specifies what minute to attempt to spawn.
 // ----------------------------------------------------------------------------
-// Notes - Child must call initReferences in start or awake, and spawner if 
-// desired in update.
+// Notes - Child must call spawner() if desired in update.
 // ----------------------------------------------------------------------------
 
 using UnityEngine;
@@ -38,7 +37,9 @@ public class Room : Destination
                     thePatron.GetComponent<Patron>().setDestination(this.GetComponent<Destination>()); //route patron here
                 }
                 else
-                    Debug.Log(prob);
+                {
+                    //Debug.Log(prob);
+                }
             }
 
             lastModulo = gameTimer.Min % spawnDelayModulo;

@@ -1,7 +1,7 @@
 ﻿// ---------------------------- Constructor.cs --------------------------------
 // Author - Robert Griswold CSS 385
 // Created - May 2, 2016
-// Modified - May 3, 2016
+// Modified - May 18, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for the script that handles room construction and 
 // deconstruction. Calling EnterConstructionMode(Room) attaches a room to the 
@@ -48,9 +48,10 @@ public class Constructor : MonoBehaviour
     public const int UNIT_WIDTH = 4;
 
     //references
+    [SerializeField] private Texture2D hammerCursor = null;
     private RoomStats descriptionBox = null;
     private GlobalGameManager globalGameManager = null;
-    [SerializeField] private Texture2D hammerCursor = null;
+    protected static Pathing pather = null;
 
     //construction
     private GameObject roomToSpawn = null;
@@ -79,6 +80,10 @@ public class Constructor : MonoBehaviour
 
         if (hammerCursor == null)
             Debug.LogError("hammerCursor not set for " + this + ".");
+
+        pather = GameObject.Find("GameManager").GetComponent<Pathing>();
+        if (pather == null)
+            Debug.LogError("GameManager's Pathing not found for " + this + ".");
         #endregion
     }
 
@@ -103,12 +108,15 @@ public class Constructor : MonoBehaviour
                     placing = true;
                     globalGameManager.GetSoundEffect("construction_s").Play();
                     globalGameManager.Deduct(theCost); //Deduct cost from player funds
+
+                    //commit anything for the room
+                    Room tempRoomComp = theRoom.GetComponent<Room>();
+                    tempRoomComp.Floor = Mathf.RoundToInt((theRoom.transform.position.y + UNIT_HEIGHT / 2) / UNIT_HEIGHT);
+                    addFloors(); //add floors behind this floor
+                    pather.AddDestination(tempRoomComp);
                     //TODO: set room's Temp to false if gameplpay is not paused
                     theRoom.GetComponent<Room>().Temp = false;
-
-                    //add floors behind this floor
-					addFloors();
-
+                    
                     //prepare a new room to repeat construction
                     theRoom = (GameObject)Instantiate(roomToSpawn);
                     theRoom.transform.position = target;
@@ -290,7 +298,6 @@ public class Constructor : MonoBehaviour
 
         for (int i = 1; i <= size; i++)
         {
-
             Vector3 underTargetTemp;
 
             if (i < midSpot)

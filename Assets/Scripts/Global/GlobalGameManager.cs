@@ -1,7 +1,7 @@
 ﻿// ------------------------- GlobalGameManager.cs -----------------------------
 // Author - Robert Griswold CSS 385
 // Created - May 12, 2016
-// Modified - May 12, 2016
+// Modified - May 18, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a game manager that keep track of time, 
 // money, etc.
@@ -25,7 +25,7 @@ public class GlobalGameManager : MonoBehaviour
 
     #region Variables
     //references
-    private Destination lobby = null;
+    private Destination fakeLobby = null;
     private Text cashDisplay = null;
     private Text statusDisplay = null;
     private GameTime gameTime = null;
@@ -44,9 +44,9 @@ public class GlobalGameManager : MonoBehaviour
     void Awake()
     {
         #region References
-        lobby = GameObject.Find("Lobby").GetComponent<Destination>();
-        if (lobby == null)
-            Debug.LogError("Lobby not found for " + this + ".");
+        fakeLobby = GameObject.Find("FakeLobby").GetComponent<Destination>();
+        if (fakeLobby == null)
+            Debug.LogError("FakeLobby destination not found for " + this + ".");
 
         cashDisplay = GameObject.Find("Cash").GetComponent<Text>();
         if (cashDisplay == null)
@@ -163,7 +163,7 @@ public class GlobalGameManager : MonoBehaviour
 
     public Destination Lobby
     {
-        get { return lobby; }
+        get { return fakeLobby; }
     }
 
     public Vector3 SpawnPosition

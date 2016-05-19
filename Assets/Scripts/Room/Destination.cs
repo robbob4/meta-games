@@ -37,10 +37,10 @@ public class Destination : MonoBehaviour
     protected int constructionCost = 100; //0-x
     private bool temp = true; //bool to flag this as a new room
     private bool transportation = false;
-    [SerializeField] private int floor; //what floor this room is on
+    private int floor = 0; //what floor this room is on
 
     //live variables
-    protected int maint = 10; //0-x
+    protected int maint = 1; //0-x
     protected int rent; //0-x
     [SerializeField] protected Patron.Interest theInterest = Patron.Interest.None; //associated interest
     protected int capacity = 0; //0-x
@@ -140,6 +140,13 @@ public class Destination : MonoBehaviour
     public int Floor
     {
         get { return floor; }
+        set
+        {
+            if (floor == 0) //can only be temp once
+                floor = value;
+            else
+                Debug.Log(value + " is invalid floor value for " + this + ".");
+        }
     }
 
     //live variables
