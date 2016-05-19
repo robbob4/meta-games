@@ -35,7 +35,7 @@ public class GlobalGameManager : MonoBehaviour
     private bool paused = false; //tracks whether the game is paused currently
     private Vector3 spawnPosition = new Vector3(37.5f, 3.2f, -5.0f);
     private float statusDelay = 30.0f; //time in real seconds before messages are cleared
-    private float currentStatusDelay = 0.0f; //used to track current status message delay
+    private float currentStatusDelay = 10.0f; //used to track current status message delay
     private float tempStatusDelay = 0.0f;
     private string oldStatusText = "Status:";
     #endregion

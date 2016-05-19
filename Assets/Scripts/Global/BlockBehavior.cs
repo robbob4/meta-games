@@ -8,7 +8,7 @@
 // related events. Maintains a collided boolean for use in the constructor.
 // Also handles room destruction.
 // ----------------------------------------------------------------------------
-// Notes - 10 hrs.
+// Notes - None.
 // ----------------------------------------------------------------------------
 
 using UnityEngine;
@@ -20,8 +20,6 @@ public class BlockBehavior : MonoBehaviour
     //references
     private static GameObject globalGameManagerObj = null;
     private static GlobalGameManager globalGameManager = null;
-
-    private bool collided = false;
     #endregion
 
     public void Start()
@@ -58,26 +56,6 @@ public class BlockBehavior : MonoBehaviour
             globalGameManager.GetSoundEffect("deconstruction_s").Play();
             Destroy(this.gameObject);
         }
-    }
-
-    public void OnTriggerEnter(Collider other)
-    {
-        this.collided = true; //update collision status
-        //Debug.LogFormat(other.ToString());
-    }
-
-    public void OnTriggerExit(Collider other)
-    {
-        this.collided = false; //update collision status
-        //Debug.LogFormat (other.ToString());
-    }
-    #endregion
-
-    #region Getters and setters
-    public bool Collided
-    {
-        get { return collided; }
-        set { collided = value; }
     }
     #endregion
 }
