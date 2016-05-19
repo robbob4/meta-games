@@ -265,22 +265,22 @@ public class Constructor : MonoBehaviour
             //else if (blockFollowMouse)
             //{
             // vector 1 height unit below the block
-            Vector3 v3 = new Vector3(target.x, target.y - 10, target.z);
+            Vector3 underTarget = new Vector3(target.x, target.y - 10, target.z);
 
 			int size = (int)theRoom.GetComponent<Room>().RoomSize;
 
 			int midSpot = (size / 2) + 1;
 
-			for (int i = 0; i < size; i++) {
+			for (int i = 1; i <= size; i++) {
 
-				Vector3 v3Temp;
+				Vector3 underTargetTemp;
 
 				if (i < midSpot) {
-					v3Temp = new Vector3 (v3.x - (i * 4), v3.y - 10, v3.z);
+					underTargetTemp = new Vector3 (underTarget.x - (i * 4), underTarget.y, underTarget.z);
 				} else if (i == midSpot) {
-					v3Temp = v3;
+					underTargetTemp = underTarget;
 				} else { // i > midSpot
-					v3Temp = new Vector3 (v3.x + (i * 4), v3.y - 10, v3.z);
+					underTargetTemp = new Vector3 (underTarget.x + (i - midSpot)  * 4, underTarget.y, underTarget.z);
 				}
 					
 				//hitColliders = Physics.OverlapSphere(this.transform.position, 1.0f);
@@ -289,7 +289,7 @@ public class Constructor : MonoBehaviour
 				Debug.LogFormat ("there are" + hitColliders.Length + " fools here!");
 
 				// if there is an item below the block, and there is exactly 1 item in the same spot as the block
-				if (!Physics.CheckSphere (v3Temp, 0.01f)) { //|| hitColliders.Length != 1) {
+				if (!Physics.CheckSphere (underTargetTemp, 0.01f)) { //|| hitColliders.Length != 1) {
 					return false;
 					//  Debug.LogFormat("yo, we staying here");
 					//return true;

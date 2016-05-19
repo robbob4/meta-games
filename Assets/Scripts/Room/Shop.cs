@@ -18,7 +18,7 @@ public class Shop : Retail
     void Awake()
     {
         initReferences();
-        roomSize = Room.Size.Medium;
+        roomSize = Room.Size.Small; //medium?
         capacity = 10;
         constructionCost = 100000;
         maint = 1000;
