@@ -21,7 +21,7 @@ public class Destination : MonoBehaviour
         Tiny = 1, //1 unit wide
         Small = 3, //3 units wide
         Medium = 5, //5 units wide
-        Large = 10 //10 units wide
+        Large = 9 //9 units wide
     }
     #endregion
 
