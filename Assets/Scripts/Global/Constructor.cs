@@ -152,7 +152,7 @@ public class Constructor : MonoBehaviour
 
 	private void addFloors()
 	{
-		Vector3 underTarget = new Vector3(target.x, target.y - 10, target.z - 1);
+		Vector3 underTarget = new Vector3(target.x, target.y - 10, target.z + 1);
 
 		int size = (int)theRoom.GetComponent<Room>().RoomSize;
 
@@ -163,11 +163,11 @@ public class Constructor : MonoBehaviour
 			Vector3 underTargetTemp;
 
 			if (i < midSpot) {
-				underTargetTemp = new Vector3 (underTarget.x - (i * 4), underTarget.y, underTarget.z - 1);
+				underTargetTemp = new Vector3 (underTarget.x - (i * 4), underTarget.y, underTarget.z);
 			} else if (i == midSpot) {
 				underTargetTemp = underTarget;
 			} else { // i > midSpot
-				underTargetTemp = new Vector3 (underTarget.x + (i - midSpot)  * 4, underTarget.y, underTarget.z - 1);
+				underTargetTemp = new Vector3 (underTarget.x + (i - midSpot)  * 4, underTarget.y, underTarget.z);
 			}
 				
 			if (!Physics.CheckSphere (underTargetTemp, 0.01f)) { 
