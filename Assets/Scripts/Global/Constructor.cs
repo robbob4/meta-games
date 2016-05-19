@@ -305,16 +305,16 @@ public class Constructor : MonoBehaviour
 				Vector3 underTargetTemp;
 
 				if (i < midSpot) {
-					underTargetTemp = new Vector3 (underTarget.x - (i * 4), underTarget.y, underTarget.z + 1);
+					underTargetTemp = new Vector3 (underTarget.x - (i * 4), underTarget.y, underTarget.z);
 				} else if (i == midSpot) {
 					underTargetTemp = underTarget;
 				} else { // i > midSpot
-					underTargetTemp = new Vector3 (underTarget.x + (i - midSpot)  * 4, underTarget.y, underTarget.z + 1);
+					underTargetTemp = new Vector3 (underTarget.x + (i - midSpot)  * 4, underTarget.y, underTarget.z);
 				}
 					
 				//hitColliders = Physics.OverlapSphere(this.transform.position, 1.0f);
 
-				// for debug purposes
+				// for debug purpose
 				//Debug.LogFormat ("there are" + hitColliders.Length + " fools here!");
 
 
