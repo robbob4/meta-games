@@ -976,11 +976,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 474968, guid: abae45743d64c6c4494df3cf02d6784e, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 122
+      value: 114
       objectReference: {fileID: 0}
     - target: {fileID: 474968, guid: abae45743d64c6c4494df3cf02d6784e, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11463394, guid: abae45743d64c6c4494df3cf02d6784e, type: 2}
       propertyPath: blockFollowMouse
@@ -1803,7 +1803,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 474968, guid: 1ff9942673ff61244b1b6b156bd8cf0c, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 70
+      value: 82
       objectReference: {fileID: 0}
     - target: {fileID: 474968, guid: 1ff9942673ff61244b1b6b156bd8cf0c, type: 2}
       propertyPath: m_LocalPosition.y
@@ -1907,7 +1907,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 474968, guid: dd7841d7b1ac8a14490591c1ecf27b6f, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 42
+      value: 54
       objectReference: {fileID: 0}
     - target: {fileID: 474968, guid: dd7841d7b1ac8a14490591c1ecf27b6f, type: 2}
       propertyPath: m_LocalPosition.y
