@@ -16,6 +16,40 @@ using System.Collections;
 
 public class BlockBehavior : MonoBehaviour
 {
+	private static GameObject globalGameManager = null;
+	private bool collided = false;
+
+	public void Start()
+	{
+	 	globalGameManager = GameObject.Find ("GameManager");
+	}
+
+	public void OnMouseOver()
+	{
+
+		if (Input.GetMouseButtonDown (0) && globalGameManager.GetComponent<Constructor>().getToolType()) 
+		{
+			Destroy (this.gameObject);
+		}
+			
+	}
+
+	public void OnTriggerEnter(Collider other) {
+		this.collided = true;
+		//Debug.LogFormat ("Enter, YO");
+	}		
+
+	public void OnTriggerExit(Collider other) {
+		this.collided = false;
+		//Debug.LogFormat ("Enter, YO");
+	}	
+
+	public bool getCollided()
+	{
+		return collided;
+	}
+}
+	/*
 	public bool blockFollowMouse = true;
 	public bool collided = true;
 	public Vector3 target = new Vector3 (0, 0, 0);	
@@ -115,7 +149,7 @@ public class BlockBehavior : MonoBehaviour
 		}
 	}
 }
-
+ */
 
 
 /*
@@ -249,3 +283,4 @@ public class BlockBehavior : MonoBehaviour
 //	blockFollowMouse = !blockFollowMouse;
 //}
 //referenceRoom.transform.transform.position = v3;
+

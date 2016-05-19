@@ -1953,6 +1953,10 @@ Prefab:
       propertyPath: capacity
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 474968, guid: dd7841d7b1ac8a14490591c1ecf27b6f, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dd7841d7b1ac8a14490591c1ecf27b6f, type: 2}
   m_IsPrefabParent: 0

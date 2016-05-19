@@ -98,6 +98,8 @@ public class Constructor : MonoBehaviour
                     //TODO: set room's Temp to false if gameplpay is not paused
                     theRoom.GetComponent<Room>().Temp = false;
 
+					addFloors();
+
                     //prepare a new room to repeat construction
                     theRoom = (GameObject)Instantiate(RoomToSpawn);
                 }
@@ -147,6 +149,32 @@ public class Constructor : MonoBehaviour
         }
         #endregion
     }
+
+	private void addFloors()
+	{
+		Vector3 underTarget = new Vector3(target.x, target.y - 10, target.z - 1);
+
+		int size = (int)theRoom.GetComponent<Room>().RoomSize;
+
+		int midSpot = (size / 2) + 1;
+
+		for (int i = 1; i <= size; i++) {
+
+			Vector3 underTargetTemp;
+
+			if (i < midSpot) {
+				underTargetTemp = new Vector3 (underTarget.x - (i * 4), underTarget.y, underTarget.z - 1);
+			} else if (i == midSpot) {
+				underTargetTemp = underTarget;
+			} else { // i > midSpot
+				underTargetTemp = new Vector3 (underTarget.x + (i - midSpot)  * 4, underTarget.y, underTarget.z - 1);
+			}
+				
+			if (!Physics.CheckSphere (underTargetTemp, 0.01f)) { 
+				
+			}
+		}
+	}
 
     #region Construction functions
     //enter construction mode where a room follows the mouse cursor
@@ -235,9 +263,10 @@ public class Constructor : MonoBehaviour
         //and check whether there is space in current position
 
         // array of the items at the same position as "this" block
-        Collider[] hitColliders = Physics.OverlapSphere(theRoom.transform.position, 0.01f);
+        //Collider[] hitColliders = Physics.OverlapSphere(theRoom.transform.position, 0.01f);
 
-        if (Input.GetMouseButtonDown(0) && hitColliders.Length == 1)
+
+		if (Input.GetMouseButtonDown(0) && theRoom.GetComponent<BlockBehavior>().getCollided() == false) //&& hitColliders.Length == 1)
         {
             //// if block is not following the mouse
             //if (!blockFollowMouse)
@@ -265,7 +294,7 @@ public class Constructor : MonoBehaviour
             //else if (blockFollowMouse)
             //{
             // vector 1 height unit below the block
-            Vector3 underTarget = new Vector3(target.x, target.y - 10, target.z);
+            Vector3 underTarget = new Vector3(target.x, target.y - 10, target.z + 1);
 
 			int size = (int)theRoom.GetComponent<Room>().RoomSize;
 
@@ -276,17 +305,18 @@ public class Constructor : MonoBehaviour
 				Vector3 underTargetTemp;
 
 				if (i < midSpot) {
-					underTargetTemp = new Vector3 (underTarget.x - (i * 4), underTarget.y, underTarget.z);
+					underTargetTemp = new Vector3 (underTarget.x - (i * 4), underTarget.y, underTarget.z + 1);
 				} else if (i == midSpot) {
 					underTargetTemp = underTarget;
 				} else { // i > midSpot
-					underTargetTemp = new Vector3 (underTarget.x + (i - midSpot)  * 4, underTarget.y, underTarget.z);
+					underTargetTemp = new Vector3 (underTarget.x + (i - midSpot)  * 4, underTarget.y, underTarget.z + 1);
 				}
 					
 				//hitColliders = Physics.OverlapSphere(this.transform.position, 1.0f);
 
 				// for debug purposes
-				Debug.LogFormat ("there are" + hitColliders.Length + " fools here!");
+				//Debug.LogFormat ("there are" + hitColliders.Length + " fools here!");
+
 
 				// if there is an item below the block, and there is exactly 1 item in the same spot as the block
 				if (!Physics.CheckSphere (underTargetTemp, 0.01f)) { //|| hitColliders.Length != 1) {
@@ -354,4 +384,10 @@ public class Constructor : MonoBehaviour
         currentTool = ToolType.Inspect;
     }
     #endregion
+
+	public bool getToolType()
+	{
+		return currentTool == ToolType.Destroy;
+	}
+		
 }
