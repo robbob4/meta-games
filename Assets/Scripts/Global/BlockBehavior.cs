@@ -1,54 +1,87 @@
-﻿// ------------------------ ButtonController.cs -------------------------------
+﻿// -------------------------- BlockBehavior.cs --------------------------------
 // Author - Sam Williams CSS 385
+// Author - Robert Griswold CSS 385
 // Created - May 4, 2016
-// Modified - May 12, 2016
+// Modified - May 18, 2016
 // ----------------------------------------------------------------------------
-// Purpose - Implementation for a block that follows the mouse while adhering 
-// to a grid system for the protoype demo.
+// Purpose - Implementation for block behavior for mouse over and collision 
+// related events. Maintains a collided boolean for use in the constructor.
+// Also handles room destruction.
 // ----------------------------------------------------------------------------
-// Notes - (Needs comments).
+// Notes - 10 hrs.
 // ----------------------------------------------------------------------------
-
-// 10 hours
 
 using UnityEngine;
 using System.Collections;
 
 public class BlockBehavior : MonoBehaviour
 {
-	private static GameObject globalGameManager = null;
-	private bool collided = false;
+    #region Variables
+    //references
+    private static GameObject globalGameManagerObj = null;
+    private static GlobalGameManager globalGameManager = null;
 
-	public void Start()
+    private bool collided = false;
+    #endregion
+
+    public void Start()
 	{
-	 	globalGameManager = GameObject.Find ("GameManager");
-	}
+	 	globalGameManagerObj = GameObject.Find("GameManager");
+        if (globalGameManagerObj == null)
+            Debug.Log("Unable to find GameManager for " + this + ".");
 
-	public void OnMouseOver()
-	{
+        globalGameManager = globalGameManagerObj.GetComponent<GlobalGameManager>();
+        if (globalGameManagerObj == null)
+            Debug.Log("Unable to find globalGameManager for " + this + ".");
+    }
 
-		if (Input.GetMouseButtonDown (0) && globalGameManager.GetComponent<Constructor>().getToolType()) 
-		{
-			Destroy (this.gameObject);
-		}
-			
-	}
+    #region Triggers and mouse over events
+    public void OnMouseOver()
+    {
+        //Destroy the room 
+        if (Input.GetMouseButtonDown(0) &&
+            globalGameManagerObj.GetComponent<Constructor>().SelectedTool == Constructor.ToolType.Destroy)
+        {
+            Room thisRoom = this.GetComponent<Room>();
 
-	public void OnTriggerEnter(Collider other) {
-		this.collided = true;
-        Debug.LogFormat(other.ToString());
-    }		
+            if (thisRoom.Temp == true)
+            {
+                //refund cost to player funds
+                globalGameManagerObj.GetComponent<GlobalGameManager>().Payment(thisRoom.ConstructionCost);
+            }
+            else
+            {
+                //call anything the room needs to do on deconstruction
+                thisRoom.Evict();
+            }
 
-	public void OnTriggerExit(Collider other) {
-		this.collided = false;
-		//Debug.LogFormat (other.ToString());
-	}	
+            globalGameManager.GetSoundEffect("deconstruction_s").Play();
+            Destroy(this.gameObject);
+        }
+    }
 
-	public bool getCollided()
-	{
-		return collided;
-	}
+    public void OnTriggerEnter(Collider other)
+    {
+        this.collided = true; //update collision status
+        //Debug.LogFormat(other.ToString());
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        this.collided = false; //update collision status
+        //Debug.LogFormat (other.ToString());
+    }
+    #endregion
+
+    #region Getters and setters
+    public bool Collided
+    {
+        get { return collided; }
+        set { collided = value; }
+    }
+    #endregion
 }
+
 	/*
 	public bool blockFollowMouse = true;
 	public bool collided = true;
@@ -283,4 +316,3 @@ public class BlockBehavior : MonoBehaviour
 //	blockFollowMouse = !blockFollowMouse;
 //}
 //referenceRoom.transform.transform.position = v3;
-

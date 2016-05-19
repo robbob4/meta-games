@@ -30,16 +30,16 @@ public class Pathing : MonoBehaviour
         GameObject.Find("Shop").GetComponent<Room>().Temp = false;
         rooms.AddNode(shop);
         rooms.AddUndirectedEdge(lobby, shop);
-        Destination office = GameObject.Find("Office").GetComponent<Destination>();
-        rooms.AddNode(office);
-        rooms.AddUndirectedEdge(shop, office);
-        Destination shop2 = GameObject.Find("Shop2").GetComponent<Destination>();
-        GameObject.Find("Shop2").GetComponent<Room>().Temp = false;
-        rooms.AddNode(shop2);
-        rooms.AddUndirectedEdge(office, shop2);
-        Destination hotel = GameObject.Find("Hotel").GetComponent<Destination>();
-        rooms.AddNode(hotel);
-        rooms.AddUndirectedEdge(hotel, shop2);
+        //Destination office = GameObject.Find("Office").GetComponent<Destination>();
+        //rooms.AddNode(office);
+        //rooms.AddUndirectedEdge(shop, office);
+        //Destination shop2 = GameObject.Find("Shop2").GetComponent<Destination>();
+        //GameObject.Find("Shop2").GetComponent<Room>().Temp = false;
+        //rooms.AddNode(shop2);
+        //rooms.AddUndirectedEdge(office, shop2);
+        //Destination hotel = GameObject.Find("Hotel").GetComponent<Destination>();
+        //rooms.AddNode(hotel);
+        //rooms.AddUndirectedEdge(hotel, shop2);
     }
 
     // Use this for initialization

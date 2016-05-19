@@ -111,15 +111,15 @@ public class Patron : MonoBehaviour
                 if (worker == false && interestCheck(nextDest.TheInterest))
                 {
                     //try to visit the room
-                    if (nextDest.CurrentCapacity < nextDest.MaxCapacity)
+                    if (nextDest.Visit(this))
                     {
                         movement = false;
-                        nextDest.Visit(this);
                         floor = nextDest.Floor; //temp
-                        Debug.Log("Visiting " + nextDest);
                     }
                     else
                     {
+                        //Status message: crowded
+                        globalGameManager.NewStatus(nextDest.name + " is crowded!", true);
                         Happiness -= 10; //happiness deducation
                     }
                 }

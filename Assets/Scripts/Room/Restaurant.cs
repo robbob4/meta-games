@@ -17,7 +17,6 @@ public class Restaurant : Retail
     // Use this for fast initialization
     void Awake()
     {
-        initReferences();
         roomSize = Room.Size.Large;
         capacity = 20;
         constructionCost = 150000;

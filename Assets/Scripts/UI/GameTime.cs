@@ -125,5 +125,10 @@ public class GameTime : MonoBehaviour {
     {
         get { return isPaused; }
     }
+
+    public string getTime()
+    {
+        return timeText.text;
+    }
     #endregion
 }

@@ -17,11 +17,6 @@ using System.Collections;
 public class Room : Destination
 {
     #region Variables
-    //references
-    private static GlobalGameManager globalGameManager = null;
-    private static GameTime gameTimer = null;
-    private static GameObject patronToSpawn = null;
-
     //live variables
     protected int spawnChance = 5; //0-100%
     protected int spawnDelayModulo = 15; //game minutes modulo between spawn attempts (spawns when mod result is 0)
@@ -29,27 +24,11 @@ public class Room : Destination
     protected int happiness = 50; //0-100%
     #endregion
 
-    protected virtual void initReferences()
-    {
-        if (patronToSpawn == null) //only allow this to be run once
-        {
-            patronToSpawn = Resources.Load("Prefabs/Patron/Patron") as GameObject;
-
-            globalGameManager = GameObject.Find("GameManager").GetComponent<GlobalGameManager>();
-            if (globalGameManager == null)
-                Debug.LogError("GameManager not found for " + this + ".");
-
-            gameTimer = globalGameManager.GetComponent<GameTime>();
-            if (gameTimer == null)
-                Debug.LogError("GameTime not found for " + this + ".");
-        }
-    }
-
     protected virtual void spawner()
     {
         if (!Temp && !globalGameManager.Paused)
         {
-            if (lastModulo > gameTimer.Min % spawnDelayModulo)
+            if (lastModulo > gameTimer.Min % spawnDelayModulo) 
             {
                 float prob = Random.Range(0.0f, 100.0f);
                 if (prob <= spawnChance)

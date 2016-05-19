@@ -11,7 +11,7 @@
 // In deconstruction mode, releasing a left click on a room will refund funds
 // to the player if it is a temp structure (game is still paused since its 
 // construction), call the Evict function if it is not temporary, then destroy
-// the game object.
+// the game object. Some destruction behavior in BlockBehavior.cs.
 // ----------------------------------------------------------------------------
 // Notes - Remain in construction mode if not a valid placement.
 // ----------------------------------------------------------------------------
@@ -46,21 +46,20 @@ public class Constructor : MonoBehaviour
     //unit sizing
     public const int UNIT_HEIGHT = 10;
     public const int UNIT_WIDTH = 4;
-    
-    //construction
-    [HideInInspector] public GameObject RoomToSpawn = null;
-	[HideInInspector] public GameObject FloorToSpawn = null;
-    private GameObject theRoom = null;
-	private GameObject theFloor = null;
 
+    //references
     private RoomStats descriptionBox = null;
     private GlobalGameManager globalGameManager = null;
+    [SerializeField] private Texture2D hammerCursor = null;
+
+    //construction
+    private GameObject roomToSpawn = null;
+	private GameObject floorToSpawn = null;
+    private GameObject theRoom = null;
+	private GameObject theFloor = null;
     private ToolType currentTool = ToolType.Inspect;
     private bool placing = false;
-
-    //placement
-    public bool collided = true;
-    public Vector3 target = new Vector3(0, 0, 0);
+    private Vector3 target = new Vector3(0, 0, 0);
     #endregion
 
     void Start()
@@ -73,6 +72,13 @@ public class Constructor : MonoBehaviour
         globalGameManager = GameObject.Find("GameManager").GetComponent<GlobalGameManager>();
         if (globalGameManager == null)
             Debug.LogError("GameManager not found for " + this + ".");
+
+        floorToSpawn = Resources.Load("Prefabs/Room/Floor") as GameObject;
+        if (floorToSpawn == null)
+            Debug.LogError("floorToSpawn not found for " + this + ".");
+
+        if (hammerCursor == null)
+            Debug.LogError("hammerCursor not set for " + this + ".");
         #endregion
     }
 
@@ -86,8 +92,8 @@ public class Constructor : MonoBehaviour
             calculateTarget();
             theRoom.transform.position = target;
 
-            //LMB down - commit construction?
-            if (Input.GetMouseButtonDown(0))
+            //LMB held down - commit construction?
+            if (Input.GetMouseButton(0))
             {
                 int theCost = theRoom.GetComponent<Destination>().ConstructionCost;
 
@@ -95,16 +101,20 @@ public class Constructor : MonoBehaviour
                 if (validPlacement() && globalGameManager.Money >= theCost)
                 {
                     placing = true;
-                    //TODO: commit the object?
-                    //Deduct cost from player funds
-                    globalGameManager.Deduct(theCost);
+                    globalGameManager.GetSoundEffect("construction_s").Play();
+                    globalGameManager.Deduct(theCost); //Deduct cost from player funds
                     //TODO: set room's Temp to false if gameplpay is not paused
                     theRoom.GetComponent<Room>().Temp = false;
 
 					addFloors();
 
                     //prepare a new room to repeat construction
-                    theRoom = (GameObject)Instantiate(RoomToSpawn);
+                    theRoom = (GameObject)Instantiate(roomToSpawn);
+                    theRoom.GetComponent<BlockBehavior>().Collided = true; //prevent immediate validPlacement()
+                }
+                else if (globalGameManager.Money < theCost)
+                {
+                    globalGameManager.NewStatus("Insufficent funds for construction.", false);
                 }
             }
 
@@ -117,68 +127,13 @@ public class Constructor : MonoBehaviour
         #endregion
 
         #region Deconstruction
-        if (currentTool == ToolType.Destroy)
+        //Cancel - exit deconstruction mode
+        if (Input.GetAxis("Cancel") == 1 || Input.GetMouseButtonUp(1))
         {
-            //LMB up - deconstruct?
-            if (Input.GetMouseButtonUp(0))
-            {
-                //check what room the cursor is over
-                Room selectedRoom = null; //TODO: change to the selected room
-                Debug.Log("Tried to destroy");
-
-                if (selectedRoom != null)
-                {
-                    //check the room's temp bool
-                    if (selectedRoom.Temp == true)
-                    {
-                        //refund cost to player funds
-                        globalGameManager.Payment(theRoom.GetComponent<Room>().ConstructionCost);
-                    }
-                    else
-                    {
-                        //call anything the room needs to do on deconstruction
-                        selectedRoom.Evict();
-                    }
-
-                    Destroy(selectedRoom);
-                }                
-            }
-
-            //Cancel - exit deconstruction mode
-            if (Input.GetAxis("Cancel") == 1 || Input.GetMouseButtonUp(1))
-            {
-                ExitDeconstructionMode();
-            }
+            exitDeconstructionMode();
         }
         #endregion
     }
-
-	private void addFloors()
-	{
-		Vector3 underTarget = new Vector3(target.x, target.y, target.z + 1);
-
-		int size = (int)theRoom.GetComponent<Room>().RoomSize;
-
-		int midSpot = (size / 2) + 1;
-
-		for (int i = 1; i <= size; i++) {
-
-			Vector3 underTargetTemp;
-
-			if (i < midSpot) {
-				underTargetTemp = new Vector3 (underTarget.x - (i * 4), underTarget.y, underTarget.z);
-			} else if (i == midSpot) {
-				underTargetTemp = underTarget;
-			} else { // i > midSpot
-				underTargetTemp = new Vector3 (underTarget.x + (i - midSpot)  * 4, underTarget.y, underTarget.z);
-			}
-				
-			if (!Physics.CheckSphere (underTargetTemp, 0.01f)) { 
-				FloorToSpawn = Resources.Load("Prefabs/Room/Floor") as GameObject;
-				theFloor = (GameObject)Instantiate(FloorToSpawn, underTargetTemp, FloorToSpawn.transform.rotation);
-			}
-		}
-	}
 
     #region Construction functions
     //enter construction mode where a room follows the mouse cursor
@@ -186,43 +141,63 @@ public class Constructor : MonoBehaviour
     {
         //update mode
         if (currentTool == ToolType.Destroy)
-            ExitDeconstructionMode();
+            exitDeconstructionMode();
         else if (currentTool == ToolType.Build)
             ExitConstructionMode();
         currentTool = ToolType.Build;
 
+        theRoom = null;
+
         switch (type)
         {
             case ConstructionType.Shop:
-                RoomToSpawn = Resources.Load("Prefabs/Room/Shop") as GameObject;
-                theRoom = (GameObject)Instantiate(RoomToSpawn, Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)), RoomToSpawn.transform.rotation);
+                roomToSpawn = Resources.Load("Prefabs/Room/Shop") as GameObject;
+                theRoom = (GameObject)Instantiate(roomToSpawn,
+                    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)),
+                    roomToSpawn.transform.rotation);
                 descriptionBox.SetTitle("Shop");
                 break;
+
             case ConstructionType.FastFood:
-                RoomToSpawn = Resources.Load("Prefabs/Room/FastFood") as GameObject;
-                theRoom = (GameObject)Instantiate(RoomToSpawn, Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)), RoomToSpawn.transform.rotation);
+                roomToSpawn = Resources.Load("Prefabs/Room/FastFood") as GameObject;
+                theRoom = (GameObject)Instantiate(roomToSpawn,
+                    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)),
+                    roomToSpawn.transform.rotation);
                 descriptionBox.SetTitle("Fast Food");
                 break;
+
             case ConstructionType.Restaurant:
-                RoomToSpawn = Resources.Load("Prefabs/Room/Restaurant") as GameObject;
-                theRoom = (GameObject)Instantiate(RoomToSpawn, Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)), RoomToSpawn.transform.rotation);
+                roomToSpawn = Resources.Load("Prefabs/Room/Restaurant") as GameObject;
+                theRoom = (GameObject)Instantiate(roomToSpawn,
+                    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)),
+                    roomToSpawn.transform.rotation);
                 descriptionBox.SetTitle("Restaurant");
                 break;
+
             case ConstructionType.Office:
-                RoomToSpawn = Resources.Load("Prefabs/Room/Office") as GameObject;
-                theRoom = (GameObject)Instantiate(RoomToSpawn, Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)), RoomToSpawn.transform.rotation);
+                roomToSpawn = Resources.Load("Prefabs/Room/Office") as GameObject;
+                theRoom = (GameObject)Instantiate(roomToSpawn,
+                    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)),
+                    roomToSpawn.transform.rotation);
                 descriptionBox.SetTitle("Office");
                 break;
+
             case ConstructionType.Hotel:
-                RoomToSpawn = Resources.Load("Prefabs/Room/Hotel") as GameObject;
-                theRoom = (GameObject)Instantiate(RoomToSpawn, Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)), RoomToSpawn.transform.rotation);
+                roomToSpawn = Resources.Load("Prefabs/Room/Hotel") as GameObject;
+                theRoom = (GameObject)Instantiate(roomToSpawn,
+                    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)),
+                    roomToSpawn.transform.rotation);
                 descriptionBox.SetTitle("Hotel");
                 break;
+
             case ConstructionType.Apartment:
-                RoomToSpawn = Resources.Load("Prefabs/Room/Apartment") as GameObject;
-                theRoom = (GameObject)Instantiate(RoomToSpawn, Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)), RoomToSpawn.transform.rotation);
+                roomToSpawn = Resources.Load("Prefabs/Room/Apartment") as GameObject;
+                theRoom = (GameObject)Instantiate(roomToSpawn,
+                    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)),
+                    roomToSpawn.transform.rotation);
                 descriptionBox.SetTitle("Apartment");
                 break;
+
             default:
                 Debug.Log("Unknown ConstructionType (" + type + ") for " + this + ".");
                 break;
@@ -249,7 +224,7 @@ public class Constructor : MonoBehaviour
     {
         placing = false;
         currentTool = ToolType.Inspect;
-        RoomToSpawn = null;
+        roomToSpawn = null;
         if (theRoom != null)
             Destroy(theRoom);
 
@@ -269,8 +244,7 @@ public class Constructor : MonoBehaviour
         // array of the items at the same position as "this" block
         //Collider[] hitColliders = Physics.OverlapSphere(theRoom.transform.position, 0.01f);
 
-
-		if (Input.GetMouseButtonDown(0) && theRoom.GetComponent<BlockBehavior>().getCollided() == false) //&& hitColliders.Length == 1)
+		if (theRoom.GetComponent<BlockBehavior>().Collided == false) //&& hitColliders.Length == 1)
         {
             //// if block is not following the mouse
             //if (!blockFollowMouse)
@@ -298,21 +272,25 @@ public class Constructor : MonoBehaviour
             //else if (blockFollowMouse)
             //{
             // vector 1 height unit below the block
+
             Vector3 underTarget = new Vector3(target.x, target.y - 10, target.z + 1);
-
 			int size = (int)theRoom.GetComponent<Room>().RoomSize;
-
 			int midSpot = (size / 2) + 1;
 
-			for (int i = 1; i <= size; i++) {
-
+			for (int i = 1; i <= size; i++)
+            {
 				Vector3 underTargetTemp;
 
-				if (i < midSpot) {
+				if (i < midSpot)
+                {
 					underTargetTemp = new Vector3 (underTarget.x - (i * 4), underTarget.y, underTarget.z);
-				} else if (i == midSpot) {
+				}
+                else if (i == midSpot)
+                {
 					underTargetTemp = underTarget;
-				} else { // i > midSpot
+				}
+                else // i > midSpot
+                { 
 					underTargetTemp = new Vector3 (underTarget.x + (i - midSpot)  * 4, underTarget.y, underTarget.z);
 				}
 					
@@ -321,9 +299,9 @@ public class Constructor : MonoBehaviour
 				// for debug purpose
 				//Debug.LogFormat ("there are" + hitColliders.Length + " fools here!");
 
-
 				// if there is an item below the block, and there is exactly 1 item in the same spot as the block
-				if (!Physics.CheckSphere (underTargetTemp, 0.01f)) { //|| hitColliders.Length != 1) {
+				if (!Physics.CheckSphere (underTargetTemp, 0.01f))
+                { //|| hitColliders.Length != 1) {
 					return false;
 					//  Debug.LogFormat("yo, we staying here");
 					//return true;
@@ -331,9 +309,47 @@ public class Constructor : MonoBehaviour
 					//transform.position = new Vector3(transform.position.x, transform.position.y); //return z to 0
 				}
 			}
-				return true;
+
+			return true;
 		}
+
         return false;
+    }
+
+    private void addFloors()
+    {
+        Vector3 underTarget = new Vector3(target.x, target.y, target.z + 1);
+
+        int size = (int)theRoom.GetComponent<Room>().RoomSize;
+
+        int midSpot = (size / 2) + 1;
+
+        for (int i = 1; i <= size; i++)
+        {
+
+            Vector3 underTargetTemp;
+
+            if (i < midSpot)
+            {
+                underTargetTemp = new Vector3(underTarget.x - (i * 4), underTarget.y, underTarget.z);
+            }
+            else if (i == midSpot)
+            {
+                underTargetTemp = underTarget;
+            }
+            else // i > midSpot
+            {
+                underTargetTemp = new Vector3(underTarget.x + (i - midSpot) * 4, underTarget.y, underTarget.z);
+            }
+
+            if (!Physics.CheckSphere(underTargetTemp, 0.01f))
+            {
+                theFloor = (GameObject)Instantiate(floorToSpawn, underTargetTemp, floorToSpawn.transform.rotation);
+                //TODO: Preemtively disallow construction if not enough funds for floors, currently allows negative funds
+                globalGameManager.Deduct(theFloor.GetComponent<Destination>().ConstructionCost); //Deduct cost from player funds
+                globalGameManager.GetSoundEffect("floor_s").Play();
+            }
+        }
     }
 
     //Calculates a blocks "target position and sets the center of the blocks position to that vector
@@ -379,19 +395,31 @@ public class Constructor : MonoBehaviour
             if (currentTool == ToolType.Build)
                 ExitConstructionMode();
             currentTool = ToolType.Destroy;
+            Cursor.SetCursor(hammerCursor, Vector2.zero, CursorMode.Auto);
         }
     }
 
     //leave deconstruction mode
-    private void ExitDeconstructionMode()
+    private void exitDeconstructionMode()
     {
         currentTool = ToolType.Inspect;
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+    }
+
+    //toggle deconstruction mode
+    public void ToggleConstructionMode()
+    {
+        if (currentTool == ToolType.Destroy)
+            exitDeconstructionMode();
+        else
+            EnterDeconstructionMode();
     }
     #endregion
 
-	public bool getToolType()
-	{
-		return currentTool == ToolType.Destroy;
-	}
-		
+    #region Getters and setters
+    public ToolType SelectedTool
+    {
+        get { return currentTool; }
+    }
+    #endregion
 }

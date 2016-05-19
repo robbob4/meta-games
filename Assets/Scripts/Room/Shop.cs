@@ -17,8 +17,7 @@ public class Shop : Retail
     // Use this for fast initialization
     void Awake()
     {
-        initReferences();
-        roomSize = Room.Size.Small; //medium?
+        roomSize = Room.Size.Medium;
         capacity = 10;
         constructionCost = 100000;
         maint = 1000;

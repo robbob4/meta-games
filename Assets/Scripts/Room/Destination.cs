@@ -26,46 +26,74 @@ public class Destination : MonoBehaviour
     #endregion
 
     #region Variables
+    //references
+    protected static GlobalGameManager globalGameManager = null;
+    protected static GameTime gameTimer = null;
+    protected static GameObject patronToSpawn = null;
+
     //construction variables
     protected string desc = "";
     protected Size roomSize = Size.Small; //width of the room in units
-    protected int constructionCost = 0; //0-x
+    protected int constructionCost = 100; //0-x
     private bool temp = true; //bool to flag this as a new room
     private bool transportation = false;
     [SerializeField] private int floor; //what floor this room is on
 
     //live variables
-    protected int maint; //0-x
+    protected int maint = 10; //0-x
     protected int rent; //0-x
     [SerializeField] protected Patron.Interest theInterest = Patron.Interest.None; //associated interest
-    protected int capacity; //0-x
+    protected int capacity = 0; //0-x
     protected int currentCapacity = 0; //0-capacity
-    protected Patron[] visitors;
+    protected Patron[] visitors = new Patron[0];
     #endregion
+
+    void Awake()
+    {
+        #region References
+        globalGameManager = GameObject.Find("GameManager").GetComponent<GlobalGameManager>();
+        if (globalGameManager == null)
+            Debug.LogError("GameManager's GlobalGameManager not found for " + this + ".");
+
+        gameTimer = globalGameManager.GetComponent<GameTime>();
+        if (gameTimer == null)
+            Debug.LogError("GameTime not found for " + this + ".");
+
+        patronToSpawn = Resources.Load("Prefabs/Patron/Patron") as GameObject;
+        #endregion
+    }
 
     //announcment that the entity is about to be destroyed
     public virtual void Evict()
     {
         for (int i = 0; i < capacity; i++)
         {
-            visitors[i].Movement = true;
-            visitors[i].setDestination(null);
+            if (visitors[i] != null)
+            {
+                visitors[i].Movement = true;
+                visitors[i].setDestination(null); //set patron finalDest to lobby
+                visitors[i] = null;
+            }
         }
-        //set patron finalDest to lobby if applicable
     }
 
-    public void Visit(Patron visitor)
+    //returns a bool whether the visit was successful
+    public bool Visit(Patron visitor)
     {
         if (currentCapacity < MaxCapacity)
         {
             visitors[currentCapacity++] = visitor;
+            globalGameManager.GetSoundEffect("cash_s").Play();
+            globalGameManager.Payment(this.rent);
 
             //temp
             StartCoroutine(TempEjection());
+
+            return true;
         }
         else
         {
-            Debug.Log(visitor + " cannot enter, " + this + " is full. ");
+            return false;
         }
     }
 
@@ -73,9 +101,8 @@ public class Destination : MonoBehaviour
     IEnumerator TempEjection()
     {
         Patron visitor = visitors[currentCapacity - 1];
-        visitor.transform.position = new Vector3(visitor.transform.position.x, transform.position.y - 2, visitor.transform.position.z);
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(4);
 
         visitors[--currentCapacity] = null;
         visitor.Movement = true;

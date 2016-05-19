@@ -8,6 +8,7 @@ TagManager:
   - Room
   - Floor
   - UI
+  - SoundEffect
   layers:
   - Default
   - TransparentFX

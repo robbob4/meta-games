@@ -17,7 +17,6 @@ public class Hotel : Leased
     // Use this for fast initialization
     void Awake()
     {
-        initReferences();
         roomSize = Room.Size.Medium;
         constructionCost = 50000;
         maint = 500;
