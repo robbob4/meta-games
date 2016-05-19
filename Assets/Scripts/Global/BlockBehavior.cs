@@ -36,12 +36,12 @@ public class BlockBehavior : MonoBehaviour
 
 	public void OnTriggerEnter(Collider other) {
 		this.collided = true;
-		//Debug.LogFormat ("Enter, YO");
-	}		
+        Debug.LogFormat(other.ToString());
+    }		
 
 	public void OnTriggerExit(Collider other) {
 		this.collided = false;
-		//Debug.LogFormat ("Enter, YO");
+		//Debug.LogFormat (other.ToString());
 	}	
 
 	public bool getCollided()
