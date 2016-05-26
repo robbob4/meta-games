@@ -46,6 +46,8 @@ public class Destination : MonoBehaviour
     protected int capacity = 0; //0-x
     protected int currentCapacity = 0; //0-capacity
     protected Patron[] visitors = new Patron[0];
+    protected int visits = 0; //# of visits today
+    protected int happiness = 50; //percentage, reset daily
     #endregion
 
     void Awake()
@@ -83,6 +85,8 @@ public class Destination : MonoBehaviour
         if (currentCapacity < MaxCapacity)
         {
             visitors[currentCapacity++] = visitor;
+            visits++;
+            Happiness += 10;
             globalGameManager.GetSoundEffect("cash_s").Play();
             globalGameManager.Payment(this.rent);
 
@@ -178,6 +182,20 @@ public class Destination : MonoBehaviour
     public int Rent
     {
         get { return rent; }
+    }
+
+    public int Happiness
+    {
+        get { return happiness; }
+        set
+        {
+            if (value >= 0 && value <= 100)
+                happiness = value;
+            else if (value <= 0)
+                happiness = 0;
+            else
+                happiness = 100;
+        }
     }
     #endregion
 }

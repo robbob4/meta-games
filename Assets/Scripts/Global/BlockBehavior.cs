@@ -23,23 +23,16 @@ public class BlockBehavior : MonoBehaviour
     private static GlobalGameManager globalGameManager = null;
 
 	private static ToolTip toolTipScript = null;
-	private static GameObject toolTip = null;
-
+    private Room theRoom = null;
     #endregion
+
 	public void Awake()
 	{
-		toolTip = GameObject.Find("ToolTip");
-		if (toolTip == null)
-			Debug.Log("Unable to find ToolTip for " + this + ".");
 
-		toolTipScript = toolTip.GetComponent<ToolTip>();
-		if (toolTipScript == null)
-			Debug.Log("Unable to find ToolTip for " + this + ".");
 	}
 
     public void Start()
 	{
-
 	 	globalGameManagerObj = GameObject.Find("GameManager");
         if (globalGameManagerObj == null)
             Debug.Log("Unable to find GameManager for " + this + ".");
@@ -48,15 +41,30 @@ public class BlockBehavior : MonoBehaviour
 		if (globalGameManager == null)
 			Debug.Log("Unable to find globalGameManagerObj for " + this + ".");
 
-		toolTipScript.GetComponent<Image>().enabled= false;
+        toolTipScript = GameObject.Find("ToolTip").GetComponent<ToolTip>();
+        if (toolTipScript == null)
+            Debug.Log("Unable to find ToolTip for " + this + ".");
 
+        theRoom = GetComponent<Room>();
+        if (theRoom == null)
+            Debug.Log("Unable to find Room for " + this + ".");
+
+        //toolTipScript.GetComponent<Image>().enabled = false;
     }
 
     #region Triggers and mouse over events
     public void OnMouseOver()
     {
-        //Destroy the room 
-        if (Input.GetMouseButtonDown(0) &&
+        #region Tooltip
+        if (theRoom.Temp == false)
+        {
+            showTooltip();
+        }
+        #endregion
+
+        #region Deconstruction
+        // Destroy on first click, or when left mouse and left shift held
+        if ((Input.GetMouseButtonDown(0) || (Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftShift))) &&
             globalGameManagerObj.GetComponent<Constructor>().SelectedTool == Constructor.ToolType.Destroy)
         {
             Room thisRoom = this.GetComponent<Room>();
@@ -69,33 +77,46 @@ public class BlockBehavior : MonoBehaviour
             else
             {
                 //call anything the room needs to do on deconstruction
+                hideTooltip();
                 thisRoom.Evict();
             }
 
             globalGameManager.GetSoundEffect("deconstruction_s").Play();
             Destroy(this.gameObject);
         }
-
-		toolTipScript.GetComponent<Image>().enabled = true;
-
-		GameObject[] objs = toolTipScript.getObjs();
-		for (int i = 0; i < objs.Length; i++) {
-			objs[i].SetActive(true);
-		}
-
-	}
+        #endregion
+    }
     #endregion
 
-	public void OnMouseExit()
+    public void OnMouseExit()
 	{
-		toolTipScript.GetComponent<Image>().enabled = false;
-
-		GameObject[] objs = toolTipScript.getObjs();
-		for (int i = 0; i < objs.Length; i++) {
-			objs[i].SetActive(false);
-		}
+        hideTooltip();
 	}
+
+    private void hideTooltip()
+    {
+        toolTipScript.GetComponent<Image>().enabled = false;
+
+        GameObject[] objs = toolTipScript.getObjs();
+        for (int i = 0; i < objs.Length; i++)
+        {
+            objs[i].SetActive(false);
+        }
+    }
+
+    private void showTooltip()
+    {
+        toolTipScript.GetComponent<Image>().enabled = true;
+
+        GameObject[] objs = toolTipScript.getObjs();
+        for (int i = 0; i < objs.Length; i++)
+        {
+            objs[i].SetActive(true);
+        }
+    }
 }
+
+
 
 	/*
 	public bool blockFollowMouse = true;

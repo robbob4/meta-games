@@ -27,8 +27,9 @@ public class floorDeletion : MonoBehaviour {
 
 	public void OnMouseOver()
 	{
-		if (Input.GetMouseButtonDown (0) &&
-		    globalGameManagerObj.GetComponent<Constructor> ().SelectedTool == Constructor.ToolType.Destroy) 
+        // Destroy on first click, or when left mouse and left shift held
+        if ((Input.GetMouseButtonDown(0) || (Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftShift))) &&
+		    globalGameManagerObj.GetComponent<Constructor>().SelectedTool == Constructor.ToolType.Destroy) 
 			{
 				Vector3 underTarget = new Vector3 (this.transform.position.x, this.transform.position.y + 10, this.transform.position.z);
 				//int size = (int)this.GetComponent<Room> ().RoomSize;

@@ -67,6 +67,11 @@ public class RoomStats : MonoBehaviour {
         
 	}
 
+    public string getTitle()
+    {
+        return titleText.text;
+    }
+
     public void SetTitle(string title)
     {
         titleText.text = title;

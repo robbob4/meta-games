@@ -36,12 +36,13 @@ public class Patron : MonoBehaviour
     protected Destination finalDest = null;
     protected float speed = 0.3f;
     protected static GlobalGameManager globalGameManager = null;
-    protected static Pathing pather = null;
+    private static Pathing pather = null;
     private int happiness = 50; //0-100
     private int money = 1000; //0-x
     private int floor = 1; //what floor the patron is on
-    private bool movement = true;
+    [SerializeField] private bool movement = true;
     private bool worker = false;
+    private bool exiting = false;
     #endregion
 
     // Use this for fast initialization
@@ -76,88 +77,106 @@ public class Patron : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        #region Move towards next destination
-        if (movement == true && globalGameManager.Paused == false && nextDest != null)
+        #region Null checking
+        if(nextDest == null)
         {
-            if (transform.position.x <= nextDest.transform.position.x)
-                transform.position = new Vector3(transform.position.x + speed, transform.position.y, transform.position.z);
-            else
-                transform.position = new Vector3(transform.position.x - speed, transform.position.y, transform.position.z);
+            //try to find a new destination
+            setDestination(null);
+
+            if (nextDest == null)
+            {
+                Debug.Log(this + " is unable to find any destination.");
+                Destroy(gameObject);
+                return;
+            }
         }
         #endregion
 
-        #region Reached next destination
-        if (movement == true && nextDest != null && Mathf.Abs(nextDest.transform.position.x - transform.position.x) <= nextDest.transform.lossyScale.x / 2)
+        if (globalGameManager.Paused == false)
         {
-            Debug.Log("Reached " + nextDest);
+            #region Move towards next destination
+            if (movement == true && nextDest != null)
+            {
+                if (transform.position.x <= nextDest.transform.position.x)
+                    transform.position = new Vector3(transform.position.x + speed, transform.position.y, transform.position.z);
+                else
+                    transform.position = new Vector3(transform.position.x - speed, transform.position.y, transform.position.z);
+            }
+            #endregion
 
             //temp: move up to this floor
             transform.position = new Vector3(transform.position.x, nextDest.transform.position.y - 2, transform.position.z);
+            CurrentFloor = nextDest.Floor;
 
-            //temp: destroy me when done
-            if (nextDest == finalDest && nextDest == globalGameManager.Lobby)
+            #region Reached next destination
+            if (movement == true && CurrentFloor == nextDest.Floor && Mathf.Abs(nextDest.transform.position.x - transform.position.x) <= nextDest.transform.lossyScale.x / 2)
             {
-                Destroy(gameObject);
-                Debug.Log("finished");
-            }
+                Debug.Log("Reached " + nextDest);
 
-            //check if it is a room destination or transportation destination
-            if (nextDest.Transportation == true)
-            {
-                //TODO: check if this is transportation we need
-                movement = false;
-                nextDest.Visit(this);
-                floor = nextDest.Floor; //temp
-            }
-            else
-            {
-                //determine if we should visit this room
-                if (worker == false && interestCheck(nextDest.TheInterest))
+                //reached lobby exit?
+                if (nextDest == finalDest && nextDest == globalGameManager.Lobby)
                 {
-                    //try to visit the room
-                    if (nextDest.Visit(this))
+                    Destroy(gameObject);
+                    Debug.Log("finished");
+                }
+
+                //check if it is a room destination or transportation destination
+                if (nextDest.Transportation == true)
+                {
+                    //TODO: check if this is transportation we need
+                    movement = false;
+                    nextDest.Visit(this);
+                    CurrentFloor = nextDest.Floor; //temp
+                }
+                else
+                {
+                    //determine if we should visit this room
+                    if (globalGameManager.Paused == false && worker == false && CurrentFloor == nextDest.Floor && interestCheck(nextDest.TheInterest))
                     {
-                        Happiness += 10;
-                        Money -= nextDest.Rent;
-                        movement = false;
-                        floor = nextDest.Floor; //temp
-                    }
-                    else
-                    {
-                        //Status message: crowded
-                        globalGameManager.NewStatus(nextDest.name + " is crowded!", true);
-                        Happiness -= 20; //happiness deducation
+                        //try to visit the room
+                        if (nextDest.Visit(this))
+                        {
+                            Happiness += 10;
+                            Money -= nextDest.Rent;
+                            movement = false;
+                            CurrentFloor = nextDest.Floor; //temp
+                        }
+                        else
+                        {
+                            //Status message: crowded
+                            globalGameManager.NewStatus(nextDest.name + " is crowded!", true);
+                            Happiness -= 20; //happiness deducation
+                        }
                     }
                 }
-            }
 
-            //find new destination if it is not our final destination
-            if (nextDest != finalDest)
+                //find new destination if it is not our final destination
+                if (nextDest != finalDest)
+                {
+                    setDestination(finalDest);
+                }
+                else
+                {
+                    //go home
+                    Destroy(gameObject); //tmep
+                    return; //temp
+                    setDestination();
+                }
+
+            }
+            #endregion
+
+            #region Unhappy check
+            if (!exiting && (Money <= 0 || Happiness <= 0))
             {
-                nextDest = pather.NextDestination(nextDest, finalDest);
-            }
-            else
-            {
-                //temp - go home
-                Destroy(gameObject);
-                //nextDest = pather.NextDestination(finalDest, globalGameManager.Lobby);
-                //finalDest = globalGameManager.Lobby;
-            }
-                
-        }
-        #endregion
+                //leave the building
+                setDestination();
 
-        #region Unhappy check
-        if (Money <= 0 || Happiness <= 0)
-        {
-            //leave the building
-            nextDest = pather.NextDestination(nextDest, globalGameManager.Lobby);
-            finalDest = globalGameManager.Lobby;
-
-            if (Happiness <= 0)
-                globalGameManager.NewStatus(this + " is fed up with this tower!", true);
+                if (Happiness <= 0)
+                    globalGameManager.NewStatus(this.name + " is fed up with this tower!", true);
+            }
+            #endregion
         }
-        #endregion
     }
 
     //set next destination
@@ -167,7 +186,17 @@ public class Patron : MonoBehaviour
             finalDest = newFinalDest;
         else
             finalDest = globalGameManager.Lobby;
-        nextDest = pather.NextDestination(globalGameManager.Lobby, finalDest);
+
+        if (nextDest == null)
+            nextDest = globalGameManager.Lobby;
+
+        nextDest = pather.NextDestination(nextDest, finalDest);
+    }
+
+    //overloaded setDestination for go to lobby
+    public void setDestination()
+    {
+        setDestination(null);
     }
 
     // randomly determine whether the interest check passed

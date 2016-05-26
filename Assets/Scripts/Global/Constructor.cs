@@ -106,12 +106,16 @@ public class Constructor : MonoBehaviour
                 if (validPlacement() && globalGameManager.Money >= theCost)
                 {
                     placing = true;
-                    globalGameManager.GetSoundEffect("construction_s").Play();
+
+                    if (descriptionBox.getTitle() == "Floor Info")
+                        globalGameManager.GetSoundEffect("floor_s").Play();
+                    else
+                        globalGameManager.GetSoundEffect("construction_s").Play();
                     globalGameManager.Deduct(theCost); //Deduct cost from player funds
 
                     //commit anything for the room
                     Room tempRoomComp = theRoom.GetComponent<Room>();
-                    tempRoomComp.Floor = Mathf.RoundToInt((theRoom.transform.position.y + UNIT_HEIGHT / 2) / UNIT_HEIGHT);
+                    tempRoomComp.Floor = Mathf.RoundToInt((theRoom.transform.position.y + UNIT_HEIGHT / 2) / UNIT_HEIGHT); //set what floor this is now on
                     addFloors(); //add floors behind this floor
                     pather.AddDestination(tempRoomComp);
                     //TODO: set room's Temp to false if gameplpay is not paused
@@ -127,8 +131,8 @@ public class Constructor : MonoBehaviour
                 }
             }
 
-            //LMB up or cancel - exit construction mode
-            if ((Input.GetMouseButtonUp(0) && placing == true) || Input.GetAxis("Cancel") == 1 || Input.GetMouseButtonUp(1))
+            //LMB up and no shift or cancel - exit construction mode
+            if ((Input.GetMouseButtonUp(0) && placing == true && !Input.GetKey(KeyCode.LeftShift)) || Input.GetAxis("Cancel") == 1 || Input.GetMouseButtonUp(1))
             {
                 ExitConstructionMode();
             }
@@ -164,7 +168,7 @@ public class Constructor : MonoBehaviour
                 theRoom = (GameObject)Instantiate(roomToSpawn,
                     Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)),
                     roomToSpawn.transform.rotation);
-                descriptionBox.SetTitle("Shop");
+                descriptionBox.SetTitle("Shop Info");
                 break;
 
             case ConstructionType.FastFood:
@@ -172,7 +176,7 @@ public class Constructor : MonoBehaviour
                 theRoom = (GameObject)Instantiate(roomToSpawn,
                     Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)),
                     roomToSpawn.transform.rotation);
-                descriptionBox.SetTitle("Fast Food");
+                descriptionBox.SetTitle("Fast Food Info");
                 break;
 
             case ConstructionType.Restaurant:
@@ -180,7 +184,7 @@ public class Constructor : MonoBehaviour
                 theRoom = (GameObject)Instantiate(roomToSpawn,
                     Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)),
                     roomToSpawn.transform.rotation);
-                descriptionBox.SetTitle("Restaurant");
+                descriptionBox.SetTitle("Restaurant Info");
                 break;
 
             case ConstructionType.Office:
@@ -188,7 +192,7 @@ public class Constructor : MonoBehaviour
                 theRoom = (GameObject)Instantiate(roomToSpawn,
                     Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)),
                     roomToSpawn.transform.rotation);
-                descriptionBox.SetTitle("Office");
+                descriptionBox.SetTitle("Office Info");
                 break;
 
             case ConstructionType.Hotel:
@@ -196,7 +200,7 @@ public class Constructor : MonoBehaviour
                 theRoom = (GameObject)Instantiate(roomToSpawn,
                     Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)),
                     roomToSpawn.transform.rotation);
-                descriptionBox.SetTitle("Hotel");
+                descriptionBox.SetTitle("Hotel Info");
                 break;
 
             case ConstructionType.Apartment:
@@ -204,7 +208,7 @@ public class Constructor : MonoBehaviour
                 theRoom = (GameObject)Instantiate(roomToSpawn,
                     Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)),
                     roomToSpawn.transform.rotation);
-                descriptionBox.SetTitle("Apartment");
+                descriptionBox.SetTitle("Apartment Info");
                 break;
 
 		case ConstructionType.Floor:
@@ -212,7 +216,7 @@ public class Constructor : MonoBehaviour
 			theRoom = (GameObject)Instantiate(roomToSpawn,
 				Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, roomToSpawn.transform.position.z)),
 				roomToSpawn.transform.rotation);
-			descriptionBox.SetTitle("Floor");
+			descriptionBox.SetTitle("Floor Info");
 			break;
 
             default:
