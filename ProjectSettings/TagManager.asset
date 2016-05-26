@@ -9,6 +9,7 @@ TagManager:
   - Floor
   - UI
   - SoundEffect
+  - ToolTip
   layers:
   - Default
   - TransparentFX

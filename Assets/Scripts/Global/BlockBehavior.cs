@@ -12,6 +12,7 @@
 // ----------------------------------------------------------------------------
 
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class BlockBehavior : MonoBehaviour
@@ -20,17 +21,35 @@ public class BlockBehavior : MonoBehaviour
     //references
     private static GameObject globalGameManagerObj = null;
     private static GlobalGameManager globalGameManager = null;
+
+	private static ToolTip toolTipScript = null;
+	private static GameObject toolTip = null;
+
     #endregion
+	public void Awake()
+	{
+		toolTip = GameObject.Find("ToolTip");
+		if (toolTip == null)
+			Debug.Log("Unable to find ToolTip for " + this + ".");
+
+		toolTipScript = toolTip.GetComponent<ToolTip>();
+		if (toolTipScript == null)
+			Debug.Log("Unable to find ToolTip for " + this + ".");
+	}
 
     public void Start()
 	{
+
 	 	globalGameManagerObj = GameObject.Find("GameManager");
         if (globalGameManagerObj == null)
             Debug.Log("Unable to find GameManager for " + this + ".");
 
-        globalGameManager = globalGameManagerObj.GetComponent<GlobalGameManager>();
-        if (globalGameManagerObj == null)
-            Debug.Log("Unable to find globalGameManager for " + this + ".");
+		globalGameManager = globalGameManagerObj.GetComponent<GlobalGameManager>();
+		if (globalGameManager == null)
+			Debug.Log("Unable to find globalGameManagerObj for " + this + ".");
+
+		toolTipScript.GetComponent<Image>().enabled= false;
+
     }
 
     #region Triggers and mouse over events
@@ -56,8 +75,26 @@ public class BlockBehavior : MonoBehaviour
             globalGameManager.GetSoundEffect("deconstruction_s").Play();
             Destroy(this.gameObject);
         }
-    }
+
+		toolTipScript.GetComponent<Image>().enabled = true;
+
+		GameObject[] objs = toolTipScript.getObjs();
+		for (int i = 0; i < objs.Length; i++) {
+			objs[i].SetActive(true);
+		}
+
+	}
     #endregion
+
+	public void OnMouseExit()
+	{
+		toolTipScript.GetComponent<Image>().enabled = false;
+
+		GameObject[] objs = toolTipScript.getObjs();
+		for (int i = 0; i < objs.Length; i++) {
+			objs[i].SetActive(false);
+		}
+	}
 }
 
 	/*
