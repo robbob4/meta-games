@@ -83,6 +83,8 @@ public class BlockBehavior : MonoBehaviour
 			objs[i].SetActive(true);
 		}
 
+
+
 	}
     #endregion
 
