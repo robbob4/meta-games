@@ -1,7 +1,7 @@
 ﻿// -------------------------------- Room.cs -----------------------------------
 // Author - Robert Griswold CSS 385
 // Created - May 2, 2016
-// Modified - May 18, 2016
+// Modified - May 26, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a base room class that inherits from the 
 // Destination class. Specifies happiness, spawnchance, and spawnDelayModulo.

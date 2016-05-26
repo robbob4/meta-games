@@ -1,7 +1,7 @@
 ﻿// ------------------------------- Patron.cs -----------------------------------
 // Author - Robert Griswold CSS 385
 // Created - May 12, 2016
-// Modified - May 18, 2016
+// Modified - May 26, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a base patron.
 // ----------------------------------------------------------------------------
@@ -40,7 +40,7 @@ public class Patron : MonoBehaviour
     private int happiness = 50; //0-100
     private int money = 1000; //0-x
     private int floor = 1; //what floor the patron is on
-    [SerializeField] private bool movement = true;
+    private bool movement = true;
     private bool worker = false;
     private bool exiting = false;
     #endregion
@@ -104,20 +104,23 @@ public class Patron : MonoBehaviour
             }
             #endregion
 
-            //temp: move up to this floor
-            transform.position = new Vector3(transform.position.x, nextDest.transform.position.y - 2, transform.position.z);
-            CurrentFloor = nextDest.Floor;
-
             #region Reached next destination
-            if (movement == true && CurrentFloor == nextDest.Floor && Mathf.Abs(nextDest.transform.position.x - transform.position.x) <= nextDest.transform.lossyScale.x / 2)
+            //special case for stairwell
+            bool stairwellValid = false;
+            if (nextDest.Transportation == true)
+            {
+                stairwellValid = CurrentFloor == nextDest.Floor - 1;
+            }
+                
+            if (movement == true && (CurrentFloor == nextDest.Floor || stairwellValid) && Mathf.Abs(nextDest.transform.position.x - transform.position.x) <= nextDest.transform.lossyScale.x / 2)
             {
                 Debug.Log("Reached " + nextDest);
 
                 //reached lobby exit?
                 if (nextDest == finalDest && nextDest == globalGameManager.Lobby)
                 {
+                    Debug.Log(this + " finished");
                     Destroy(gameObject);
-                    Debug.Log("finished");
                 }
 
                 //check if it is a room destination or transportation destination
@@ -126,7 +129,6 @@ public class Patron : MonoBehaviour
                     //TODO: check if this is transportation we need
                     movement = false;
                     nextDest.Visit(this);
-                    CurrentFloor = nextDest.Floor; //temp
                 }
                 else
                 {
@@ -139,7 +141,6 @@ public class Patron : MonoBehaviour
                             Happiness += 10;
                             Money -= nextDest.Rent;
                             movement = false;
-                            CurrentFloor = nextDest.Floor; //temp
                         }
                         else
                         {
@@ -158,8 +159,6 @@ public class Patron : MonoBehaviour
                 else
                 {
                     //go home
-                    Destroy(gameObject); //tmep
-                    return; //temp
                     setDestination();
                 }
 

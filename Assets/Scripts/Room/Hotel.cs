@@ -1,7 +1,7 @@
 ﻿// -------------------------------- Hotel.cs ----------------------------------
 // Author - Robert Griswold CSS 385
 // Created - May 12, 2016
-// Modified - May 18, 2016
+// Modified - May 26, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a single hotel room that inherits from the
 // leased class.
@@ -22,6 +22,7 @@ public class Hotel : Leased
         maint = 500;
         rent = 5000;
         capacity = 1;
+        desc = "Hotel rooms may attract a patron to your tower during business hours to stay the night.";
     }
 
     // Use this for initialization

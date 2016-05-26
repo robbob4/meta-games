@@ -2,7 +2,7 @@
 // Author - Sam Williams CSS 385
 // Author - Robert Griswold CSS 385
 // Created - May 4, 2016
-// Modified - May 18, 2016
+// Modified - May 26, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for block behavior for mouse over and collision 
 // related events. Maintains a collided boolean for use in the constructor.
@@ -12,7 +12,6 @@
 // ----------------------------------------------------------------------------
 
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
 public class BlockBehavior : MonoBehaviour
@@ -21,8 +20,8 @@ public class BlockBehavior : MonoBehaviour
     //references
     private static GameObject globalGameManagerObj = null;
     private static GlobalGameManager globalGameManager = null;
-
 	private static ToolTip toolTipScript = null;
+
     private Room theRoom = null;
     #endregion
 
@@ -53,12 +52,26 @@ public class BlockBehavior : MonoBehaviour
     }
 
     #region Triggers and mouse over events
+    public void OnMouseEnter()
+    {
+        #region Tooltip
+        // Infrequently updated elements
+        if (theRoom.Temp == false)
+        {
+            toolTipScript.SetName(this.name);
+            toolTipScript.SetInterest(theRoom.TheInterest);
+        }
+        #endregion
+    }
     public void OnMouseOver()
     {
         #region Tooltip
+        // Frequently updated elements
         if (theRoom.Temp == false)
         {
-            showTooltip();
+            toolTipScript.SetProfit(theRoom.Rent * theRoom.Visits - theRoom.Maint);
+            toolTipScript.SetHappiness(theRoom.Happiness);
+            toolTipScript.SetCapacity(theRoom.CurrentCapacity, theRoom.MaxCapacity);
         }
         #endregion
 
@@ -77,7 +90,7 @@ public class BlockBehavior : MonoBehaviour
             else
             {
                 //call anything the room needs to do on deconstruction
-                hideTooltip();
+                toolTipScript.HideTooltip();
                 thisRoom.Evict();
             }
 
@@ -90,29 +103,7 @@ public class BlockBehavior : MonoBehaviour
 
     public void OnMouseExit()
 	{
-        hideTooltip();
-	}
-
-    private void hideTooltip()
-    {
-        toolTipScript.GetComponent<Image>().enabled = false;
-
-        GameObject[] objs = toolTipScript.getObjs();
-        for (int i = 0; i < objs.Length; i++)
-        {
-            objs[i].SetActive(false);
-        }
-    }
-
-    private void showTooltip()
-    {
-        toolTipScript.GetComponent<Image>().enabled = true;
-
-        GameObject[] objs = toolTipScript.getObjs();
-        for (int i = 0; i < objs.Length; i++)
-        {
-            objs[i].SetActive(true);
-        }
+        toolTipScript.HideTooltip();
     }
 }
 

@@ -1,7 +1,9 @@
 ﻿// ---------------------------- RoomStats.cs ----------------------------------
 // Author - Brent Eaves CSS 385
+// Author - Samuel Williams CSS 385
+// Author - Robert Griswold CSS 385
 // Created - May 4, 2016
-// Modified - May 18, 2016
+// Modified - May 26, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a UI description box used in conjunction with 
 // the ButtonController to display information about the rooms.

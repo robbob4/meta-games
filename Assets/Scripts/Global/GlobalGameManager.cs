@@ -1,7 +1,7 @@
 ﻿// ------------------------- GlobalGameManager.cs -----------------------------
 // Author - Robert Griswold CSS 385
 // Created - May 12, 2016
-// Modified - May 18, 2016
+// Modified - May 26, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a game manager that keep track of time, 
 // money, etc.

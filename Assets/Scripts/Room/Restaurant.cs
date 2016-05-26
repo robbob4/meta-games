@@ -22,6 +22,8 @@ public class Restaurant : Retail
         constructionCost = 150000;
         maint = 1500;
         rent = 1000;
+        desc = "Attracts patrons to your tower during business hours for long visits. The associated cuisine interest is randomly selected during construction.";
+        delay = 8;
     }
 
     // Use this for initialization

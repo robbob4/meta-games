@@ -1,7 +1,7 @@
 ﻿// ------------------------------ FastFood.cs ---------------------------------
 // Author - Robert Griswold CSS 385
 // Created - May 12, 2016
-// Modified - May 18, 2016
+// Modified - May 26, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a fast food room that inherits from the retail
 // class.
@@ -22,6 +22,7 @@ public class FastFood : Retail
         constructionCost = 100000;
         maint = 1000;
         rent = 500;
+        desc = "Attracts patrons to your tower during business hours. The associated cuisine interest is randomly selected during construction.";
     }
 
     // Use this for initialization
