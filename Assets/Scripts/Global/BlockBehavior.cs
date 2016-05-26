@@ -2,7 +2,7 @@
 // Author - Sam Williams CSS 385
 // Author - Robert Griswold CSS 385
 // Created - May 4, 2016
-// Modified - May 18, 2016
+// Modified - May 26, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for block behavior for mouse over and collision 
 // related events. Maintains a collided boolean for use in the constructor.
@@ -12,7 +12,6 @@
 // ----------------------------------------------------------------------------
 
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
 public class BlockBehavior : MonoBehaviour
@@ -21,25 +20,18 @@ public class BlockBehavior : MonoBehaviour
     //references
     private static GameObject globalGameManagerObj = null;
     private static GlobalGameManager globalGameManager = null;
-
 	private static ToolTip toolTipScript = null;
-	private static GameObject toolTip = null;
 
+    private Room theRoom = null;
     #endregion
+
 	public void Awake()
 	{
-		toolTip = GameObject.Find("ToolTip");
-		if (toolTip == null)
-			Debug.Log("Unable to find ToolTip for " + this + ".");
 
-		toolTipScript = toolTip.GetComponent<ToolTip>();
-		if (toolTipScript == null)
-			Debug.Log("Unable to find ToolTip for " + this + ".");
 	}
 
     public void Start()
 	{
-
 	 	globalGameManagerObj = GameObject.Find("GameManager");
         if (globalGameManagerObj == null)
             Debug.Log("Unable to find GameManager for " + this + ".");
@@ -48,15 +40,44 @@ public class BlockBehavior : MonoBehaviour
 		if (globalGameManager == null)
 			Debug.Log("Unable to find globalGameManagerObj for " + this + ".");
 
-		toolTipScript.GetComponent<Image>().enabled= false;
+        toolTipScript = GameObject.Find("ToolTip").GetComponent<ToolTip>();
+        if (toolTipScript == null)
+            Debug.Log("Unable to find ToolTip for " + this + ".");
 
+        theRoom = GetComponent<Room>();
+        if (theRoom == null)
+            Debug.Log("Unable to find Room for " + this + ".");
+
+        //toolTipScript.GetComponent<Image>().enabled = false;
     }
 
     #region Triggers and mouse over events
+    public void OnMouseEnter()
+    {
+        #region Tooltip
+        // Infrequently updated elements
+        if (theRoom.Temp == false)
+        {
+            toolTipScript.SetName(this.name);
+            toolTipScript.SetInterest(theRoom.TheInterest);
+        }
+        #endregion
+    }
     public void OnMouseOver()
     {
-        //Destroy the room 
-        if (Input.GetMouseButtonDown(0) &&
+        #region Tooltip
+        // Frequently updated elements
+        if (theRoom.Temp == false)
+        {
+            toolTipScript.SetProfit(theRoom.Rent * theRoom.Visits - theRoom.Maint);
+            toolTipScript.SetHappiness(theRoom.Happiness);
+            toolTipScript.SetCapacity(theRoom.CurrentCapacity, theRoom.MaxCapacity);
+        }
+        #endregion
+
+        #region Deconstruction
+        // Destroy on first click, or when left mouse and left shift held
+        if ((Input.GetMouseButtonDown(0) || (Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftShift))) &&
             globalGameManagerObj.GetComponent<Constructor>().SelectedTool == Constructor.ToolType.Destroy)
         {
             Room thisRoom = this.GetComponent<Room>();
@@ -69,35 +90,29 @@ public class BlockBehavior : MonoBehaviour
             else
             {
                 //call anything the room needs to do on deconstruction
+                toolTipScript.HideTooltip();
                 thisRoom.Evict();
             }
 
             globalGameManager.GetSoundEffect("deconstruction_s").Play();
             Destroy(this.gameObject);
         }
-
 		toolTipScript.GetComponent<Image>().enabled = true;
 
 		GameObject[] objs = toolTipScript.getObjs();
 		for (int i = 0; i < objs.Length; i++) {
 			objs[i].SetActive(true);
 		}
-
-
-
-	}
+    }
     #endregion
 
-	public void OnMouseExit()
+    public void OnMouseExit()
 	{
-		toolTipScript.GetComponent<Image>().enabled = false;
-
-		GameObject[] objs = toolTipScript.getObjs();
-		for (int i = 0; i < objs.Length; i++) {
-			objs[i].SetActive(false);
-		}
-	}
+        toolTipScript.HideTooltip();
+    }
 }
+
+
 
 	/*
 	public bool blockFollowMouse = true;

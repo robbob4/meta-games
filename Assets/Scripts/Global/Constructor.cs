@@ -1,7 +1,7 @@
 ﻿// ---------------------------- Constructor.cs --------------------------------
 // Author - Robert Griswold CSS 385
 // Created - May 2, 2016
-// Modified - May 18, 2016
+// Modified - May 26, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for the script that handles room construction and 
 // deconstruction. Calling EnterConstructionMode(Room) attaches a room to the 
@@ -26,6 +26,7 @@ public class Constructor : MonoBehaviour
     {
         Floor = -1,
         Lobby = 0,
+        Stairwell = 1,
         Shop = 100,
         FastFood = 150,
         Restaurant = 151,
@@ -106,12 +107,16 @@ public class Constructor : MonoBehaviour
                 if (validPlacement() && globalGameManager.Money >= theCost)
                 {
                     placing = true;
-                    globalGameManager.GetSoundEffect("construction_s").Play();
+
+                    if (descriptionBox.getTitle() == "Floor Info")
+                        globalGameManager.GetSoundEffect("floor_s").Play();
+                    else
+                        globalGameManager.GetSoundEffect("construction_s").Play();
                     globalGameManager.Deduct(theCost); //Deduct cost from player funds
 
                     //commit anything for the room
                     Room tempRoomComp = theRoom.GetComponent<Room>();
-                    tempRoomComp.Floor = Mathf.RoundToInt((theRoom.transform.position.y + UNIT_HEIGHT / 2) / UNIT_HEIGHT);
+                    tempRoomComp.Floor = Mathf.RoundToInt((theRoom.transform.position.y + UNIT_HEIGHT / 2) / UNIT_HEIGHT); //set what floor this is now on
                     addFloors(); //add floors behind this floor
                     pather.AddDestination(tempRoomComp);
                     //TODO: set room's Temp to false if gameplpay is not paused
@@ -127,8 +132,8 @@ public class Constructor : MonoBehaviour
                 }
             }
 
-            //LMB up or cancel - exit construction mode
-            if ((Input.GetMouseButtonUp(0) && placing == true) || Input.GetAxis("Cancel") == 1 || Input.GetMouseButtonUp(1))
+            //LMB up and no shift or cancel - exit construction mode
+            if ((Input.GetMouseButtonUp(0) && placing == true && !Input.GetKey(KeyCode.LeftShift)) || Input.GetAxis("Cancel") == 1 || Input.GetMouseButtonUp(1))
             {
                 ExitConstructionMode();
             }
@@ -162,58 +167,66 @@ public class Constructor : MonoBehaviour
             case ConstructionType.Shop:
                 roomToSpawn = Resources.Load("Prefabs/Room/Shop") as GameObject;
                 theRoom = (GameObject)Instantiate(roomToSpawn,
-                    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)),
+                    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, roomToSpawn.transform.position.z)),
                     roomToSpawn.transform.rotation);
-                descriptionBox.SetTitle("Shop");
+                descriptionBox.SetTitle("Shop Info");
                 break;
 
             case ConstructionType.FastFood:
                 roomToSpawn = Resources.Load("Prefabs/Room/FastFood") as GameObject;
                 theRoom = (GameObject)Instantiate(roomToSpawn,
-                    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)),
+                    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, roomToSpawn.transform.position.z)),
                     roomToSpawn.transform.rotation);
-                descriptionBox.SetTitle("Fast Food");
+                descriptionBox.SetTitle("Fast Food Info");
                 break;
 
             case ConstructionType.Restaurant:
                 roomToSpawn = Resources.Load("Prefabs/Room/Restaurant") as GameObject;
                 theRoom = (GameObject)Instantiate(roomToSpawn,
-                    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)),
+                    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, roomToSpawn.transform.position.z)),
                     roomToSpawn.transform.rotation);
-                descriptionBox.SetTitle("Restaurant");
+                descriptionBox.SetTitle("Restaurant Info");
                 break;
 
             case ConstructionType.Office:
                 roomToSpawn = Resources.Load("Prefabs/Room/Office") as GameObject;
                 theRoom = (GameObject)Instantiate(roomToSpawn,
-                    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)),
+                    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, roomToSpawn.transform.position.z)),
                     roomToSpawn.transform.rotation);
-                descriptionBox.SetTitle("Office");
+                descriptionBox.SetTitle("Office Info");
                 break;
 
             case ConstructionType.Hotel:
                 roomToSpawn = Resources.Load("Prefabs/Room/Hotel") as GameObject;
                 theRoom = (GameObject)Instantiate(roomToSpawn,
-                    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)),
+                    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, roomToSpawn.transform.position.z)),
                     roomToSpawn.transform.rotation);
-                descriptionBox.SetTitle("Hotel");
+                descriptionBox.SetTitle("Hotel Info");
                 break;
 
             case ConstructionType.Apartment:
                 roomToSpawn = Resources.Load("Prefabs/Room/Apartment") as GameObject;
                 theRoom = (GameObject)Instantiate(roomToSpawn,
-                    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y)),
+                    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, roomToSpawn.transform.position.z)),
                     roomToSpawn.transform.rotation);
-                descriptionBox.SetTitle("Apartment");
+                descriptionBox.SetTitle("Apartment Info");
                 break;
 
-		case ConstructionType.Floor:
-			roomToSpawn = Resources.Load("Prefabs/Room/Floor") as GameObject;
-			theRoom = (GameObject)Instantiate(roomToSpawn,
-				Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, roomToSpawn.transform.position.z)),
-				roomToSpawn.transform.rotation);
-			descriptionBox.SetTitle("Floor");
-			break;
+		    case ConstructionType.Floor:
+			    roomToSpawn = Resources.Load("Prefabs/Room/Floor") as GameObject;
+			    theRoom = (GameObject)Instantiate(roomToSpawn,
+				    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, roomToSpawn.transform.position.z)),
+				    roomToSpawn.transform.rotation);
+			    descriptionBox.SetTitle("Floor Info");
+			    break;
+
+            case ConstructionType.Stairwell:
+                roomToSpawn = Resources.Load("Prefabs/Room/Stairwell") as GameObject;
+                theRoom = (GameObject)Instantiate(roomToSpawn,
+                    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, roomToSpawn.transform.position.z)),
+                    roomToSpawn.transform.rotation);
+                descriptionBox.SetTitle("Stairwell Info");
+                break;
 
             default:
                 Debug.Log("Unknown ConstructionType (" + type + ") for " + this + ".");

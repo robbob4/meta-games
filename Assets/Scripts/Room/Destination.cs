@@ -1,7 +1,7 @@
 ﻿// ---------------------------- Destination.cs --------------------------------
 // Author - Robert Griswold CSS 385
 // Created - May 12, 2016
-// Modified - May 18, 2016
+// Modified - May 26, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a base destination class for use in path 
 // finding.
@@ -32,11 +32,11 @@ public class Destination : MonoBehaviour
     protected static GameObject patronToSpawn = null;
 
     //construction variables
-    protected string desc = "";
+    protected string desc = "Floors provide structural integitry to your tower. They are automatically placed behind new rooms.";
     protected Size roomSize = Size.Tiny; //width of the room in units
     protected int constructionCost = 100; //0-x
     private bool temp = true; //bool to flag this as a new room
-    private bool transportation = false;
+    protected bool transportation = false;
     private int floor = 0; //what floor this room is on
 
     //live variables
@@ -46,6 +46,9 @@ public class Destination : MonoBehaviour
     protected int capacity = 0; //0-x
     protected int currentCapacity = 0; //0-capacity
     protected Patron[] visitors = new Patron[0];
+    protected int visits = 0; //# of visits today
+    protected int happiness = 50; //percentage, reset daily
+    protected int delay = 4; //delay when visiting
     #endregion
 
     void Awake()
@@ -78,34 +81,43 @@ public class Destination : MonoBehaviour
     }
 
     //returns a bool whether the visit was successful
-    public bool Visit(Patron visitor)
+    public virtual bool Visit(Patron visitor)
     {
         if (currentCapacity < MaxCapacity)
         {
-            visitors[currentCapacity++] = visitor;
+            int i = 0;
+            for (; i < visitors.Length; i++)
+            {
+                if (visitors[i] == null)
+                {
+                    visitors[i] = visitor;
+                    currentCapacity++;
+                    break;
+                }
+            }
+
+            visits++;
+            Happiness += 10;
             globalGameManager.GetSoundEffect("cash_s").Play();
             globalGameManager.Payment(this.rent);
-
-            //temp
-            StartCoroutine(TempEjection());
-
+            StartCoroutine(VisitDelay(i));
             return true;
         }
         else
         {
+            Happiness -= 20;
             return false;
         }
     }
 
-    //demo ejection after 3 seconds
-    IEnumerator TempEjection()
+    //demo ejection after delay (default 4) seconds
+    IEnumerator VisitDelay(int i)
     {
-        Patron visitor = visitors[currentCapacity - 1];
+        yield return new WaitForSeconds(delay);
 
-        yield return new WaitForSeconds(4);
-
-        visitors[--currentCapacity] = null;
-        visitor.Movement = true;
+        visitors[i].Movement = true;
+        visitors[i] = null;
+        currentCapacity--;
     }
 
     #region Getters and Setters
@@ -178,6 +190,25 @@ public class Destination : MonoBehaviour
     public int Rent
     {
         get { return rent; }
+    }
+
+    public int Happiness
+    {
+        get { return happiness; }
+        set
+        {
+            if (value >= 0 && value <= 100)
+                happiness = value;
+            else if (value <= 0)
+                happiness = 0;
+            else
+                happiness = 100;
+        }
+    }
+
+    public int Visits
+    {
+        get { return visits; }
     }
     #endregion
 }
