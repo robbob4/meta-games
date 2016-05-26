@@ -115,9 +115,12 @@ public class Destination : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
-        visitors[i].Movement = true;
-        visitors[i] = null;
-        currentCapacity--;
+        if (visitors[i] != null)
+        {
+            visitors[i].Movement = true;
+            visitors[i] = null;
+            currentCapacity--;
+        }
     }
 
     #region Getters and Setters
