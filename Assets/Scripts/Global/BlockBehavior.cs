@@ -103,6 +103,8 @@ public class BlockBehavior : MonoBehaviour
 		for (int i = 0; i < objs.Length; i++) {
 			objs[i].SetActive(true);
 		}
+		#endregion
+
     }
     #endregion
 
