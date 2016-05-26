@@ -13,7 +13,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class FloorDeletion : MonoBehaviour
+public class FloorBehavior : MonoBehaviour
 {
 	//references
 	private static GameObject globalGameManagerObj = null;
