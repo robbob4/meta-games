@@ -207,6 +207,14 @@ public class Constructor : MonoBehaviour
                 descriptionBox.SetTitle("Apartment");
                 break;
 
+		case ConstructionType.Floor:
+			roomToSpawn = Resources.Load("Prefabs/Room/Floor") as GameObject;
+			theRoom = (GameObject)Instantiate(roomToSpawn,
+				Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, roomToSpawn.transform.position.z)),
+				roomToSpawn.transform.rotation);
+			descriptionBox.SetTitle("Floor");
+			break;
+
             default:
                 Debug.Log("Unknown ConstructionType (" + type + ") for " + this + ".");
                 break;
@@ -252,7 +260,7 @@ public class Constructor : MonoBehaviour
 
         if (hitColliders.Length == 1)
         {
-            Vector3 underTarget = new Vector3(target.x, target.y - 10, target.z + 1);
+            Vector3 underTarget = new Vector3(target.x, target.y - 10, 1);
 			int size = (int)theRoom.GetComponent<Room>().RoomSize;
 			int midSpot = (size / 2) + 1;
 
@@ -290,7 +298,7 @@ public class Constructor : MonoBehaviour
 
     private void addFloors()
     {
-        Vector3 underTarget = new Vector3(target.x, target.y, target.z + 1);
+        Vector3 underTarget = new Vector3(target.x, target.y, 1);
 
         int size = (int)theRoom.GetComponent<Room>().RoomSize;
 
@@ -327,7 +335,7 @@ public class Constructor : MonoBehaviour
     void calculateTarget()
     {
         //current mouse position
-        Vector3 currMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+		Vector3 currMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y));
         //Debug.Log ("mouse: " + currMousePosition);
 
         //target x calculation 
@@ -353,6 +361,7 @@ public class Constructor : MonoBehaviour
             //else
             target.y = Mathf.FloorToInt(currMousePosition.y) + Mathf.FloorToInt(10 / 2 - y_relativeToWidth);
         }
+		target.z = roomToSpawn.transform.position.z;
     }
     #endregion
 

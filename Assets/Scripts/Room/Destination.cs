@@ -33,7 +33,7 @@ public class Destination : MonoBehaviour
 
     //construction variables
     protected string desc = "";
-    protected Size roomSize = Size.Small; //width of the room in units
+    protected Size roomSize = Size.Tiny; //width of the room in units
     protected int constructionCost = 100; //0-x
     private bool temp = true; //bool to flag this as a new room
     private bool transportation = false;
