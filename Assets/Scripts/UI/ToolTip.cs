@@ -244,4 +244,9 @@ public class ToolTip : MonoBehaviour
         target.x -= halfWidth;
         target.y += halfHeight;
     }
+
+	public GameObject[] getObjs()
+	{
+		return this.tipElements;
+	}
 }
