@@ -74,20 +74,23 @@ public class Stairwell : Room
     {
         yield return new WaitForSeconds(2);
 
-        // swap floors
-        if(visitors[i].CurrentFloor != Floor)
+        if (visitors[i] != null)
         {
-            visitors[i].CurrentFloor = Floor;
-            visitors[i].transform.position = new Vector3(visitors[i].transform.position.x, transform.position.y - 2, visitors[i].transform.position.z);
-        }
-        else
-        {
-            visitors[i].CurrentFloor = Floor - 1;
-            visitors[i].transform.position = new Vector3(visitors[i].transform.position.x, transform.position.y - Constructor.UNIT_HEIGHT - 2, visitors[i].transform.position.z);
-        }
+            // swap floors
+            if (visitors[i].CurrentFloor != Floor)
+            {
+                visitors[i].CurrentFloor = Floor;
+                visitors[i].transform.position = new Vector3(visitors[i].transform.position.x, transform.position.y - 2, visitors[i].transform.position.z);
+            }
+            else
+            {
+                visitors[i].CurrentFloor = Floor - 1;
+                visitors[i].transform.position = new Vector3(visitors[i].transform.position.x, transform.position.y - Constructor.UNIT_HEIGHT - 2, visitors[i].transform.position.z);
+            }
 
-        visitors[i].Movement = true;
-        currentCapacity--;
-        visitors[i] = null;
+            visitors[i].Movement = true;
+            currentCapacity--;
+            visitors[i] = null;
+        }
     }
 }
