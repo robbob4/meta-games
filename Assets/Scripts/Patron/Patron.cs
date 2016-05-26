@@ -217,6 +217,11 @@ public class Patron : MonoBehaviour
         return interests[(int)query];
     }
 
+    public int GetNextFloor()
+    {
+        return nextDest.Floor;
+    }
+
     #region Getters and Setters
     public int CurrentFloor
     {

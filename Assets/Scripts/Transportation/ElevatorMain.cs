@@ -6,30 +6,40 @@ public class ElevatorMain : MonoBehaviour {
 
     static int MAX_CAPACITY = 20;
 
+    protected static GlobalGameManager globalGameManager = null;
+    protected static GameTime gameTimer = null;
+    protected static GameObject spareCar = null;
+
     private int bottomFloor;
     private int topFloor;
-    [SerializeField] private float timePerFloor = 1.5F;
-
-    enum Status
-    {
-        idle,
-        returning,
-        ascend,
-        descend
-    }
+    private int homeFloor;
 
     struct PatronNode
     {
-        public GameObject gObject;
-        public Patron script;
-        public Status status;
-        public float timer;
+        public Patron thePatron;
+        public bool goingUp;
+        public ElevatorCar myCar;    //temp
     }
 
     private List<PatronNode>[] waitlist;
+    private List<ElevatorCar> elevators;
 
-	// Use this for initialization
-	void Start ()
+    void Awake()
+    {
+        #region References
+        globalGameManager = GameObject.Find("GameManager").GetComponent<GlobalGameManager>();
+        if (globalGameManager == null)
+            Debug.LogError("GameManager's GlobalGameManager not found for " + this + ".");
+
+        gameTimer = GameObject.Find("GameManager").GetComponent<GameTime>();
+        if (gameTimer == null)
+            Debug.LogError("GameTime not found for " + this + ".");
+
+        spareCar = Resources.Load("Prefabs/Transportation/ElevatorCar") as GameObject;
+        #endregion
+    }
+    // Use this for initialization
+    void Start ()
     {
         bottomFloor = 1;
         topFloor = -1;
@@ -38,31 +48,28 @@ public class ElevatorMain : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-	    for (int i=0; i < topFloor - bottomFloor+1; i++)
+        for (int k = elevators.Count - 1; k >= 0; k--)
         {
-            for (int j = 0; j < waitlist[i].Count; j++)
+            //HACK
+            //if elevator is empty and is idle, it is no longer useful
+            if (elevators[k].HasRoom() && elevators[k].IsReady())
             {
-                PatronNode temp = waitlist[i][j];
-                temp.timer += Time.deltaTime;
+                ElevatorCar temp = elevators[k];
+                elevators.RemoveAt(k);
+                Destroy(temp.gameObject);
+            }
+        }
 
-                if(temp.timer >= timePerFloor)
+        for (int i = 0; i < topFloor - bottomFloor + 1; i++)
+        {
+            for (int j = waitlist[i].Count - 1; j >= 0; j--)
+            {
+                //HACK
+                //Each passanger gets on the elevator spawned for them
+                if (waitlist[i][j].myCar.AcceptPatron(waitlist[i][j].thePatron))
                 {
-                    temp.timer -= timePerFloor;
-                    
-                    if (temp.status == Status.ascend)
-                    {
-                        temp.script.CurrentFloor++;
-                    }
-                    else if (temp.status == Status.ascend)
-                    {
-                        temp.script.CurrentFloor--;
-                    }
-
-                    //TODO: Check if on destination floor
-                    // if it is, get off
+                    waitlist[i].RemoveAt(j);
                 }
-                
-                waitlist[i][j] = temp;
             }
         }
 	}
@@ -76,6 +83,7 @@ public class ElevatorMain : MonoBehaviour {
         
         bottomFloor = nBottom;
         topFloor = nTop;
+        homeFloor = bottomFloor;
 
         waitlist = null;
         waitlist = new List<PatronNode>[topFloor - bottomFloor + 1];
@@ -92,23 +100,41 @@ public class ElevatorMain : MonoBehaviour {
         //TODO: All of this.
     }
 
-    public void EnqueuePatron (GameObject thePatron)
+    public void EnqueuePatron (Patron thePatron)
     {
-        Patron temp = thePatron.GetComponent<Patron>();
-        if (temp == null)
-        {
-            Debug.LogError("Calling GameObject not Patron.");
-            return;
-        }
-
         PatronNode theNode = new PatronNode();
-        theNode.gObject = thePatron;
-        theNode.script = temp;
-        theNode.timer = 0F;
-        
-        // TODO: Determine what floor the destination is on to set if status would be ascending or descending.
+        theNode.thePatron = thePatron;
+        theNode.goingUp = (thePatron.GetNextFloor() > thePatron.CurrentFloor);
+        theNode.myCar = SpawnElevator(thePatron.CurrentFloor);  //temp
 
-        waitlist[theNode.script.CurrentFloor - bottomFloor].Add(theNode);
+        waitlist[theNode.thePatron.CurrentFloor - bottomFloor].Add(theNode);
 
+    }
+
+    //temp, HACK
+    private ElevatorCar SpawnElevator(int floor)
+    {
+        GameObject newElevator = (GameObject)Instantiate(spareCar);
+        elevators.Add(newElevator.GetComponent<ElevatorCar>());
+        newElevator.GetComponent<ElevatorCar>().InsertShaft(this);
+        newElevator.GetComponent<ElevatorCar>().CallToFloor(floor);
+        newElevator.GetComponent<ElevatorCar>().SetFloor(floor);
+
+        return newElevator.GetComponent<ElevatorCar>();
+    }
+
+    public int GetBottomFloor()
+    {
+        return bottomFloor;
+    }
+
+    public int GetTopFloor()
+    {
+        return topFloor;
+    }
+
+    public int GetHomeFloor()
+    {
+        return bottomFloor;
     }
 }
