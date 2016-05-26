@@ -37,7 +37,7 @@ public class Destination : MonoBehaviour
     protected int constructionCost = 100; //0-x
     private bool temp = true; //bool to flag this as a new room
     protected bool transportation = false;
-    private int floor = 0; //what floor this room is on
+    [SerializeField] private int floor = 0; //what floor this room is on
 
     //live variables
     protected int maint = 1; //0-x

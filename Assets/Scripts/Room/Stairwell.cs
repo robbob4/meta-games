@@ -15,6 +15,8 @@ using System.Collections;
 
 public class Stairwell : Room
 {
+    protected bool[] servicedFloors;
+
     // Use this for fast initialization
     void Awake()
     {
@@ -23,8 +25,11 @@ public class Stairwell : Room
         maint = 10;
         rent = 0;
         capacity = 50;
-        transportation = true;
         desc = "Stairwells connect the floor immediately below it allowing patrons to change one floor.";
+
+        //Imitate TransportationDestination
+        servicedFloors = new bool[Pathing.MAX_FLOORS_HIGH];
+        transportation = true;
     }
 
     // Use this for initialization
@@ -92,5 +97,16 @@ public class Stairwell : Room
             currentCapacity--;
             visitors[i] = null;
         }
+    }
+
+    public bool FloorService(int query)
+    {
+        return servicedFloors[query];
+    }
+
+    public void UpdateServicedFloors()
+    {
+        servicedFloors[Floor] = true;
+        servicedFloors[Floor - 1] = true;
     }
 }

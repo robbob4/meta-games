@@ -117,6 +117,10 @@ public class Constructor : MonoBehaviour
                     //commit anything for the room
                     Room tempRoomComp = theRoom.GetComponent<Room>();
                     tempRoomComp.Floor = Mathf.RoundToInt((theRoom.transform.position.y + UNIT_HEIGHT / 2) / UNIT_HEIGHT); //set what floor this is now on
+                    if(tempRoomComp.Transportation)
+                    {
+                        ((Stairwell)tempRoomComp).UpdateServicedFloors(); //temp
+                    }
                     addFloors(); //add floors behind this floor
                     pather.AddDestination(tempRoomComp);
                     //TODO: set room's Temp to false if gameplpay is not paused

@@ -134,9 +134,8 @@ public class Patron : MonoBehaviour
                 }
 
                 //check if it is a room destination or transportation destination
-                if (nextDest.Transportation == true)
+                if (nextDest.Transportation == true && ((Stairwell)nextDest).FloorService(finalDest.Floor))
                 {
-                    //TODO: check if this is transportation we need
                     movement = false;
                     nextDest.Visit(this);
                 }

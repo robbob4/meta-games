@@ -22,33 +22,31 @@ public class BlockBehavior : MonoBehaviour
     private static GlobalGameManager globalGameManager = null;
 	private static ToolTip toolTipScript = null;
 
-    private Room theRoom = null;
+    private Destination theRoom = null;
     #endregion
 
 	public void Awake()
 	{
-
-	}
-
-    public void Start()
-	{
-	 	globalGameManagerObj = GameObject.Find("GameManager");
+        globalGameManagerObj = GameObject.Find("GameManager");
         if (globalGameManagerObj == null)
             Debug.Log("Unable to find GameManager for " + this + ".");
 
-		globalGameManager = globalGameManagerObj.GetComponent<GlobalGameManager>();
-		if (globalGameManager == null)
-			Debug.Log("Unable to find globalGameManagerObj for " + this + ".");
+        globalGameManager = globalGameManagerObj.GetComponent<GlobalGameManager>();
+        if (globalGameManager == null)
+            Debug.Log("Unable to find globalGameManagerObj for " + this + ".");
 
         toolTipScript = GameObject.Find("ToolTip").GetComponent<ToolTip>();
         if (toolTipScript == null)
             Debug.Log("Unable to find ToolTip for " + this + ".");
 
-        theRoom = GetComponent<Room>();
+        theRoom = GetComponent<Destination>();
         if (theRoom == null)
             Debug.Log("Unable to find Room for " + this + ".");
+    }
 
-        //toolTipScript.GetComponent<Image>().enabled = false;
+    public void Start()
+	{
+        
     }
 
     #region Triggers and mouse over events
@@ -56,18 +54,19 @@ public class BlockBehavior : MonoBehaviour
     {
         #region Tooltip
         // Infrequently updated elements
-        if (theRoom.Temp == false)
+        if (theRoom != null && theRoom.Temp == false)
         {
             toolTipScript.SetName(this.name);
             toolTipScript.SetInterest(theRoom.TheInterest);
         }
         #endregion
     }
+
     public void OnMouseOver()
     {
         #region Tooltip
         // Frequently updated elements
-        if (theRoom.Temp == false)
+        if (theRoom != null && theRoom.Temp == false)
         {
             toolTipScript.SetProfit(theRoom.Rent * theRoom.Visits - theRoom.Maint);
             toolTipScript.SetHappiness(theRoom.Happiness);
