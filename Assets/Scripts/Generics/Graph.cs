@@ -148,6 +148,61 @@ public class Graph<T> : IEnumerable<T>
         return true;
     }
 
+    public bool RemoveDirectedEdge(T valueFrom, T valueTo)
+    {
+        if (valueFrom == null || valueTo == null)
+            // one of the values invalid
+            return false;
+
+        GraphNode<T> nodeFrom = (GraphNode<T>)nodeSet.FindByValue(valueFrom);
+        GraphNode<T> nodeTo = (GraphNode<T>)nodeSet.FindByValue(valueTo);
+        if (nodeFrom == null || nodeTo == null)
+            // one of the nodes wasn't found
+            return false;
+
+        // find edge from nodeFrom to nodeTo
+        int index = nodeFrom.Neighbors.IndexOf(nodeTo);
+        if (index != -1)
+            nodeFrom.Neighbors.RemoveAt(index);
+        else
+            return false;
+
+        return true;
+    }
+
+    public bool RemoveUndirectedEdge(T valueFrom, T valueTo)
+    {
+        if (valueFrom == null || valueTo == null)
+            // one of the values invalid
+            return false;
+
+        GraphNode<T> nodeFrom = (GraphNode<T>)nodeSet.FindByValue(valueFrom);
+        GraphNode<T> nodeTo = (GraphNode<T>)nodeSet.FindByValue(valueTo);
+        if (nodeFrom == null || nodeTo == null)
+            // one of the nodes wasn't found
+            return false;
+
+        bool retVal = false;
+
+        // find edge from nodeFrom to nodeTo
+        int index = nodeFrom.Neighbors.IndexOf(nodeTo);
+        if (index != -1)
+        {
+            retVal = true;
+            nodeFrom.Neighbors.RemoveAt(index);
+        }
+
+        // find edge from nodeTo to nodeFrom
+        index = nodeTo.Neighbors.IndexOf(nodeFrom);
+        if (index != -1)
+        {
+            retVal = true;
+            nodeTo.Neighbors.RemoveAt(index);
+        }
+
+        return retVal;
+    }
+
     public NodeList<T> Nodes
     {
         get { return nodeSet; }
@@ -175,7 +230,7 @@ public class Graph<T> : IEnumerable<T>
     //TODO: Search from any node in dfs?
 
     //depth first search from root
-    public Stack<T> DepthFirstSearch(T search)
+    public Stack<T> DepthFirstSearch(T search, T origin)
     {
         Stack<T> retVal = new Stack<T>();
 
@@ -188,27 +243,41 @@ public class Graph<T> : IEnumerable<T>
         // initial output line
         //Debug.Log("Depth-first ordering until " + search + ":");
 
-        // for v = 0 to n
-        for (int v = 0; v < Count; v++)
+        // find index value
+        int index = 0;
+        if (origin != null)
         {
-            if (nodeSet[v].Visited == false)
-                dfsHelper(v, nodeSet, retVal, search);
+            Node<T> temp = nodeSet.FindByValue(origin);
+            index = nodeSet.IndexOf(temp);
+        }
+
+        // for v = 0 to n
+        //for (int v = 0; v < Count; v++)
+        //{
+        //if (nodeSet[index].Visited == false)
+        dfsHelper(index, nodeSet, retVal, search);
 
             //skip if another search found the node
-            if (retVal.Count >= 1 && retVal.Peek().Equals(search))
-            {
+            //if (retVal.Count >= 1 && retVal.Peek().Equals(search))
+            //{
                 //Debug.Log("Skipping outer loop!");
-                break;
-            }
-        }
+                //break;
+            //}
+        //}
 
         return retVal;
     }
 
-    //overload for a full search
+    //overload for a full search from root
     public Stack<T> DepthFirstSearch()
     {
-        return DepthFirstSearch(default(T));
+        return DepthFirstSearch(default(T), default(T));
+    }
+
+    //overload for a full search from a point
+    public Stack<T> DepthFirstSearch(T origin)
+    {
+        return DepthFirstSearch(default(T), origin);
     }
 
     //update the retVal NodeList with any relevant nodes
@@ -258,7 +327,7 @@ public class Graph<T> : IEnumerable<T>
         }
 
         // initial output line
-        Debug.Log("Breadth-first ordering until " + search + ":");
+        //Debug.Log("Breadth-first ordering until " + search + ":");
 
         // find index value
         int index = 0;
@@ -271,7 +340,7 @@ public class Graph<T> : IEnumerable<T>
         //// for v = 0 to n
         //for (int v = 0; v < Count; v++)
         //{
-            if (nodeSet[index].Visited == false)
+            //if (nodeSet[index].Visited == false)
                 bfsHelper(index, nodeSet, retVal, search);
 
             //skip if another search found the node

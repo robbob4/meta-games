@@ -43,6 +43,9 @@ public class Patron : MonoBehaviour
     private bool movement = true;
     private bool worker = false;
     private bool exiting = false;
+
+    private bool visitComplete = false; //temp
+    private Destination lastDest = null;
     #endregion
 
     // Use this for fast initialization
@@ -111,10 +114,17 @@ public class Patron : MonoBehaviour
             {
                 stairwellValid = CurrentFloor == nextDest.Floor - 1;
             }
-                
+
             if (movement == true && (CurrentFloor == nextDest.Floor || stairwellValid) && Mathf.Abs(nextDest.transform.position.x - transform.position.x) <= nextDest.transform.lossyScale.x / 2)
             {
                 Debug.Log("Reached " + nextDest);
+
+                if (visitComplete)
+                    Destroy(gameObject); //temp
+
+                //temp
+                visitComplete = true;
+                lastDest = nextDest;
 
                 //reached lobby exit?
                 if (nextDest == finalDest && nextDest == globalGameManager.Lobby)
@@ -160,7 +170,11 @@ public class Patron : MonoBehaviour
                 {
                     //go home
                     setDestination();
+                    Destroy(gameObject); //temp
                 }
+
+                if (nextDest != lastDest) //temp
+                    visitComplete = false;
 
             }
             #endregion

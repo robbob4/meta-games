@@ -114,9 +114,9 @@ public class GraphDemo : MonoBehaviour
 	}
 
     //function for the demo
-    private void TestRunDFS(string input)
+    private void TestRun(string input)
     {
-        Stack<string> result = rooms.DepthFirstSearch(input);
+        Stack<string> result = rooms.DepthFirstSearch(input, "Shoes");
 
         Output.text = "DFS result for " + input + ":\n\n";
         while (result.Count >= 1)
@@ -124,7 +124,7 @@ public class GraphDemo : MonoBehaviour
     }
 
     //bfs
-    private void TestRun(string input)
+    private void TestRunBFS(string input)
     {
         Stack<string> result = rooms.BreadthFirstSearch(input, "Shoes");
 
