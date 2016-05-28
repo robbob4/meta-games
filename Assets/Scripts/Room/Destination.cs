@@ -30,6 +30,7 @@ public class Destination : MonoBehaviour
     protected static GlobalGameManager globalGameManager = null;
     protected static GameTime gameTimer = null;
     protected static GameObject patronToSpawn = null;
+    protected static Pathing pather = null;
 
     //construction variables
     protected string desc = "Floors provide structural integitry to your tower. They are automatically placed behind new rooms.";
@@ -61,6 +62,10 @@ public class Destination : MonoBehaviour
         gameTimer = globalGameManager.GetComponent<GameTime>();
         if (gameTimer == null)
             Debug.LogError("GameTime not found for " + this + ".");
+
+        pather = globalGameManager.GetComponent<Pathing>();
+        if (pather == null)
+            Debug.LogError("Pather not found for " + this + ".");
 
         patronToSpawn = Resources.Load("Prefabs/Patron/Patron") as GameObject;
         #endregion
@@ -157,7 +162,7 @@ public class Destination : MonoBehaviour
         get { return floor; }
         set
         {
-            if (floor == 0) //can only be temp once
+            if (floor == 0) //can only be set once
                 floor = value;
             else
                 Debug.Log(value + " is invalid floor value for " + this + ".");

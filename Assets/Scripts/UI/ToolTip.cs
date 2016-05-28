@@ -98,6 +98,11 @@ public class ToolTip : MonoBehaviour
             ShowTooltip();
 
         roomName.text = title;
+
+        if (title == "Unreachable")
+            roomName.color = Color.red;
+        else
+            roomName.color = Color.black;
     }
 
     // Changes the interest icon
@@ -193,6 +198,11 @@ public class ToolTip : MonoBehaviour
             ShowTooltip();
 
         roomProfit.text = profit.ToString("c", format);
+
+        if (profit < 0)
+            roomProfit.color = Color.red;
+        else
+            roomProfit.color = Color.black;
     }
 
     // Appends % to the end of given string
@@ -202,6 +212,11 @@ public class ToolTip : MonoBehaviour
             ShowTooltip();
 
         roomHappiness.text = happiness + "%";
+
+        if (happiness < 50)
+            roomHappiness.color = Color.red;
+        else
+            roomHappiness.color = Color.black;
     }
 
     // Changes the current and max capacity values with a " / " in between

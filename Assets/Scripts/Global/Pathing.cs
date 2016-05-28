@@ -1,7 +1,7 @@
 ﻿// ---------------------------- Pathing.cs -------------------------------
 // Author - Robert Griswold CSS 385
 // Created - May 12, 2016
-// Modified - May 12, 2016
+// Modified - May 27, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for pathing for patrons and rooms.
 // ----------------------------------------------------------------------------
@@ -16,6 +16,10 @@ using System.Collections;
 public class Pathing : MonoBehaviour
 {
     #region Variables
+    //references
+    GlobalGameManager globalGameManager = null;
+
+    //other
     public const int MAX_FLOORS_HIGH = 40;
     public const int MAX_FLOORS_WIDE = 10;
     Graph<Destination> rooms;
@@ -25,13 +29,14 @@ public class Pathing : MonoBehaviour
     // Use this for fast initialization
     void Awake()
     {
+        globalGameManager = GameObject.Find("GameManager").GetComponent<GlobalGameManager>();
+        if (globalGameManager == null)
+            Debug.Log("GameManager not found for " + this + ".");
+
         rooms = new Graph<Destination>();
-        Destination fakeLobby = GameObject.Find("FakeLobby").GetComponent<Destination>();
-        if (fakeLobby == null)
-            Debug.Log("FakeLobby destination not found for " + this + ".");
-        rooms.AddNode(fakeLobby);
-        fakeLobby.Floor = 1;
-        roomsByFloor[1, 0] = fakeLobby;
+        rooms.AddNode(globalGameManager.Lobby);
+        globalGameManager.Lobby.Floor = 1;
+        roomsByFloor[1, 0] = globalGameManager.Lobby;
     }
 
     // Use this for initialization
@@ -82,15 +87,25 @@ public class Pathing : MonoBehaviour
         while (temp.Count > 0 && temp.Peek().name != from)
             result = temp.Pop();
 
+        Debug.Log("string from " + from + " to " + to + " -> " + result);
         return result;
     }
 
     public bool PathExists(Destination origin, Destination target)
     {
-        //todo upgrade dfs for this action
         Stack<Destination> temp = rooms.DepthFirstSearch(target, origin);
         //Stack<Destination> temp = rooms.BreadthFirstSearch(target, origin);
-        return temp.Pop() == target;
+
+        if (temp.Count >= 1)
+        {
+            //Debug.Log("from " + origin + " to " + target + " -> " + temp.Peek());
+            return temp.Pop() == target;
+        }
+        else
+        {
+            return false;
+        }
+            
     }
 
     //add a new destination
@@ -145,6 +160,24 @@ public class Pathing : MonoBehaviour
         }
     }
 
+    // remove a room from
+    public bool RemoveDestination(Destination theRoom)
+    {
+        //remove from floor array
+        for (int i = 0; i < MAX_FLOORS_WIDE; i++)
+        {
+            if (roomsByFloor[theRoom.Floor,i] == theRoom)
+            {
+                roomsByFloor[theRoom.Floor, i] = null;
+                break;
+            }
+        }
+
+        //remove from the graph
+        return rooms.Remove(theRoom);
+    }
+
+    // find the closest destination on the same floor to the left
     private Destination leftClosestNode(Destination search)
     {
         // validate input
@@ -173,6 +206,7 @@ public class Pathing : MonoBehaviour
         return retVal;
     }
 
+    // find the cloeset destination on the same floor to the right
     private Destination rightClosestNode(Destination search)
     {
         // validate input
@@ -189,7 +223,7 @@ public class Pathing : MonoBehaviour
             if (temp != null && temp != search)
             {
                 float tempDistance = temp.transform.position.x - search.transform.position.x;
-                if (tempDistance >  0 && (distance == 0 || tempDistance < distance))
+                if (tempDistance > 0 && (distance == 0 || tempDistance < distance))
                 {
                     // found a closer distance
                     distance = tempDistance;
@@ -201,6 +235,7 @@ public class Pathing : MonoBehaviour
         return retVal;
     }
 
+    // find the closest destination below the current floor
     private Destination belowClosestNode(Destination search)
     {
         // validate input
@@ -222,6 +257,31 @@ public class Pathing : MonoBehaviour
                     // found a closer distance
                     distance = tempDistance;
                     retVal = roomsByFloor[search.Floor - 1, i];
+                }
+            }
+        }
+
+        return retVal;
+    }
+
+    // find the closest destination below the current floor
+    public Destination ClosestDestination(float x, int floor)
+    {
+        float distance = 0;
+        Destination retVal = null;
+
+        // search each node on the floor
+        for (int i = 0; i < MAX_FLOORS_WIDE; i++)
+        {
+            Destination temp = roomsByFloor[floor, i];
+            if (temp != null)
+            {
+                float tempDistance = Mathf.Abs(x - temp.transform.position.x);
+                if (distance == 0 || tempDistance < distance)
+                {
+                    // found a closer distance
+                    distance = tempDistance;
+                    retVal = roomsByFloor[floor, i];
                 }
             }
         }

@@ -1,7 +1,7 @@
 ﻿// -------------------------------- Room.cs -----------------------------------
 // Author - Robert Griswold CSS 385
 // Created - May 2, 2016
-// Modified - May 26, 2016
+// Modified - May 27, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a base room class that inherits from the 
 // Destination class. Specifies happiness, spawnchance, and spawnDelayModulo.
@@ -19,16 +19,19 @@ public class Room : Destination
     //live variables
     protected int spawnChance = 5; //0-100%
     protected int spawnDelayModulo = 15; //game minutes modulo between spawn attempts (spawns when mod result is 0)
-    protected int lastModulo = -1; //just used to track the last modulo incase a frame skips over the exact result
+    private int lastModulo = -1; //just used to track the last modulo incase a frame skips over the exact result
     #endregion
 
     protected virtual bool spawner()
     {
         bool retVal = false;
 
+        //make sure this isnt temp, game isnt paused
         if (!Temp && !globalGameManager.Paused)
         {
-            if (lastModulo > gameTimer.Min % spawnDelayModulo) 
+            //Delay spawning perodically and only spawn if a path exists
+            
+            if (lastModulo > gameTimer.Min % spawnDelayModulo && pather.PathExists(this, globalGameManager.Lobby)) 
             {
                 float prob = Random.Range(0.0f, 100.0f);
                 if (prob <= spawnChance)
@@ -40,7 +43,7 @@ public class Room : Destination
                 }
                 else
                 {
-                    Debug.Log(prob);
+                    //Debug.Log(prob);
                 }
             }
 

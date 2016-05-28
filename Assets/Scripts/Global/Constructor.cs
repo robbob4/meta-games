@@ -62,6 +62,7 @@ public class Constructor : MonoBehaviour
     private ToolType currentTool = ToolType.Inspect;
     private bool placing = false;
     private Vector3 target = new Vector3(0, 0, 0);
+    bool floor = false; //used to indicate if we are building something other than a room
     #endregion
 
     void Start()
@@ -108,23 +109,29 @@ public class Constructor : MonoBehaviour
                 {
                     placing = true;
 
-                    if (descriptionBox.getTitle() == "Floor Info")
-                        globalGameManager.GetSoundEffect("floor_s").Play();
-                    else
-                        globalGameManager.GetSoundEffect("construction_s").Play();
-                    globalGameManager.Deduct(theCost); //Deduct cost from player funds
-
                     //commit anything for the room
                     Room tempRoomComp = theRoom.GetComponent<Room>();
                     tempRoomComp.Floor = Mathf.RoundToInt((theRoom.transform.position.y + UNIT_HEIGHT / 2) / UNIT_HEIGHT); //set what floor this is now on
-                    if(tempRoomComp.Transportation)
+
+                    if (floor)
+                    {
+                        globalGameManager.GetSoundEffect("floor_s").Play();
+                    }   
+                    else
+                    {
+                        globalGameManager.GetSoundEffect("construction_s").Play();
+                        pather.AddDestination(tempRoomComp);
+                    }
+                        
+                    globalGameManager.Deduct(theCost); //Deduct cost from player funds
+                    //TODO: set room's Temp to false if gameplpay is not paused
+                    theRoom.GetComponent<Room>().Temp = false;
+                    addFloors(); //add floors behind this floor
+
+                    if (tempRoomComp.Transportation)
                     {
                         ((Stairwell)tempRoomComp).UpdateServicedFloors(); //temp
                     }
-                    addFloors(); //add floors behind this floor
-                    pather.AddDestination(tempRoomComp);
-                    //TODO: set room's Temp to false if gameplpay is not paused
-                    theRoom.GetComponent<Room>().Temp = false;
                     
                     //prepare a new room to repeat construction
                     theRoom = (GameObject)Instantiate(roomToSpawn);
@@ -165,6 +172,7 @@ public class Constructor : MonoBehaviour
         currentTool = ToolType.Build;
 
         theRoom = null;
+        floor = false;
 
         switch (type)
         {
@@ -222,7 +230,8 @@ public class Constructor : MonoBehaviour
 				    Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, roomToSpawn.transform.position.z)),
 				    roomToSpawn.transform.rotation);
 			    descriptionBox.SetTitle("Floor Info");
-			    break;
+                floor = true;
+                break;
 
             case ConstructionType.Stairwell:
                 roomToSpawn = Resources.Load("Prefabs/Room/Stairwell") as GameObject;

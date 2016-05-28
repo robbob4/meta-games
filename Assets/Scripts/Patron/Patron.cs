@@ -1,7 +1,7 @@
 ﻿// ------------------------------- Patron.cs -----------------------------------
 // Author - Robert Griswold CSS 385
 // Created - May 12, 2016
-// Modified - May 26, 2016
+// Modified - May 27, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a base patron.
 // ----------------------------------------------------------------------------
@@ -32,20 +32,19 @@ public class Patron : MonoBehaviour
 
     #region Variables
     protected int[] interests = new int[7]; //array of interests all 1-99
-    protected Destination nextDest = null;
-    protected Destination finalDest = null;
+    [SerializeField] protected Destination nextDest = null;
+    [SerializeField] protected Destination finalDest = null;
     protected float speed = 0.3f;
     protected static GlobalGameManager globalGameManager = null;
     private static Pathing pather = null;
     private int happiness = 50; //0-100
-    private int money = 1000; //0-x
-    private int floor = 1; //what floor the patron is on
-    private bool movement = true;
+    [SerializeField] private int money = 1000; //0-x
+    [SerializeField] private int floor = 1; //what floor the patron is on
+    [SerializeField] private bool movement = true;
     private bool worker = false;
-    private bool exiting = false;
+    [SerializeField] private bool exiting = false;
 
-    private bool visitComplete = false; //temp
-    private Destination lastDest = null;
+    private int despawning = 100;
     #endregion
 
     // Use this for fast initialization
@@ -81,17 +80,23 @@ public class Patron : MonoBehaviour
     void Update()
     {
         #region Null checking
-        if(nextDest == null)
+        if (nextDest == null && despawning % 10 == 0)
         {
+            Debug.Log(this + " is unable to find any destination.");
             //try to find a new destination
-            setDestination(null);
+            setDestination();
+            despawning--;
 
-            if (nextDest == null)
-            {
-                Debug.Log(this + " is unable to find any destination.");
+            if (despawning <= 0)
                 Destroy(gameObject);
-                return;
-            }
+
+            return;
+        }
+
+        if (nextDest == null || finalDest == null)
+        {
+            despawning--;
+            return;
         }
         #endregion
 
@@ -112,27 +117,19 @@ public class Patron : MonoBehaviour
             {
                 Debug.Log("Reached " + nextDest);
 
-                //if (visitComplete)
-                //    Destroy(gameObject); //temp
-
-                ////temp
-                //visitComplete = true;
-                //lastDest = nextDest;
-
                 //reached lobby exit?
                 if (nextDest == finalDest && nextDest == globalGameManager.Lobby)
                 {
-                    Debug.Log(this + " finished");
+                    Debug.Log(this + " exited.");
                     Destroy(gameObject);
                 }
 
                 if (nextDest.Transportation == true) // next destination is transporation
-                //if (nextDest.Transportation == true && ((Stairwell)nextDest).FloorService(finalDest.Floor))
                 {
                     //check if this transporation gets us closer
-                    Stairwell temp = (Stairwell)nextDest;
+                    Stairwell temp = (Stairwell)nextDest; //temp until a real transporation is implemented
 
-                    if (CurrentFloor < finalDest.Floor) // going up
+                    if (CurrentFloor < finalDest.Floor) //going up
                     {
                         for (int i = finalDest.Floor; i > CurrentFloor; i--)
                         {
@@ -141,10 +138,12 @@ public class Patron : MonoBehaviour
                                 if (i != finalDest.Floor)
                                 {
                                     //check if this transporation still has a valid route to final destination
-                                    // break out if not
+                                    if (pather.PathExists(nextDest, finalDest) == false)
+                                        break;
                                 }
                                 movement = false;
                                 nextDest.Visit(this);
+                                break;
                             }
                         }
                     }
@@ -156,11 +155,13 @@ public class Patron : MonoBehaviour
                             {
                                 if (i != finalDest.Floor)
                                 {
-                                    //check if this transporation still has a valid route to final destination
-                                    // break out if not
+                                    //check if this transporation has a valid route to final destination
+                                    if (pather.PathExists(nextDest, finalDest) == false)
+                                        break;
                                 }
                                 movement = false;
                                 nextDest.Visit(this);
+                                break;
                             }
                         }
                     } 
@@ -193,15 +194,9 @@ public class Patron : MonoBehaviour
                 else
                 {
                     //go home
+                    exiting = true;
                     setDestination();
-                    //Destroy(gameObject); //temp
                 }
-
-                Debug.Log(this + " 's floor: " + CurrentFloor); //temp
-
-                //if (nextDest != lastDest) //temp
-                //    visitComplete = false;
-
             }
             #endregion
 
@@ -209,6 +204,7 @@ public class Patron : MonoBehaviour
             if (!exiting && (Money <= 0 || Happiness <= 0))
             {
                 //leave the building
+                exiting = true;
                 setDestination();
 
                 if (Happiness <= 0)
@@ -227,6 +223,7 @@ public class Patron : MonoBehaviour
             finalDest = globalGameManager.Lobby;
 
         if (nextDest == null)
+            //nextDest = pather.ClosestDestination(this.transform.position.x, CurrentFloor);
             nextDest = globalGameManager.Lobby;
 
         nextDest = pather.NextDestination(nextDest, finalDest);

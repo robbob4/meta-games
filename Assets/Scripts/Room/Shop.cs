@@ -14,8 +14,6 @@ using System.Collections;
 
 public class Shop : Retail
 {
-    bool temp = false; //temp
-
     // Use this for fast initialization
     void Awake()
     {
@@ -39,6 +37,6 @@ public class Shop : Retail
     // Update is called once per frame
     void Update()
     {
-        spawner();
+            spawner();
     }
 }

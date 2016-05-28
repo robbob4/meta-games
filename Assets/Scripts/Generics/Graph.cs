@@ -1,7 +1,7 @@
 ﻿// -------------------------------- Graph.cs -----------------------------------
 // Author - Robert Griswold CSS 385
 // Created - May 4, 2016
-// Modified - May 5, 2016
+// Modified - May 27, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a generic graph class with breadth first search
 // and depth first serach.
@@ -313,7 +313,8 @@ public class Graph<T> : IEnumerable<T>
             }
         }
 
-        Debug.Log("Removed " + retVal.Pop()); //remove worthless?
+        retVal.Pop();
+        //Debug.Log("Removed " + ); //remove worthless?
     }
 
     //breadth first search from a node
@@ -406,6 +407,6 @@ public class Graph<T> : IEnumerable<T>
                     tempQueue.Enqueue((GraphNode<T>)x.Neighbors[w]);
                 }
             }
-        }        
+        }   
     }
 }

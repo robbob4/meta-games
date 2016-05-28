@@ -2,7 +2,7 @@
 // Author - Sam Williams CSS 385
 // Author - Robert Griswold CSS 385
 // Created - May 4, 2016
-// Modified - May 26, 2016
+// Modified - May 27, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for block behavior for mouse over and collision 
 // related events. Maintains a collided boolean for use in the constructor.
@@ -21,6 +21,7 @@ public class BlockBehavior : MonoBehaviour
     private static GameObject globalGameManagerObj = null;
     private static GlobalGameManager globalGameManager = null;
 	private static ToolTip toolTipScript = null;
+    private static Pathing pather = null;
 
     private Destination theRoom = null;
     #endregion
@@ -42,11 +43,15 @@ public class BlockBehavior : MonoBehaviour
         theRoom = GetComponent<Destination>();
         if (theRoom == null)
             Debug.Log("Unable to find Room for " + this + ".");
+
+        pather = globalGameManagerObj.GetComponent<Pathing>();
+        if (pather == null)
+            Debug.Log("Unable to find pather for " + this + ".");
     }
 
     public void Start()
 	{
-        
+
     }
 
     #region Triggers and mouse over events
@@ -58,6 +63,12 @@ public class BlockBehavior : MonoBehaviour
         {
             toolTipScript.SetName(this.name);
             toolTipScript.SetInterest(theRoom.TheInterest);
+
+            //check if reachable
+            if (pather.PathExists(theRoom, globalGameManager.Lobby) == false)
+            {
+                toolTipScript.SetName("Unreachable");
+            }
         }
         #endregion
     }
@@ -91,6 +102,7 @@ public class BlockBehavior : MonoBehaviour
                 //call anything the room needs to do on deconstruction
                 toolTipScript.HideTooltip();
                 thisRoom.Evict();
+                pather.RemoveDestination(thisRoom);
             }
 
             globalGameManager.GetSoundEffect("deconstruction_s").Play();
@@ -105,7 +117,6 @@ public class BlockBehavior : MonoBehaviour
         toolTipScript.HideTooltip();
     }
 }
-
 
 
 	/*
