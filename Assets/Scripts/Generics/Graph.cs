@@ -312,6 +312,8 @@ public class Graph<T> : IEnumerable<T>
                 return;
             }
         }
+
+        Debug.Log("Removed " + retVal.Pop()); //remove worthless?
     }
 
     //breadth first search from a node

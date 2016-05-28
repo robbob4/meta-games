@@ -14,6 +14,8 @@ using System.Collections;
 
 public class Shop : Retail
 {
+    bool temp = false; //temp
+
     // Use this for fast initialization
     void Awake()
     {

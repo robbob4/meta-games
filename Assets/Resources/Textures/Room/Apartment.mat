@@ -19,8 +19,8 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 0}
+          m_Texture: {fileID: 2800000, guid: 75dcabc3325a4184aa5ec32d4a36cf9b, type: 3}
+          m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
@@ -45,7 +45,7 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 1, g: 0.19852942, b: 0.77890456, a: 1}
+        second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
           name: _OutlineColor

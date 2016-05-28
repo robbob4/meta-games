@@ -30,6 +30,7 @@ public class Pathing : MonoBehaviour
         if (fakeLobby == null)
             Debug.Log("FakeLobby destination not found for " + this + ".");
         rooms.AddNode(fakeLobby);
+        fakeLobby.Floor = 1;
         roomsByFloor[1, 0] = fakeLobby;
     }
 

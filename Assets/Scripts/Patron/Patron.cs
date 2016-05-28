@@ -108,23 +108,16 @@ public class Patron : MonoBehaviour
             #endregion
 
             #region Reached next destination
-            //special case for stairwell
-            bool stairwellValid = false;
-            if (nextDest.Transportation == true)
-            {
-                stairwellValid = CurrentFloor == nextDest.Floor - 1;
-            }
-
-            if (movement == true && (CurrentFloor == nextDest.Floor || stairwellValid) && Mathf.Abs(nextDest.transform.position.x - transform.position.x) <= nextDest.transform.lossyScale.x / 2)
+            if (movement == true && Mathf.Abs(nextDest.transform.position.x - transform.position.x) <= nextDest.transform.lossyScale.x / 4)
             {
                 Debug.Log("Reached " + nextDest);
 
-                if (visitComplete)
-                    Destroy(gameObject); //temp
+                //if (visitComplete)
+                //    Destroy(gameObject); //temp
 
-                //temp
-                visitComplete = true;
-                lastDest = nextDest;
+                ////temp
+                //visitComplete = true;
+                //lastDest = nextDest;
 
                 //reached lobby exit?
                 if (nextDest == finalDest && nextDest == globalGameManager.Lobby)
@@ -133,13 +126,46 @@ public class Patron : MonoBehaviour
                     Destroy(gameObject);
                 }
 
-                //check if it is a room destination or transportation destination
-                if (nextDest.Transportation == true && ((Stairwell)nextDest).FloorService(finalDest.Floor))
+                if (nextDest.Transportation == true) // next destination is transporation
+                //if (nextDest.Transportation == true && ((Stairwell)nextDest).FloorService(finalDest.Floor))
                 {
-                    movement = false;
-                    nextDest.Visit(this);
+                    //check if this transporation gets us closer
+                    Stairwell temp = (Stairwell)nextDest;
+
+                    if (CurrentFloor < finalDest.Floor) // going up
+                    {
+                        for (int i = finalDest.Floor; i > CurrentFloor; i--)
+                        {
+                            if (temp.FloorService(i) == true)
+                            {
+                                if (i != finalDest.Floor)
+                                {
+                                    //check if this transporation still has a valid route to final destination
+                                    // break out if not
+                                }
+                                movement = false;
+                                nextDest.Visit(this);
+                            }
+                        }
+                    }
+                    else if (CurrentFloor > finalDest.Floor) //going down
+                    {
+                        for (int i = finalDest.Floor; i < CurrentFloor; i++)
+                        {
+                            if (temp.FloorService(i) == true)
+                            {
+                                if (i != finalDest.Floor)
+                                {
+                                    //check if this transporation still has a valid route to final destination
+                                    // break out if not
+                                }
+                                movement = false;
+                                nextDest.Visit(this);
+                            }
+                        }
+                    } 
                 }
-                else
+                else //next destination is not a transporation
                 {
                     //determine if we should visit this room
                     if (globalGameManager.Paused == false && worker == false && CurrentFloor == nextDest.Floor && interestCheck(nextDest.TheInterest))
@@ -153,7 +179,6 @@ public class Patron : MonoBehaviour
                         }
                         else
                         {
-                            //Status message: crowded
                             globalGameManager.NewStatus(nextDest.name + " is crowded!", true);
                             Happiness -= 20; //happiness deducation
                         }
@@ -169,11 +194,13 @@ public class Patron : MonoBehaviour
                 {
                     //go home
                     setDestination();
-                    Destroy(gameObject); //temp
+                    //Destroy(gameObject); //temp
                 }
 
-                if (nextDest != lastDest) //temp
-                    visitComplete = false;
+                Debug.Log(this + " 's floor: " + CurrentFloor); //temp
+
+                //if (nextDest != lastDest) //temp
+                //    visitComplete = false;
 
             }
             #endregion

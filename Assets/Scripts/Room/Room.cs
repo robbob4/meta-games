@@ -22,8 +22,10 @@ public class Room : Destination
     protected int lastModulo = -1; //just used to track the last modulo incase a frame skips over the exact result
     #endregion
 
-    protected virtual void spawner()
+    protected virtual bool spawner()
     {
+        bool retVal = false;
+
         if (!Temp && !globalGameManager.Paused)
         {
             if (lastModulo > gameTimer.Min % spawnDelayModulo) 
@@ -34,15 +36,18 @@ public class Room : Destination
                     GameObject thePatron = (GameObject)Instantiate(patronToSpawn);
                     thePatron.transform.position = globalGameManager.SpawnPosition;
                     thePatron.GetComponent<Patron>().setDestination(this.GetComponent<Destination>()); //route patron here
+                    retVal = true;
                 }
                 else
                 {
-                    //Debug.Log(prob);
+                    Debug.Log(prob);
                 }
             }
 
             lastModulo = gameTimer.Min % spawnDelayModulo;
         }
+
+        return retVal;
     }
 
     #region Getters and setters
