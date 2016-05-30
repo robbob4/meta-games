@@ -31,4 +31,10 @@ public class Leased : Room
 		}
 		base.maintainance ();
 	}
+
+	protected override IEnumerator VisitDelay(int i)
+	{
+		yield return new WaitForSeconds(delay);
+
+	}
 }

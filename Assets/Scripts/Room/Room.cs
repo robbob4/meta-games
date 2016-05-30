@@ -43,7 +43,7 @@ public class Room : Destination
 						thePatron.GetComponent<Patron> ().setDestination (this.GetComponent<Destination> ()); //route patron here
 						retVal = true;
 					} else {
-						Debug.Log(prob);
+						//Debug.Log(prob);
 					}
 				}
 

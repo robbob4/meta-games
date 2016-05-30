@@ -264,7 +264,7 @@ public class Pathing : MonoBehaviour
         return retVal;
     }
 
-    // find the closest destination below the current floor
+    // find the closest destination at current floor
     public Destination ClosestDestination(float x, int floor)
     {
         float distance = 0;

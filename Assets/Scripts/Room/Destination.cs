@@ -109,8 +109,9 @@ public class Destination : MonoBehaviour
         {
             if (visitors[i] != null)
             {
+				currentCapacity--;
                 visitors[i].Movement = true;
-                visitors[i].setDestination(null); //set patron finalDest to lobby
+                visitors[i].setDestination(this, null); //set patron finalDest to lobby
                 visitors[i] = null;
             }
         }
@@ -137,7 +138,7 @@ public class Destination : MonoBehaviour
             globalGameManager.GetSoundEffect("cash_s").Play();
             globalGameManager.Payment(this.rent);
             StartCoroutine(VisitDelay(i));
-            return true;
+			return true;
         }
         else
         {
@@ -147,7 +148,7 @@ public class Destination : MonoBehaviour
     }
 
     //demo ejection after delay (default 4) seconds
-    IEnumerator VisitDelay(int i)
+    protected virtual IEnumerator VisitDelay(int i)
     {
         yield return new WaitForSeconds(delay);
 

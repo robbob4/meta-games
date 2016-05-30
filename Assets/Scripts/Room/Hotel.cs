@@ -17,7 +17,8 @@ public class Hotel : Leased
     // Use this for fast initialization
     void Awake()
     {
-        roomSize = Room.Size.Medium;
+		theInterest = Patron.Interest.Hotel;
+		roomSize = Room.Size.Medium;
         constructionCost = 50000;
         maint = 500;
         rent = 5000;
@@ -39,12 +40,14 @@ public class Hotel : Leased
     void Update()
     {
 		maintainance ();
-		Debug.Log ("hotel update: spawns" + spawnCount + " cap: " + capacity);
-		if(spawnCount < capacity)
+		//Debug.Log ("hotel update: spawns" + spawnCount + " cap: " + capacity);
+		if (spawnCount < capacity)
 		{
-			if (spawner () == true) {
+			if (spawner () == true)
+			{
 				spawnCount++;
 			}
 		}
     }
+
 }

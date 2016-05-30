@@ -27,12 +27,14 @@ public class Patron : MonoBehaviour
         Health = 3,
         Spicy = 4,
         Savory = 5,
-        Sweet = 6
+        Sweet = 6,
+		Home = 7,
+		Hotel = 8
     }
     #endregion
 
     #region Variables
-    protected int[] interests = new int[7]; //array of interests all 1-99
+    protected int[] interests = new int[9]; //array of interests all 1-99
     [SerializeField] protected Destination nextDest = null;
     [SerializeField] protected Destination finalDest = null;
     protected float speed = 0.3f;
@@ -70,6 +72,7 @@ public class Patron : MonoBehaviour
         {
             interests[i] = Mathf.CeilToInt(Random.Range(min, max));
         }
+		interests[7] = interests[8] = 100;
         #endregion
 		gameTimer = globalGameManager.GetComponent<GameTime>();
 		if (gameTimer == null)
@@ -94,7 +97,7 @@ public class Patron : MonoBehaviour
         {
             Debug.Log(this + " is unable to find any destination.");
             //try to find a new destination
-            setDestination();
+			setDestination(null, true);
             despawning--;
 
             if (despawning <= 0)
@@ -191,6 +194,7 @@ public class Patron : MonoBehaviour
                         else
                         {
                             globalGameManager.NewStatus(nextDest.name + " is crowded!", true);
+							Debug.Log("spam?");
                             Happiness -= 20; //happiness deducation
                         }
                     }
@@ -232,9 +236,10 @@ public class Patron : MonoBehaviour
         else
             finalDest = globalGameManager.Lobby;
 
-        if (nextDest == null)
-            //nextDest = pather.ClosestDestination(this.transform.position.x, CurrentFloor);
-            nextDest = globalGameManager.Lobby;
+		if (nextDest == null) {
+			//nextDest = pather.ClosestDestination(this.transform.position.x, CurrentFloor);
+			nextDest = globalGameManager.Lobby;
+		}
 
         nextDest = pather.NextDestination(nextDest, finalDest);
     }
@@ -244,6 +249,21 @@ public class Patron : MonoBehaviour
     {
         setDestination(null);
     }
+
+	public void setDestination(Destination from, Destination newFinalDestination)
+	{
+		nextDest = from;
+		setDestination (newFinalDestination);
+	}
+
+	public void setDestination(Destination newFinalDestination, bool findClosest)
+	{
+		if (findClosest) {
+			nextDest = pather.ClosestDestination(this.transform.position.x, CurrentFloor);
+		}
+		setDestination (newFinalDestination);			
+	}
+
 
     // randomly determine whether the interest check passed
     private bool interestCheck(Interest check)

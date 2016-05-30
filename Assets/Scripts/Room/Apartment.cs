@@ -17,6 +17,7 @@ public class Apartment : Leased
     // Use this for fast initialization
     void Awake()
     {
+		theInterest = Patron.Interest.Home;
         roomSize = Room.Size.Small;
         constructionCost = 25000;
         maint = 250;
@@ -42,4 +43,5 @@ public class Apartment : Leased
 			}
 		}
     }
+
 }
