@@ -210,7 +210,6 @@ public class ToolTip : MonoBehaviour
     {
         if (!visible)
             ShowTooltip();
-
         roomHappiness.text = happiness + "%";
 
         if (happiness < 50)

@@ -34,9 +34,12 @@ public class Apartment : Leased
     // Update is called once per frame
     void Update()
     {
-        //while(spawnCount < capacity)
-        //{
-        //    spawner();
-        //}
+		maintainance ();
+		if(spawnCount < capacity)
+		{
+			if (spawner () == true) {
+				spawnCount++;
+			}
+		}
     }
 }

@@ -41,7 +41,7 @@ public class Stairwell : Room
     // Update is called once per frame
     void Update()
     {
-
+		maintainance ();
     }
 
     public override bool Visit(Patron visitor)

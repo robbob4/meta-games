@@ -20,37 +20,37 @@ public class Room : Destination
     protected int spawnChance = 5; //0-100%
     protected int spawnDelayModulo = 15; //game minutes modulo between spawn attempts (spawns when mod result is 0)
     private int lastModulo = -1; //just used to track the last modulo incase a frame skips over the exact result
-    #endregion
 
+	protected int minHour = 7;
+	protected int maxHour = 17;
+
+    #endregion
+	//hotel spawn 12 - 24
+	//other spawn 7 - 17
     protected virtual bool spawner()
     {
-        bool retVal = false;
+		bool retVal = false;
+		if (gameTimer.Hour24 >= minHour && gameTimer.Hour24 <= maxHour) {
+			//make sure this isnt temp, game isnt paused
+			if (!Temp && !globalGameManager.Paused) {
+				//Delay spawning perodically and only spawn if a path exists
+	            
+				if (lastModulo > gameTimer.Min % spawnDelayModulo && pather.PathExists (this, globalGameManager.Lobby)) {
+					float prob = Random.Range (0.0f, 100.0f);
+					if (prob <= spawnChance) {
+						GameObject thePatron = (GameObject)Instantiate (patronToSpawn);
+						thePatron.transform.position = globalGameManager.SpawnPosition;
+						thePatron.GetComponent<Patron> ().setDestination (this.GetComponent<Destination> ()); //route patron here
+						retVal = true;
+					} else {
+						Debug.Log(prob);
+					}
+				}
 
-        //make sure this isnt temp, game isnt paused
-        if (!Temp && !globalGameManager.Paused)
-        {
-            //Delay spawning perodically and only spawn if a path exists
-            
-            if (lastModulo > gameTimer.Min % spawnDelayModulo && pather.PathExists(this, globalGameManager.Lobby)) 
-            {
-                float prob = Random.Range(0.0f, 100.0f);
-                if (prob <= spawnChance)
-                {
-                    GameObject thePatron = (GameObject)Instantiate(patronToSpawn);
-                    thePatron.transform.position = globalGameManager.SpawnPosition;
-                    thePatron.GetComponent<Patron>().setDestination(this.GetComponent<Destination>()); //route patron here
-                    retVal = true;
-                }
-                else
-                {
-                    //Debug.Log(prob);
-                }
-            }
-
-            lastModulo = gameTimer.Min % spawnDelayModulo;
-        }
-
-        return retVal;
+				lastModulo = gameTimer.Min % spawnDelayModulo;
+			}
+		}
+		return retVal;
     }
 
     #region Getters and setters

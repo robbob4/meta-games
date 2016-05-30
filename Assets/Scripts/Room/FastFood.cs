@@ -37,6 +37,8 @@ public class FastFood : Retail
     // Update is called once per frame
     void Update()
     {
+		maintainance ();
+
         spawner();
     }
 }

@@ -1,5 +1,6 @@
 ﻿// ------------------------------- Patron.cs -----------------------------------
-// Author - Robert Griswold CSS 385
+// Author - Robert Griswold CSS 385 
+// Author - Samuel Williams CSS 385 
 // Created - May 12, 2016
 // Modified - May 27, 2016
 // ----------------------------------------------------------------------------
@@ -43,6 +44,8 @@ public class Patron : MonoBehaviour
     [SerializeField] private bool movement = true;
     private bool worker = false;
     [SerializeField] private bool exiting = false;
+	protected static GameTime gameTimer = null;
+	private bool evicted = false;
 
     private int despawning = 100;
     #endregion
@@ -68,6 +71,9 @@ public class Patron : MonoBehaviour
             interests[i] = Mathf.CeilToInt(Random.Range(min, max));
         }
         #endregion
+		gameTimer = globalGameManager.GetComponent<GameTime>();
+		if (gameTimer == null)
+			Debug.LogError("GameTime not found for " + this + ".");
     }
 
     // Use this for initialization
@@ -79,6 +85,10 @@ public class Patron : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		if (gameTimer.Hour == 6 && gameTimer.PM && !evicted && movement) {
+			evicted = true;
+			setDestination (null);
+		}
         #region Null checking
         if (nextDest == null && despawning % 10 == 0)
         {

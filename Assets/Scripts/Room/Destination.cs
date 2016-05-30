@@ -1,5 +1,6 @@
 ﻿// ---------------------------- Destination.cs --------------------------------
 // Author - Robert Griswold CSS 385
+// Author - Samuel Williams CSS 385 
 // Created - May 12, 2016
 // Modified - May 26, 2016
 // ----------------------------------------------------------------------------
@@ -50,6 +51,11 @@ public class Destination : MonoBehaviour
     protected int visits = 0; //# of visits today
     protected int happiness = 50; //percentage, reset daily
     protected int delay = 4; //delay when visiting
+	protected bool maintainanceDeducted = false; //delay when visiting
+	private bool evicted = false;
+	protected int evictHour = 6;
+	protected bool evictPM = true;
+
     #endregion
 
     void Awake()
@@ -70,7 +76,32 @@ public class Destination : MonoBehaviour
         patronToSpawn = Resources.Load("Prefabs/Patron/Patron") as GameObject;
         #endregion
     }
+		
+	void Update()
+	{
+		maintainance ();
+	}
 
+	protected virtual void maintainance()
+	{
+		if (gameTimer.Hour == 0 && !gameTimer.PM && !maintainanceDeducted) {
+			globalGameManager.Deduct ((float)maint);
+			maintainanceDeducted = true;
+			Visits = 0;
+			Happiness = 50;			
+			//Debug.Log ("Reset" + happiness);
+			globalGameManager.GetSoundEffect("maint_s").Play();
+		} else if (gameTimer.Hour != 0 && maintainanceDeducted) {
+			maintainanceDeducted = false;
+		} 
+		if (gameTimer.Hour == evictHour && gameTimer.PM == evictPM && !evicted) {
+			evicted = true;
+			Evict ();
+			//Debug.Log ("Leave");
+		} else if (gameTimer.Hour != 6 && evicted) {
+			evicted = false;
+		} 
+	}
     //announcment that the entity is about to be destroyed
     public virtual void Evict()
     {
@@ -205,8 +236,9 @@ public class Destination : MonoBehaviour
         get { return happiness; }
         set
         {
-            if (value >= 0 && value <= 100)
-                happiness = value;
+			if (value >= 0 && value <= 100) {
+				happiness = value;
+				}
             else if (value <= 0)
                 happiness = 0;
             else
@@ -217,6 +249,9 @@ public class Destination : MonoBehaviour
     public int Visits
     {
         get { return visits; }
+		set {
+			visits = 0;
+		}
     }
     #endregion
 }

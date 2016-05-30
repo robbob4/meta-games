@@ -38,6 +38,7 @@ public class Restaurant : Retail
     // Update is called once per frame
     void Update()
     {
+		maintainance ();
         spawner();
     }
 }

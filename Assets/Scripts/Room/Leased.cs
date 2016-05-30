@@ -23,4 +23,12 @@ public class Leased : Room
     {
         spawnChance = 3;
     }
+
+	protected override void maintainance ()
+	{
+		if (gameTimer.Hour == 0 && !gameTimer.PM && !maintainanceDeducted) {
+			spawnCount = 0;
+		}
+		base.maintainance ();
+	}
 }

@@ -111,7 +111,7 @@ public class GameTime : MonoBehaviour {
         get { return pm; }
     }
 
-    public int Min
+	public int Min
     {
         get { return lastMin; }
     }
@@ -120,6 +120,16 @@ public class GameTime : MonoBehaviour {
     {
         get { return lastHour; }
     }
+
+	public int Hour24
+	{
+		get { 
+			if (PM)
+				return lastHour + 12;
+			else
+				return lastHour; 
+		}
+	}
 
     public bool Paused
     {

@@ -23,6 +23,10 @@ public class Hotel : Leased
         rent = 5000;
         capacity = 1;
         desc = "Hotel rooms may attract a patron to your tower during business hours to stay the night.";
+		evictHour = 11;
+		evictPM = false;
+		minHour = 12;
+		maxHour = 24;
     }
 
     // Use this for initialization
@@ -34,9 +38,13 @@ public class Hotel : Leased
     // Update is called once per frame
     void Update()
     {
-        //while (spawnCount < capacity)
-        //{
-        //    spawner();
-        //}
+		maintainance ();
+		Debug.Log ("hotel update: spawns" + spawnCount + " cap: " + capacity);
+		if(spawnCount < capacity)
+		{
+			if (spawner () == true) {
+				spawnCount++;
+			}
+		}
     }
 }
