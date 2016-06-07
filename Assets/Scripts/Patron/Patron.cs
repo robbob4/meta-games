@@ -116,9 +116,17 @@ public class Patron : MonoBehaviour
         if (gameTimer.Hour == 6 && gameTimer.PM && !evicted && movement)
         {
             evicted = true;
-            exiting = true;
-            setDestination(null);
+            
+            if(!exiting)
+            {
+                setDestination(null);
+                exiting = true;
+            }  
         }
+
+        //only for debugging
+        if (movement && nextDest == finalDest && finalDest == globalGameManager.Lobby && CurrentFloor != finalDest.Floor)
+            Debug.Log("shouldnt be here");
 
         if (globalGameManager.Paused == false)
         {
@@ -133,7 +141,10 @@ public class Patron : MonoBehaviour
             #endregion
 
             #region Reached next destination
-            if (movement == true && Mathf.Abs(nextDest.transform.position.x - transform.position.x) <= nextDest.transform.lossyScale.x / 4)
+            if (this == null || nextDest == null || transform == null || transform.position == null || nextDest.transform == null || nextDest.transform.localScale == null)
+                Debug.LogError("wtf");
+
+            if (movement == true && Mathf.Abs(nextDest.transform.position.x - transform.position.x) <= nextDest.transform.localScale.x / 4)
             {
                 Debug.Log("Reached " + nextDest);
 
@@ -207,7 +218,7 @@ public class Patron : MonoBehaviour
                     }
                     else if(CurrentFloor != nextDest.Floor)
                     {
-                        Debug.Log("Patron trying to visit " + nextDest.name + " that is not on the same floor. (" + CurrentFloor + "->" + nextDest.Floor);
+                        Debug.Log("Patron trying to visit " + nextDest.name + " that is not on the same floor. (" + CurrentFloor + "->" + nextDest.Floor + ")");
                     }
                 }
 
@@ -242,6 +253,10 @@ public class Patron : MonoBehaviour
     //set next destination
     public void setDestination(Destination newFinalDest)
     {
+        //Destination oldnextDest = nextDest; //debug
+        //Destination oldfinalDest = finalDest; //debug
+
+
         if (newFinalDest != null)
             finalDest = newFinalDest;
         else
@@ -254,6 +269,7 @@ public class Patron : MonoBehaviour
 		}
 
         nextDest = pather.NextDestination(nextDest, finalDest);
+        //if (nextDest.Floor != finalDest.Floor) Debug.Log("rawr");
     }
 
     //overloaded setDestination for go to lobby
@@ -350,6 +366,12 @@ public class Patron : MonoBehaviour
     {
         get { return resident; }
         set { resident = value; }
+    }
+
+    public bool Exiting
+    {
+        get { return exiting; }
+        set { exiting = value; }
     }
     #endregion
 }

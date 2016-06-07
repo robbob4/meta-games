@@ -101,6 +101,38 @@ public class Stairwell : Room
         }
     }
 
+    public override void Evict()
+    {
+        for (int i = 0; i < capacity; i++)
+        {
+            if (visitors[i] != null)
+            {
+                // swap floors
+                if (visitors[i].CurrentFloor != Floor)
+                {
+                    visitors[i].CurrentFloor = Floor;
+                    visitors[i].transform.position = new Vector3(visitors[i].transform.position.x, transform.position.y - 2, visitors[i].transform.position.z);
+                }
+                else
+                {
+                    visitors[i].CurrentFloor = Floor - 1;
+                    visitors[i].transform.position = new Vector3(visitors[i].transform.position.x, transform.position.y - Constructor.UNIT_HEIGHT - 2, visitors[i].transform.position.z);
+                }
+
+                //set patron finalDest to lobby
+                if (!visitors[i].Exiting)
+                {
+                    visitors[i].setDestination(this, null); 
+                    visitors[i].Exiting = true;
+                }
+
+                currentCapacity--;
+                visitors[i].Movement = true;
+                visitors[i] = null;
+            }
+        }
+    }
+
     public bool FloorService(int query)
     {
         return servicedFloors[query];

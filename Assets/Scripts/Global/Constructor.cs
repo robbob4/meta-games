@@ -104,42 +104,50 @@ public class Constructor : MonoBehaviour
             {
                 int theCost = theRoom.GetComponent<Destination>().ConstructionCost;
 
-                //check if there is enough money
-                if (globalGameManager.Money >= theCost)
+                //TEMP: Check if there is another staircase on this floor
+                if (theRoom.GetComponent<Destination>().Transportation && pather.DestinationSearch("Stairwell", Mathf.RoundToInt((theRoom.transform.position.y + UNIT_HEIGHT / 2) / UNIT_HEIGHT)) == null)
                 {
-                    placing = true;
-
-                    //commit anything for the room
-                    Room tempRoomComp = theRoom.GetComponent<Room>();
-                    tempRoomComp.Floor = Mathf.RoundToInt((theRoom.transform.position.y + UNIT_HEIGHT / 2) / UNIT_HEIGHT); //set what floor this is now on
-
-                    if (floor)
+                    //check if there is enough money
+                    if (globalGameManager.Money >= theCost)
                     {
-                        globalGameManager.GetSoundEffect("floor_s").Play();
+                        placing = true;
+
+                        //commit anything for the room
+                        Room tempRoomComp = theRoom.GetComponent<Room>();
+                        tempRoomComp.Floor = Mathf.RoundToInt((theRoom.transform.position.y + UNIT_HEIGHT / 2) / UNIT_HEIGHT); //set what floor this is now on
+
+                        if (floor)
+                        {
+                            globalGameManager.GetSoundEffect("floor_s").Play();
+                        }
+                        else
+                        {
+                            globalGameManager.GetSoundEffect("construction_s").Play();
+                            pather.AddDestination(tempRoomComp);
+                        }
+
+                        globalGameManager.Deduct(theCost); //Deduct cost from player funds
+                        //TODO: set room's Temp to false if gameplpay is not paused
+                        theRoom.GetComponent<Room>().Temp = false;
+                        addFloors(); //add floors behind this floor
+
+                        if (tempRoomComp.Transportation)
+                        {
+                            ((Stairwell)tempRoomComp).UpdateServicedFloors(); //temp
+                        }
+
+                        //prepare a new room to repeat construction
+                        theRoom = (GameObject)Instantiate(roomToSpawn);
+                        theRoom.transform.position = target;
                     }
                     else
                     {
-                        globalGameManager.GetSoundEffect("construction_s").Play();
-                        pather.AddDestination(tempRoomComp);
+                        globalGameManager.NewStatus("Insufficent funds for construction.", false);
                     }
-
-                    globalGameManager.Deduct(theCost); //Deduct cost from player funds
-                    //TODO: set room's Temp to false if gameplpay is not paused
-                    theRoom.GetComponent<Room>().Temp = false;
-                    addFloors(); //add floors behind this floor
-
-                    if (tempRoomComp.Transportation)
-                    {
-                        ((Stairwell)tempRoomComp).UpdateServicedFloors(); //temp
-                    }
-
-                    //prepare a new room to repeat construction
-                    theRoom = (GameObject)Instantiate(roomToSpawn);
-                    theRoom.transform.position = target;
                 }
                 else
                 {
-                    globalGameManager.NewStatus("Insufficent funds for construction.", false);
+                    globalGameManager.NewStatus("A Stairwell already exists on this floor.", false);
                 }
             }
 

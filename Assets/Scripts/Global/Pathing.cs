@@ -288,4 +288,30 @@ public class Pathing : MonoBehaviour
 
         return retVal;
     }
+
+    //returns the room on a certain floor or null
+    public Destination DestinationSearch(Destination query, int floor)
+    {
+        for(int i = 0; i < MAX_FLOORS_WIDE; i++)
+        {
+            Destination temp = roomsByFloor[floor, i];
+            if (query == temp)
+                return temp;
+        }
+        
+        return null;
+    }
+
+    //returns the room on a certain floor or null
+    public Destination DestinationSearch(string query, int floor)
+    {
+        for (int i = 0; i < MAX_FLOORS_WIDE; i++)
+        {
+            Destination temp = roomsByFloor[floor, i];
+            if (temp != null && query == temp.name)
+                return temp;
+        }
+
+        return null;
+    }
 }
