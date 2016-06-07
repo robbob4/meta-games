@@ -105,7 +105,7 @@ public class Constructor : MonoBehaviour
                 int theCost = theRoom.GetComponent<Destination>().ConstructionCost;
 
                 //TEMP: Check if there is another staircase on this floor
-                if (theRoom.GetComponent<Destination>().Transportation && pather.DestinationSearch("Stairwell", Mathf.RoundToInt((theRoom.transform.position.y + UNIT_HEIGHT / 2) / UNIT_HEIGHT)) == null)
+				if (!theRoom.GetComponent<Destination>().Transportation || theRoom.GetComponent<Destination>().Transportation && pather.DestinationSearch("Stairwell", Mathf.RoundToInt((theRoom.transform.position.y + UNIT_HEIGHT / 2) / UNIT_HEIGHT)) == null)
                 {
                     //check if there is enough money
                     if (globalGameManager.Money >= theCost)
