@@ -23,6 +23,7 @@ public class Hotel : Leased
         maint = 500;
         rent = 5000;
         capacity = 1;
+        windowShopping = false; //only allow the spawned patron to visit
         desc = "Hotel rooms may attract a patron to your tower during business hours to stay the night.";
         name = "Medium Hotel Room"; //Sets the name of the room
         evictHour = 11;
@@ -51,4 +52,26 @@ public class Hotel : Leased
 		}
     }
 
+    //override maint and evict to delay visit and happiness changes
+    protected override void maintainance()
+    {
+        int oldVisits = Visits;
+        int oldHappiness = Happiness;
+        bool previousMaint = maintainanceDeducted;
+        base.maintainance();
+        if (!previousMaint && previousMaint != maintainanceDeducted)
+        {
+            Visits = oldVisits;
+            Happiness = oldHappiness;
+        }
+    }
+
+    public override void Evict()
+    {
+        base.Evict();
+        if (Visits == 0)
+            Happiness -= 10;
+        else
+            Visits = 0;
+    }
 }

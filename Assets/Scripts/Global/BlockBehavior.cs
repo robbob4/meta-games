@@ -81,7 +81,15 @@ public class BlockBehavior : MonoBehaviour
         {
             toolTipScript.SetProfit(theRoom.Rent * theRoom.Visits - theRoom.Maint);
             toolTipScript.SetHappiness(theRoom.Happiness);
-            toolTipScript.SetCapacity(theRoom.CurrentCapacity, theRoom.MaxCapacity);
+
+            //determine whether it is leased
+            bool leased = false;
+            if(theRoom is Leased)
+            {
+                leased = ((Leased)theRoom).Rented;
+            }
+
+            toolTipScript.SetCapacity(theRoom.CurrentCapacity, theRoom.MaxCapacity, leased);
         }
         #endregion
 

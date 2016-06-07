@@ -19,22 +19,25 @@ public class Leased : Room
     protected bool rented = false;
     #endregion
 
-    public Leased() //constructor - only non-unity things here
-    {
-        spawnChance = 3;
-    }
-
 	protected override void maintainance ()
 	{
 		if (gameTimer.Hour == 0 && !gameTimer.PM && !maintainanceDeducted) {
 			spawnCount = 0;
-		}
-		base.maintainance ();
+            if(Happiness <= 20)
+                globalGameManager.NewStatus("A " + this.name + " has a happiness of " + Happiness + ".", true);
+        }            
+
+        base.maintainance ();
 	}
 
 	protected override IEnumerator VisitDelay(int i)
 	{
 		yield return new WaitForSeconds(delay);
-
 	}
+
+    //getters
+    public bool Rented
+    {
+        get { return rented; }
+    }
 }

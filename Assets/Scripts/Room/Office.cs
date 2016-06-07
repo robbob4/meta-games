@@ -21,9 +21,11 @@ public class Office : Leased
         roomSize = Room.Size.Medium;
         constructionCost = 100000;
         maint = 1000;
-        rent = 30000;
-        capacity = 1;
-        desc = "Offices have a for rent and leased state. When leased, a patron will visit daily. Otherwise a patron during business hours may lease it.";
+        rent = 10000;
+        capacity = 3;
+        spawnChance = 1;
+        windowShopping = false; //only allow the spawned patron to visit
+        desc = "Offices have a for rent and leased state. When leased, some patrons will visit daily. Otherwise a patron during business hours may lease it.";
         name = "Office"; //Sets the name of the room
     }
 
@@ -36,13 +38,24 @@ public class Office : Leased
     // Update is called once per frame
     void Update()
     {
-		maintainance ();
-		if(spawnCount < capacity)
-		{
-			if (spawner () == true) {
-				spawnCount++;
-			}
-		}
+        maintainance();
+        if (spawnCount < capacity)
+        {
+            if (!rented)
+            {
+                if (spawner() == true)
+                {
+                    spawnCount++;
+                    rented = true;
+                }
+            }
+            else
+            {
+                if (spawner(true) == true)
+                {
+                    spawnCount++;
+                }
+            }
+        }
     }
-
 }

@@ -86,21 +86,21 @@ public class GlobalGameManager : MonoBehaviour
         GradientAlphaKey[] dayAlpha;
         dayGradient = new Gradient();
         dayColor = new GradientColorKey[8];
-        dayColor[0].color = new Color32(8, 8, 8, 1);
+        dayColor[0].color = new Color32(8, 8, 8, 255);
         dayColor[0].time = 0.0f; //darkness 0000
-        dayColor[1].color = new Color32(8, 8, 8, 1);
+        dayColor[1].color = new Color32(8, 8, 8, 255);
         dayColor[1].time = 0.2083f; //night 0500
-        dayColor[2].color = new Color32(241, 152, 106, 1);
+        dayColor[2].color = new Color32(241, 152, 106, 255);
         dayColor[2].time = 0.25f; //dawn 0600
-        dayColor[3].color = new Color32(121, 148, 167, 1);
+        dayColor[3].color = new Color32(121, 148, 167, 255);
         dayColor[3].time = 0.2916f; //day 0700
-        dayColor[4].color = new Color32(67, 102, 137, 1);
+        dayColor[4].color = new Color32(67, 102, 137, 255);
         dayColor[4].time = 0.7916f; //day 1900
-        dayColor[5].color = new Color32(198, 115, 101, 1);
+        dayColor[5].color = new Color32(198, 115, 101, 255);
         dayColor[5].time = 0.833f; //dusk 2000
-        dayColor[6].color = new Color32(34, 35, 42, 1);
+        dayColor[6].color = new Color32(34, 35, 42, 255);
         dayColor[6].time = 0.875f; //night 2100
-        dayColor[7].color = new Color32(8, 8, 8, 1);
+        dayColor[7].color = new Color32(8, 8, 8, 255);
         dayColor[7].time = 1.0f; //darkness 2400
         dayAlpha = new GradientAlphaKey[2];
         dayAlpha[0].alpha = 1.0F;
@@ -113,21 +113,21 @@ public class GlobalGameManager : MonoBehaviour
         GradientAlphaKey[] darknessAlpha;
         darknessGradient = new Gradient();
         darknessColor = new GradientColorKey[8];
-        darknessColor[0].color = new Color32(40, 40, 40, 1);
+        darknessColor[0].color = new Color32(40, 40, 40, 255);
         darknessColor[0].time = 0.0f; //darkness 0000
-        darknessColor[1].color = new Color32(40, 40, 40, 1);
+        darknessColor[1].color = new Color32(40, 40, 40, 255);
         darknessColor[1].time = 0.2083f; //night 0500
-        darknessColor[2].color = new Color32(150, 150, 150, 1);
+        darknessColor[2].color = new Color32(150, 150, 150, 255);
         darknessColor[2].time = 0.25f; //dawn 0600
-        darknessColor[3].color = new Color32(255, 255, 255, 1);
+        darknessColor[3].color = new Color32(255, 255, 255, 255);
         darknessColor[3].time = 0.2916f; //day 0700
-        darknessColor[4].color = new Color32(255, 255, 255, 1);
+        darknessColor[4].color = new Color32(255, 255, 255, 255);
         darknessColor[4].time = 0.7916f; //day 1900
-        darknessColor[5].color = new Color32(150, 150, 150, 1);
+        darknessColor[5].color = new Color32(150, 150, 150, 255);
         darknessColor[5].time = 0.833f; //dusk 2000
-        darknessColor[6].color = new Color32(40, 40, 40, 1);
+        darknessColor[6].color = new Color32(40, 40, 40, 255);
         darknessColor[6].time = 0.875f; //night 2100
-        darknessColor[7].color = new Color32(40, 40, 40, 1);
+        darknessColor[7].color = new Color32(40, 40, 40, 255);
         darknessColor[7].time = 1.0f; //darkness 2400
         darknessAlpha = new GradientAlphaKey[2];
         darknessAlpha[0].alpha = 1.0F;
@@ -179,6 +179,7 @@ public class GlobalGameManager : MonoBehaviour
             tempStatusDelay = 0.0f;
             statusDisplay.text = oldStatusText;
             oldStatusText = "Status:";
+            statusDisplay.color = new Color32(50, 50, 50, 255);
         }
         #endregion
 
@@ -201,15 +202,18 @@ public class GlobalGameManager : MonoBehaviour
         if (logging)
         {
             statusDisplay.text = "Status: [" + gameTime.getTime() + "] " + message; //todo: add new message to a log that can be accessed later
+            statusDisplay.color = new Color32(50, 50, 50, 255);
             GetSoundEffect("notification_s").Play();
             currentStatusDelay = statusDelay;
+            
         }      
         else if (statusDisplay.text != "Status: " + message)
         {
             oldStatusText = statusDisplay.text;
             statusDisplay.text = "Status: " + message;
+            statusDisplay.color = Color.red;
             GetSoundEffect("notification_s").Play();
-            tempStatusDelay = statusDelay / 4;
+            tempStatusDelay = statusDelay / 20;
         }        
     }
     #endregion

@@ -23,8 +23,14 @@ public class Apartment : Leased
         maint = 250;
         rent = 10000;
         capacity = 1;
+        spawnChance = 2;
+        windowShopping = false; //only allow the spawned patron to visit
         desc = "Apartments have a for rent and leased state. When leased, a patron will visit daily. Otherwise a patron during business hours may lease it.";
         name = "Apartment"; //Sets the name of the room
+        evictHour = 5;
+        evictPM = false;
+        minHour = 14;
+        maxHour = 17;
     }
 
     // Use this for initialization
@@ -39,10 +45,44 @@ public class Apartment : Leased
 		maintainance ();
 		if(spawnCount < capacity)
 		{
-			if (spawner () == true) {
-				spawnCount++;
-			}
+            if (!rented)
+            {
+                if (spawner() == true)
+                {
+                    spawnCount++;
+                    rented = true;
+                }
+            }
+            else
+            {
+                if (spawner(true) == true)
+                {
+                    spawnCount++;
+                }
+            }
 		}
     }
 
+    //override maint and evict to delay visit and happiness changes
+    protected override void maintainance()
+    {
+        int oldVisits = Visits;
+        int oldHappiness = Happiness;
+        bool previousMaint = maintainanceDeducted;
+        base.maintainance();
+        if (gameTimer.Hour == 0 && !gameTimer.PM && !previousMaint)
+        {
+            Visits = oldVisits;
+            Happiness = oldHappiness;
+        }
+    }
+
+    public override void Evict()
+    {
+        base.Evict();
+        if (Visits == 0)
+            Happiness -= 10;
+        else
+            Visits = 0;
+    }
 }

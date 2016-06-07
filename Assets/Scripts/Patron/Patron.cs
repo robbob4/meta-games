@@ -20,6 +20,7 @@ public class Patron : MonoBehaviour
     #region Enums
     public enum Interest
     {
+        Stairs = -3,
         Locked = -2,
         None = -1,
         Fashion = 0,
@@ -46,6 +47,7 @@ public class Patron : MonoBehaviour
     [SerializeField] private int floor = 1; //what floor the patron is on
     [SerializeField] private bool movement = true;
     private bool worker = false;
+    private bool resident = false;
     [SerializeField] private bool exiting = false;
 	protected static GameTime gameTimer = null;
 	private bool evicted = false;
@@ -64,6 +66,10 @@ public class Patron : MonoBehaviour
         pather = GameObject.Find("GameManager").GetComponent<Pathing>();
         if (pather == null)
             Debug.LogError("GameManager's Pathing not found for " + this + ".");
+
+        gameTimer = globalGameManager.GetComponent<GameTime>();
+        if (gameTimer == null)
+            Debug.LogError("GameTime not found for " + this + ".");
         #endregion
 
         #region Generate interests
@@ -74,10 +80,7 @@ public class Patron : MonoBehaviour
             interests[i] = Mathf.CeilToInt(Random.Range(min, max));
         }
 		interests[7] = interests[8] = 100;
-        #endregion
-		gameTimer = globalGameManager.GetComponent<GameTime>();
-		if (gameTimer == null)
-			Debug.LogError("GameTime not found for " + this + ".");
+        #endregion	
     }
 
     // Use this for initialization
@@ -89,10 +92,6 @@ public class Patron : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if (gameTimer.Hour == 6 && gameTimer.PM && !evicted && movement) {
-			evicted = true;
-			setDestination (null);
-		}
         #region Null checking
         if (nextDest == null && despawning % 10 == 0)
         {
@@ -113,6 +112,13 @@ public class Patron : MonoBehaviour
             return;
         }
         #endregion
+
+        if (gameTimer.Hour == 6 && gameTimer.PM && !evicted && movement)
+        {
+            evicted = true;
+            exiting = true;
+            setDestination(null);
+        }
 
         if (globalGameManager.Paused == false)
         {
@@ -183,7 +189,8 @@ public class Patron : MonoBehaviour
                 else //next destination is not a transporation
                 {
                     //determine if we should visit this room
-                    if (globalGameManager.Paused == false && worker == false && CurrentFloor == nextDest.Floor && interestCheck(nextDest.TheInterest))
+                    if (!globalGameManager.Paused && !exiting && ((nextDest.WindowShopping && Money >= nextDest.Rent) || nextDest == finalDest) 
+                        && !worker  && CurrentFloor == nextDest.Floor && interestCheck(nextDest.TheInterest))
                     {
                         //try to visit the room
                         if (nextDest.Visit(this))
@@ -195,9 +202,12 @@ public class Patron : MonoBehaviour
                         else
                         {
                             globalGameManager.NewStatus(nextDest.name + " is crowded!", true);
-							Debug.Log("spam?");
                             Happiness -= 20; //happiness deducation
                         }
+                    }
+                    else if(CurrentFloor != nextDest.Floor)
+                    {
+                        Debug.Log("Patron trying to visit " + nextDest.name + " that is not on the same floor. (" + CurrentFloor + "->" + nextDest.Floor);
                     }
                 }
 
@@ -216,7 +226,7 @@ public class Patron : MonoBehaviour
             #endregion
 
             #region Unhappy check
-            if (!exiting && (Money <= 0 || Happiness <= 0))
+            if (!exiting && ( (Money <= 0 && !Worker && !Resident) || Happiness <= 0))
             {
                 //leave the building
                 exiting = true;
@@ -237,7 +247,8 @@ public class Patron : MonoBehaviour
         else
             finalDest = globalGameManager.Lobby;
 
-		if (nextDest == null) {
+		if (nextDest == null)
+        {
 			//nextDest = pather.ClosestDestination(this.transform.position.x, CurrentFloor);
 			nextDest = globalGameManager.Lobby;
 		}
@@ -333,6 +344,12 @@ public class Patron : MonoBehaviour
     {
         get { return worker; }
         set { worker = value; }
+    }
+
+    public bool Resident
+    {
+        get { return resident; }
+        set { resident = value; }
     }
     #endregion
 }

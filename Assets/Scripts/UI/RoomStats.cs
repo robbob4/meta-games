@@ -26,6 +26,7 @@ public class RoomStats : MonoBehaviour {
     private Text upkeepText = null;
     private Text sizeText = null;
     private Text descText = null;
+    private Text rentText = null;
 
     NumberFormatInfo format = null;
     #endregion
@@ -56,6 +57,10 @@ public class RoomStats : MonoBehaviour {
         descText = GameObject.Find("RoomDescription").GetComponentsInChildren<Text>()[1];
         if (descText == null)
             Debug.Log("Unable to find RoomDescription for " + this + ".");
+
+        rentText = GameObject.Find("RoomRent").GetComponentsInChildren<Text>()[1];
+        if (rentText == null)
+            Debug.Log("Unable to find RoomRent for " + this + ".");
 
         format = new NumberFormatInfo();
         format.CurrencyDecimalDigits = 0; //remove decminal from the number format
@@ -89,6 +94,11 @@ public class RoomStats : MonoBehaviour {
     public void SetUpkeep(int upkeep)
     {
         upkeepText.text = upkeep.ToString("c", format);
+    }
+
+    public void SetRent(int rent)
+    {
+        rentText.text = rent.ToString("c", format);
     }
 
     public void SetSize(Destination.Size size)
@@ -128,6 +138,7 @@ public class RoomStats : MonoBehaviour {
         //upkeepText.text = "";
         //sizeText.text = "";
         //descText.text = "";
+        //rentText = "";
         roomStatsPanel.SetActive(false);
     }
 }

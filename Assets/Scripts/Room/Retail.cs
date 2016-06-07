@@ -13,5 +13,14 @@ using System.Collections;
 
 public class Retail : Room
 {
-    
+    protected override void maintainance()
+    {
+        if (gameTimer.Hour == 0 && !gameTimer.PM && !maintainanceDeducted)
+        {
+            if (Happiness <= 20)
+                globalGameManager.NewStatus("A " + this.name + " has a happiness of " + Happiness + ".", true);
+        }
+
+        base.maintainance();
+    }
 }

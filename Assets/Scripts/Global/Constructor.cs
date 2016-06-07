@@ -100,12 +100,12 @@ public class Constructor : MonoBehaviour
             theRoom.transform.position = target;
 
             //LMB held down - commit construction?
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0) && validPlacement()) //check whether the placement is valid
             {
                 int theCost = theRoom.GetComponent<Destination>().ConstructionCost;
 
-                //check whether the placement is valid
-                if (validPlacement() && globalGameManager.Money >= theCost)
+                //check if there is enough money
+                if (globalGameManager.Money >= theCost)
                 {
                     placing = true;
 
@@ -116,13 +116,13 @@ public class Constructor : MonoBehaviour
                     if (floor)
                     {
                         globalGameManager.GetSoundEffect("floor_s").Play();
-                    }   
+                    }
                     else
                     {
                         globalGameManager.GetSoundEffect("construction_s").Play();
                         pather.AddDestination(tempRoomComp);
                     }
-                        
+
                     globalGameManager.Deduct(theCost); //Deduct cost from player funds
                     //TODO: set room's Temp to false if gameplpay is not paused
                     theRoom.GetComponent<Room>().Temp = false;
@@ -132,12 +132,12 @@ public class Constructor : MonoBehaviour
                     {
                         ((Stairwell)tempRoomComp).UpdateServicedFloors(); //temp
                     }
-                    
+
                     //prepare a new room to repeat construction
                     theRoom = (GameObject)Instantiate(roomToSpawn);
                     theRoom.transform.position = target;
                 }
-                else if (globalGameManager.Money < theCost)
+                else
                 {
                     globalGameManager.NewStatus("Insufficent funds for construction.", false);
                 }
@@ -253,6 +253,7 @@ public class Constructor : MonoBehaviour
             descriptionBox.SetUpkeep(temp.Maint);
             descriptionBox.SetSize(temp.RoomSize);
             descriptionBox.SetDesc(temp.Description);
+            descriptionBox.SetRent(temp.Rent);
         }
     }
 

@@ -211,6 +211,14 @@ public class ToolTip : MonoBehaviour
                     return;
                 }
                 break;
+            case Patron.Interest.Stairs:
+                temp = Resources.Load<Sprite>("Textures/UI/Interests/Stairs");
+                if (temp == null)
+                {
+                    Debug.Log("Unable to find Textures/UI/Interests/Stairs for " + this);
+                    return;
+                }
+                break;
 
             default:
                 temp = Resources.Load<Sprite>("Textures/UI/Interests/None");
@@ -253,12 +261,14 @@ public class ToolTip : MonoBehaviour
     }
 
     // Changes the current and max capacity values with a " / " in between
-    public void SetCapacity(int current, int max)
+    public void SetCapacity(int current, int max, bool rented)
     {
         if (!visible)
             ShowTooltip();
 
         roomCapacity.text = current + " / " + max;
+        if (rented)
+            roomCapacity.text += " (L)";
     }
 
     public void HideTooltip()

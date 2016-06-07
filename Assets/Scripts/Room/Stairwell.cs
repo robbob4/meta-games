@@ -25,6 +25,7 @@ public class Stairwell : Room
         maint = 10;
         rent = 0;
         capacity = 50;
+        theInterest = Patron.Interest.Stairs;
         desc = "Stairwells connect the floor immediately below it allowing patrons to change one floor.";
         name = "Stairwell"; //Sets the name of the room
 

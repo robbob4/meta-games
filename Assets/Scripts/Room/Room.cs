@@ -25,9 +25,10 @@ public class Room : Destination
 	protected int maxHour = 17;
 
     #endregion
+
 	//hotel spawn 12 - 24
 	//other spawn 7 - 17
-    protected virtual bool spawner()
+    protected virtual bool spawner(bool worker)
     {
 		bool retVal = false;
 		if (gameTimer.Hour24 >= minHour && gameTimer.Hour24 <= maxHour) {
@@ -37,12 +38,16 @@ public class Room : Destination
 	            
 				if (lastModulo > gameTimer.Min % spawnDelayModulo && pather.PathExists (this, globalGameManager.Lobby)) {
 					float prob = Random.Range (0.0f, 100.0f);
-					if (prob <= spawnChance) {
+					if (prob <= spawnChance || worker) {
 						GameObject thePatron = (GameObject)Instantiate (patronToSpawn);
 						thePatron.transform.position = globalGameManager.SpawnPosition;
 						thePatron.GetComponent<Patron> ().setDestination (this.GetComponent<Destination> ()); //route patron here
-						retVal = true;
-					} else {
+                        if (worker)
+                            thePatron.GetComponent<Patron>().Resident = true;
+                        retVal = true;
+					}
+                    else
+                    {
 						//Debug.Log(prob);
 					}
 				}
@@ -51,6 +56,11 @@ public class Room : Destination
 			}
 		}
 		return retVal;
+    }
+
+    protected virtual bool spawner()
+    {
+        return spawner(false);
     }
 
     #region Getters and setters

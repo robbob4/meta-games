@@ -51,11 +51,11 @@ public class Destination : MonoBehaviour
     protected int visits = 0; //# of visits today
     protected int happiness = 50; //percentage, reset daily
     protected int delay = 4; //delay when visiting
-	protected bool maintainanceDeducted = false; //delay when visiting
-	private bool evicted = false;
+	protected bool maintainanceDeducted = true;
+    protected bool windowShopping = true;
+	protected bool evicted = false;
 	protected int evictHour = 6;
 	protected bool evictPM = true;
-
     #endregion
 
     void Awake()
@@ -84,24 +84,37 @@ public class Destination : MonoBehaviour
 
 	protected virtual void maintainance()
 	{
-		if (gameTimer.Hour == 0 && !gameTimer.PM && !maintainanceDeducted) {
-			globalGameManager.Deduct ((float)maint);
-			maintainanceDeducted = true;
-			Visits = 0;
-			Happiness = 50;			
-			//Debug.Log ("Reset" + happiness);
-			globalGameManager.GetSoundEffect("maint_s").Play();
-		} else if (gameTimer.Hour != 0 && maintainanceDeducted) {
-			maintainanceDeducted = false;
-		} 
-		if (gameTimer.Hour == evictHour && gameTimer.PM == evictPM && !evicted) {
-			evicted = true;
-			Evict ();
-			//Debug.Log ("Leave");
-		} else if (gameTimer.Hour != 6 && evicted) {
-			evicted = false;
-		} 
+        if(gameTimer != null)
+        {
+            if (gameTimer.Hour == 0 && !gameTimer.PM && !maintainanceDeducted)
+            {
+                globalGameManager.Deduct((float)maint);
+                maintainanceDeducted = true;
+                Visits = 0;
+                Happiness -= 10;
+                globalGameManager.GetSoundEffect("maint_s").Play();
+            }
+            else if (gameTimer.Hour != 0 && maintainanceDeducted)
+            {
+                maintainanceDeducted = false;
+            }
+
+            if (gameTimer.Hour == evictHour && gameTimer.PM == evictPM && !evicted)
+            {
+                evicted = true;
+                Evict();
+            }
+            else if (gameTimer.Hour != evictHour && evicted)
+            {
+                evicted = false;
+            }
+        }
+        else
+        {
+            Debug.LogError("Game Timer is null for " + this);
+        }
 	}
+
     //announcment that the entity is about to be destroyed
     public virtual void Evict()
     {
@@ -133,7 +146,7 @@ public class Destination : MonoBehaviour
                 }
             }
 
-            visits++;
+            Visits++;
             Happiness += 10;
             globalGameManager.GetSoundEffect("cash_s").Play();
             globalGameManager.Payment(this.rent);
@@ -250,9 +263,12 @@ public class Destination : MonoBehaviour
     public int Visits
     {
         get { return visits; }
-		set {
-			visits = 0;
-		}
+		set { visits = value; }
+    }
+
+    public bool WindowShopping
+    {
+        get { return windowShopping; }
     }
     #endregion
 }

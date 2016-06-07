@@ -242,7 +242,7 @@ public class Pathing : MonoBehaviour
         if (search == null)
             return null;
 
-        float distance = 0;
+        float distance = -1;
         Destination retVal = null;
 
         // search each node on the floor below
@@ -252,7 +252,7 @@ public class Pathing : MonoBehaviour
             if (temp != null && temp != search)
             {
                 float tempDistance = Mathf.Abs(search.transform.position.x - temp.transform.position.x);
-                if (distance == 0 || tempDistance < distance)
+                if (distance == -1 || tempDistance < distance)
                 {
                     // found a closer distance
                     distance = tempDistance;
@@ -267,7 +267,7 @@ public class Pathing : MonoBehaviour
     // find the closest destination at current floor
     public Destination ClosestDestination(float x, int floor)
     {
-        float distance = 0;
+        float distance = -1;
         Destination retVal = null;
 
         // search each node on the floor
@@ -277,7 +277,7 @@ public class Pathing : MonoBehaviour
             if (temp != null)
             {
                 float tempDistance = Mathf.Abs(x - temp.transform.position.x);
-                if (distance == 0 || tempDistance < distance)
+                if (distance == -1 || tempDistance < distance)
                 {
                     // found a closer distance
                     distance = tempDistance;
