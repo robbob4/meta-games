@@ -23,6 +23,7 @@ public class Restaurant : Retail
         maint = 1500;
         rent = 1000;
         desc = "Attracts patrons to your tower during business hours for long visits. The associated cuisine interest is randomly selected during construction.";
+        name = "Cafeteria"; //Sets the name of the room
         delay = 8;
     }
 

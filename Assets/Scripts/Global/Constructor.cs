@@ -234,7 +234,7 @@ public class Constructor : MonoBehaviour
                 break;
 
             case ConstructionType.Stairwell:
-                roomToSpawn = Resources.Load("Prefabs/Room/Stairwell") as GameObject;
+                roomToSpawn = Resources.Load("Prefabs/Transportation/Staircase") as GameObject;
                 theRoom = (GameObject)Instantiate(roomToSpawn,
                     Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, roomToSpawn.transform.position.z)),
                     roomToSpawn.transform.rotation);

@@ -24,6 +24,7 @@ public class Apartment : Leased
         rent = 10000;
         capacity = 1;
         desc = "Apartments have a for rent and leased state. When leased, a patron will visit daily. Otherwise a patron during business hours may lease it.";
+        name = "Apartment"; //Sets the name of the room
     }
 
     // Use this for initialization

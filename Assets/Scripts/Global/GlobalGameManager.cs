@@ -1,7 +1,7 @@
 ﻿// ------------------------- GlobalGameManager.cs -----------------------------
 // Author - Robert Griswold CSS 385
 // Created - May 12, 2016
-// Modified - May 26, 2016
+// Modified - Jun 7, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a game manager that keep track of time, 
 // money, etc.
@@ -30,6 +30,8 @@ public class GlobalGameManager : MonoBehaviour
     private Text statusDisplay = null;
     private GameTime gameTime = null;
     private SoundEffect[] soundEffects;
+    private Camera mainCamera = null;
+    private Renderer bgMat = null;
 
     [SerializeField] private double cash = 1000000.0; //starting funds
     private bool paused = false; //tracks whether the game is paused currently
@@ -38,6 +40,8 @@ public class GlobalGameManager : MonoBehaviour
     private float currentStatusDelay = 0.0f; //used to track current status message delay
     private float tempStatusDelay = 0.0f;
     private string oldStatusText = "Status:";
+    Gradient dayGradient;
+    Gradient darknessGradient;
     #endregion
 
     // Use this for fast initialization
@@ -56,6 +60,14 @@ public class GlobalGameManager : MonoBehaviour
         if (statusDisplay == null)
             Debug.LogError("statusDisplay not found for " + this + ".");
 
+        mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        if (mainCamera == null)
+            Debug.LogError("Camera not found for " + this + ".");
+
+        bgMat = GameObject.Find("Background").GetComponent<Renderer>();
+        if (bgMat == null)
+            Debug.LogError("Background not found for " + this + ".");
+
         gameTime = this.GetComponent<GameTime>();
         if (gameTime == null)
             Debug.LogError("gameTime not found for " + this + ".");
@@ -68,6 +80,62 @@ public class GlobalGameManager : MonoBehaviour
             soundEffects[i].name = temp[i].name;
         }
         #endregion
+
+        #region BG Gradient
+        GradientColorKey[] dayColor;
+        GradientAlphaKey[] dayAlpha;
+        dayGradient = new Gradient();
+        dayColor = new GradientColorKey[8];
+        dayColor[0].color = new Color32(8, 8, 8, 1);
+        dayColor[0].time = 0.0f; //darkness 0000
+        dayColor[1].color = new Color32(8, 8, 8, 1);
+        dayColor[1].time = 0.2083f; //night 0500
+        dayColor[2].color = new Color32(241, 152, 106, 1);
+        dayColor[2].time = 0.25f; //dawn 0600
+        dayColor[3].color = new Color32(121, 148, 167, 1);
+        dayColor[3].time = 0.2916f; //day 0700
+        dayColor[4].color = new Color32(67, 102, 137, 1);
+        dayColor[4].time = 0.7916f; //day 1900
+        dayColor[5].color = new Color32(198, 115, 101, 1);
+        dayColor[5].time = 0.833f; //dusk 2000
+        dayColor[6].color = new Color32(34, 35, 42, 1);
+        dayColor[6].time = 0.875f; //night 2100
+        dayColor[7].color = new Color32(8, 8, 8, 1);
+        dayColor[7].time = 1.0f; //darkness 2400
+        dayAlpha = new GradientAlphaKey[2];
+        dayAlpha[0].alpha = 1.0F;
+        dayAlpha[0].time = 0.0F;
+        dayAlpha[1].alpha = 1.0F;
+        dayAlpha[1].time = 1.0F;
+        dayGradient.SetKeys(dayColor, dayAlpha);
+
+        GradientColorKey[] darknessColor;
+        GradientAlphaKey[] darknessAlpha;
+        darknessGradient = new Gradient();
+        darknessColor = new GradientColorKey[8];
+        darknessColor[0].color = new Color32(40, 40, 40, 1);
+        darknessColor[0].time = 0.0f; //darkness 0000
+        darknessColor[1].color = new Color32(40, 40, 40, 1);
+        darknessColor[1].time = 0.2083f; //night 0500
+        darknessColor[2].color = new Color32(150, 150, 150, 1);
+        darknessColor[2].time = 0.25f; //dawn 0600
+        darknessColor[3].color = new Color32(255, 255, 255, 1);
+        darknessColor[3].time = 0.2916f; //day 0700
+        darknessColor[4].color = new Color32(255, 255, 255, 1);
+        darknessColor[4].time = 0.7916f; //day 1900
+        darknessColor[5].color = new Color32(150, 150, 150, 1);
+        darknessColor[5].time = 0.833f; //dusk 2000
+        darknessColor[6].color = new Color32(40, 40, 40, 1);
+        darknessColor[6].time = 0.875f; //night 2100
+        darknessColor[7].color = new Color32(40, 40, 40, 1);
+        darknessColor[7].time = 1.0f; //darkness 2400
+        darknessAlpha = new GradientAlphaKey[2];
+        darknessAlpha[0].alpha = 1.0F;
+        darknessAlpha[0].time = 0.0F;
+        darknessAlpha[1].alpha = 1.0F;
+        darknessAlpha[1].time = 1.0F;
+        darknessGradient.SetKeys(darknessColor, darknessAlpha);
+        #endregion
     }
 
     // Use this for initialization
@@ -79,8 +147,7 @@ public class GlobalGameManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        #region Cash update
-        //todo: deduct funds for maint at a certain time
+        #region UI updates
         cashDisplay.text = cash.ToString("c");
         #endregion
 
@@ -114,6 +181,16 @@ public class GlobalGameManager : MonoBehaviour
             oldStatusText = "Status:";
         }
         #endregion
+
+        #region BG Color
+        //calculate time
+        float hour = gameTime.Hour24 / 24f;
+        float min = gameTime.Min * 0.000694f;
+
+        //set the color
+        mainCamera.backgroundColor = dayGradient.Evaluate(hour + min);
+        bgMat.material.SetColor("_Color", darknessGradient.Evaluate(hour + min));
+        #endregion
     }
 
     #region Status functions
@@ -136,6 +213,7 @@ public class GlobalGameManager : MonoBehaviour
         }        
     }
     #endregion
+
 
     #region Getters/Setters
     public bool Paused
@@ -179,7 +257,7 @@ public class GlobalGameManager : MonoBehaviour
                 return soundEffects[i].audioSource;
         }
 
-        Debug.Log(query + " sound effect was not found.");
+        Debug.LogError(query + " sound effect was not found.");
         return null;
     }
     #endregion

@@ -26,6 +26,7 @@ public class Stairwell : Room
         rent = 0;
         capacity = 50;
         desc = "Stairwells connect the floor immediately below it allowing patrons to change one floor.";
+        name = "Stairwell"; //Sets the name of the room
 
         //Imitate TransportationDestination
         servicedFloors = new bool[Pathing.MAX_FLOORS_HIGH];
@@ -75,7 +76,7 @@ public class Stairwell : Room
 
     // ejection after 2 seconds
     // assumes array is not rearranged
-    IEnumerator VisitDelay(int i)
+    protected override IEnumerator VisitDelay(int i)
     {
         yield return new WaitForSeconds(2);
 

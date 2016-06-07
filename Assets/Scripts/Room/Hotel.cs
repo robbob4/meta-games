@@ -24,7 +24,8 @@ public class Hotel : Leased
         rent = 5000;
         capacity = 1;
         desc = "Hotel rooms may attract a patron to your tower during business hours to stay the night.";
-		evictHour = 11;
+        name = "Medium Hotel Room"; //Sets the name of the room
+        evictHour = 11;
 		evictPM = false;
 		minHour = 12;
 		maxHour = 24;

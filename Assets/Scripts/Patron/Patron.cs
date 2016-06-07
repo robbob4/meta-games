@@ -20,6 +20,7 @@ public class Patron : MonoBehaviour
     #region Enums
     public enum Interest
     {
+        Locked = -2,
         None = -1,
         Fashion = 0,
         Gadgets = 1,

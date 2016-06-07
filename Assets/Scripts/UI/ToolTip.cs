@@ -100,9 +100,16 @@ public class ToolTip : MonoBehaviour
         roomName.text = title;
 
         if (title == "Unreachable")
+        {
+            SetInterest(Patron.Interest.Locked);
             roomName.color = Color.red;
+        }
+            
         else
+        {
             roomName.color = Color.black;
+        }
+            
     }
 
     // Changes the interest icon
@@ -174,6 +181,33 @@ public class ToolTip : MonoBehaviour
                 if (temp == null)
                 {
                     Debug.Log("Unable to find Textures/UI/Interests/Sweet for " + this);
+                    return;
+                }
+                break;
+
+            case Patron.Interest.Home:
+                temp = Resources.Load<Sprite>("Textures/UI/Interests/Home");
+                if (temp == null)
+                {
+                    Debug.Log("Unable to find Textures/UI/Interests/Home for " + this);
+                    return;
+                }
+                break;
+
+            case Patron.Interest.Hotel:
+                temp = Resources.Load<Sprite>("Textures/UI/Interests/Bell");
+                if (temp == null)
+                {
+                    Debug.Log("Unable to find Textures/UI/Interests/Bell for " + this);
+                    return;
+                }
+                break;
+
+            case Patron.Interest.Locked:
+                temp = Resources.Load<Sprite>("Textures/UI/Interests/Locked");
+                if (temp == null)
+                {
+                    Debug.Log("Unable to find Textures/UI/Interests/Locked for " + this);
                     return;
                 }
                 break;

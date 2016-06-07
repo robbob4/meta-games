@@ -31,7 +31,7 @@ public class GameTime : MonoBehaviour {
         isPaused = false;
         timeText = GameObject.Find("Information/World Time").GetComponent<Text>();
         if (timeText == null)
-            Debug.Log("Information/World Time not found for " + this + ".");
+            Debug.LogError("Information/World Time not found for " + this + ".");
         theTime = Time.time;
         pm = false;
         stoppedTime = 0f;

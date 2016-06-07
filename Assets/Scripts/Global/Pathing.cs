@@ -31,7 +31,7 @@ public class Pathing : MonoBehaviour
     {
         globalGameManager = GameObject.Find("GameManager").GetComponent<GlobalGameManager>();
         if (globalGameManager == null)
-            Debug.Log("GameManager not found for " + this + ".");
+            Debug.LogError("GameManager not found for " + this + ".");
 
         rooms = new Graph<Destination>();
         rooms.AddNode(globalGameManager.Lobby);
