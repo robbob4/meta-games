@@ -17,9 +17,10 @@ public class Leased : Room
     #region Variables
     protected int spawnCount = 0;
     protected bool rented = false;
+    protected GameObject[] rentors = null;
     #endregion
 
-	protected override void maintainance ()
+    protected override void maintainance ()
 	{
 		if (gameTimer.Hour == 0 && !gameTimer.PM && !maintainanceDeducted) {
 			spawnCount = 0;
@@ -30,7 +31,40 @@ public class Leased : Room
         base.maintainance ();
 	}
 
-	protected override IEnumerator VisitDelay(int i)
+    protected virtual void savedSpawning(PatronType type)
+    {
+        if (spawnCount < capacity)
+        {
+            if (!rented)
+            {
+                randomizePatron(type);
+                rentors[spawnCount] = patronToSpawn; //save them
+                if (spawnCount == 0 && spawner() == true)
+                {
+                    spawnCount++;
+                }
+                else
+                {
+                    if (spawner(true) == true)
+                    {
+                        spawnCount++;
+                        if (spawnCount == capacity)
+                            rented = true;
+                    }
+                }
+            }
+            else
+            {
+                patronToSpawn = rentors[spawnCount]; //load the same looking guy(s)
+                if (spawner(true) == true)
+                {
+                    spawnCount++;
+                }
+            }
+        }
+    }
+
+    protected override IEnumerator VisitDelay(int i)
 	{
 		yield return new WaitForSeconds(delay);
 	}

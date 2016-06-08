@@ -36,6 +36,7 @@ public class Hotel : Leased
     void Start()
     {
         visitors = new Patron[capacity];
+        rentors = new GameObject[capacity];
     }
 
     // Update is called once per frame

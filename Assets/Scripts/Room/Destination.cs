@@ -24,13 +24,19 @@ public class Destination : MonoBehaviour
         Medium = 5, //5 units wide
         Large = 9 //9 units wide
     }
+
+    public enum PatronType
+    {
+        Worker,
+        Office,
+        General
+    }
     #endregion
 
     #region Variables
     //references
     protected static GlobalGameManager globalGameManager = null;
     protected static GameTime gameTimer = null;
-    protected static GameObject patronToSpawn = null;
     protected static Pathing pather = null;
 
     //construction variables
@@ -56,6 +62,12 @@ public class Destination : MonoBehaviour
 	protected bool evicted = false;
 	protected int evictHour = 6;
 	protected bool evictPM = true;
+
+    //patron variables
+    protected static GameObject[] generalPatrons = null;
+    protected static GameObject[] officePatrons = null;
+    protected static GameObject[] workerPatrons = null;
+    protected GameObject patronToSpawn = null;
     #endregion
 
     void Awake()
@@ -73,7 +85,10 @@ public class Destination : MonoBehaviour
         if (pather == null)
             Debug.LogError("Pather not found for " + this + ".");
 
-        patronToSpawn = Resources.Load("Prefabs/Patron/Patron") as GameObject;
+        //patron arrays
+        generalPatrons = Resources.LoadAll<GameObject>("Prefabs/Patron/General");
+        officePatrons = Resources.LoadAll<GameObject>("Prefabs/Patron/Office");
+        workerPatrons = Resources.LoadAll<GameObject>("Prefabs/Patron/Worker");
         #endregion
     }
 		

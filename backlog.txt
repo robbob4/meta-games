@@ -1,19 +1,14 @@
-Todo:
-- various patron art selection: have any leased room pick a variety of office type (patron)
-
 Backlog:
+- Tutorial (popup image at start of new game for basic gameflow?)
 - particle effect for construction
 - hover for patron info: Happiness, money, destination, interests (patron/new ui element)
+- shortest path graph
 - Optimize find scripts by having global game manager maintain them, and distribute them - and ensure they are static wherever possible - see soundEffects array in GlobalGameManager (game manager)
 - Delay quit action when in game?
 - more status messages? (room/patron)
 - randomize patron name
 - randomize shop name
 - more room art (room)
-- shortest path graph
-
-Feedback:
-- Need more information about how to play the game -> Write descriptions for rooms, set the timeout for first hint message to 0, tutorial?, popup image at start of new game for basic gameflow? any other ideas?
 
 Changed:
 - shift up required to exit construction automatically
@@ -56,8 +51,10 @@ Changed:
 - leave building when out of floor (patron)
 - lose game based on failure to repay debt
 - reduced duration in stairwells from 2s to 1s
-- happiness calculation displayed on happiness button
+- traffic calculation displayed on traffic button
 - office icon
 - offices only increase traffic when fully visited by all patrons
 - renamed happiness to traffic for rooms
 - sound ambience fade in and out based on patron count
+- various patron art selection
+- patrons are remembered for apartments and offices

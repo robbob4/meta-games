@@ -37,30 +37,14 @@ public class Apartment : Leased
     void Start()
     {
         visitors = new Patron[capacity];
+        rentors = new GameObject[capacity];
     }
 
     // Update is called once per frame
     void Update()
     {
-		maintainance ();
-		if(spawnCount < capacity)
-		{
-            if (!rented)
-            {
-                if (spawner() == true)
-                {
-                    spawnCount++;
-                    rented = true;
-                }
-            }
-            else
-            {
-                if (spawner(true) == true)
-                {
-                    spawnCount++;
-                }
-            }
-		}
+        maintainance();
+        savedSpawning(PatronType.Worker);
     }
 
     //override maint and evict to delay visit and traffic changes

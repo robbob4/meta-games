@@ -81,7 +81,7 @@ public class Patron : MonoBehaviour
             interests[i] = Mathf.CeilToInt(Random.Range(min, max));
         }
 		interests[7] = interests[8] = interests[9] = 100; //set leased rooms to 100% probability
-        #endregion	
+        #endregion
     }
 
     // Update is called once per frame
@@ -108,16 +108,18 @@ public class Patron : MonoBehaviour
         }
         #endregion
 
+        #region Daily evict
         if (gameTimer.Hour == 6 && gameTimer.PM && !evicted && movement)
         {
             evicted = true;
-            
-            if(!exiting)
+
+            if (!exiting)
             {
                 setDestination(null);
                 exiting = true;
-            }  
+            }
         }
+        #endregion
 
         //only for debugging
         if (movement && nextDest == finalDest && finalDest == globalGameManager.Lobby && CurrentFloor != finalDest.Floor)
