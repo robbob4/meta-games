@@ -62,7 +62,7 @@ public class Stairwell : Room
             }
             
             visits++;
-            Happiness += 10;
+            Traffic += 10;
 
             StartCoroutine(VisitDelay(i));
 
@@ -70,7 +70,7 @@ public class Stairwell : Room
         }
         else
         {
-            Happiness -= 20;
+            Traffic -= 20;
             return false;
         }
     }
@@ -79,7 +79,7 @@ public class Stairwell : Room
     // assumes array is not rearranged
     protected override IEnumerator VisitDelay(int i)
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
 
         if (visitors[i] != null)
         {
@@ -107,17 +107,9 @@ public class Stairwell : Room
         {
             if (visitors[i] != null)
             {
-                // swap floors
-                if (visitors[i].CurrentFloor != Floor)
-                {
-                    visitors[i].CurrentFloor = Floor;
-                    visitors[i].transform.position = new Vector3(visitors[i].transform.position.x, transform.position.y - 2, visitors[i].transform.position.z);
-                }
-                else
-                {
-                    visitors[i].CurrentFloor = Floor - 1;
-                    visitors[i].transform.position = new Vector3(visitors[i].transform.position.x, transform.position.y - Constructor.UNIT_HEIGHT - 2, visitors[i].transform.position.z);
-                }
+                // go to bottom floor
+                visitors[i].CurrentFloor = Floor - 1;
+                visitors[i].transform.position = new Vector3(visitors[i].transform.position.x, transform.position.y - Constructor.UNIT_HEIGHT - 2, visitors[i].transform.position.z);
 
                 //set patron finalDest to lobby
                 if (!visitors[i].Exiting)

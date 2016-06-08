@@ -49,7 +49,7 @@ public class Destination : MonoBehaviour
     protected int currentCapacity = 0; //0-capacity
     protected Patron[] visitors = new Patron[0];
     protected int visits = 0; //# of visits today
-    protected int happiness = 50; //percentage, reset daily
+    protected int traffic = 50; //percentage, reset daily
     protected int delay = 4; //delay when visiting
 	protected bool maintainanceDeducted = true;
     protected bool windowShopping = true;
@@ -91,7 +91,7 @@ public class Destination : MonoBehaviour
                 globalGameManager.Deduct((float)maint);
                 maintainanceDeducted = true;
                 Visits = 0;
-                Happiness -= 10;
+                Traffic -= 10;
                 globalGameManager.GetSoundEffect("maint_s").Play();
             }
             else if (gameTimer.Hour != 0 && maintainanceDeducted)
@@ -147,7 +147,7 @@ public class Destination : MonoBehaviour
             }
 
             Visits++;
-            Happiness += 10;
+            Traffic += 10;
             globalGameManager.GetSoundEffect("cash_s").Play();
             globalGameManager.Payment(this.rent);
             StartCoroutine(VisitDelay(i));
@@ -155,7 +155,7 @@ public class Destination : MonoBehaviour
         }
         else
         {
-            Happiness -= 20;
+            Traffic -= 20;
             return false;
         }
     }
@@ -245,18 +245,18 @@ public class Destination : MonoBehaviour
         get { return rent; }
     }
 
-    public int Happiness
+    public int Traffic
     {
-        get { return happiness; }
+        get { return traffic; }
         set
         {
 			if (value >= 0 && value <= 100) {
-				happiness = value;
+				traffic = value;
 				}
             else if (value <= 0)
-                happiness = 0;
+                traffic = 0;
             else
-                happiness = 100;
+                traffic = 100;
         }
     }
 

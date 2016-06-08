@@ -213,7 +213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25de3d32b9f41e64e867572f4808e29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cash: 1000000
 --- !u!114 &8307320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3630,8 +3629,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c20a0eb4ac6ceee42a3618d2f4aa52ec, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 1
+  m_PlayOnAwake: 1
+  m_Volume: 0
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -4911,7 +4910,7 @@ GameObject:
   - 222: {fileID: 1782406136}
   - 114: {fileID: 1782406135}
   m_Layer: 5
-  m_Name: RoomHappiness
+  m_Name: RoomTraffic
   m_TagString: ToolTip
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4968,7 +4967,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Happiness:'
+  m_Text: 'Traffic:'
 --- !u!222 &1782406136
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5125,8 +5124,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 92111ecb12a26094e8267178990908e3, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 1
+  m_PlayOnAwake: 1
+  m_Volume: 0
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -5350,7 +5349,7 @@ GameObject:
   - 114: {fileID: 1914705900}
   - 114: {fileID: 1914705899}
   m_Layer: 5
-  m_Name: Happiness
+  m_Name: Traffic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

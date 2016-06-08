@@ -23,8 +23,8 @@ public class Leased : Room
 	{
 		if (gameTimer.Hour == 0 && !gameTimer.PM && !maintainanceDeducted) {
 			spawnCount = 0;
-            if(Happiness <= 20)
-                globalGameManager.NewStatus("A " + this.name + " has a happiness of " + Happiness + ".", true);
+            if(Traffic <= 20)
+                globalGameManager.NewStatus("A " + this.name + " has a traffic of " + Traffic + ".", true);
         }            
 
         base.maintainance ();

@@ -44,7 +44,7 @@ public class FloorBehavior : MonoBehaviour
         if ((Input.GetMouseButtonDown(0) || (Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftShift))) &&
 		    globalGameManagerObj.GetComponent<Constructor>().SelectedTool == Constructor.ToolType.Destroy) 
 		{
-			Vector3 underTarget = new Vector3 (this.transform.position.x, this.transform.position.y + 10, this.transform.position.z);
+			Vector3 underTarget = new Vector3 (this.transform.position.x, this.transform.position.y + Constructor.UNIT_HEIGHT, this.transform.position.z);
 			//int size = (int)this.GetComponent<Room> ().RoomSize;
 			int size = 1;
 			int midSpot = (size / 2) + 1;
@@ -53,11 +53,11 @@ public class FloorBehavior : MonoBehaviour
 				Vector3 underTargetTemp;
 
 				if (i < midSpot) {
-					underTargetTemp = new Vector3 (underTarget.x - (i * 4), underTarget.y, underTarget.z);
+					underTargetTemp = new Vector3 (underTarget.x - (i * Constructor.UNIT_WIDTH), underTarget.y, underTarget.z);
 				} else if (i == midSpot) {
 					underTargetTemp = underTarget;
 				} else { // i > midSpot
-					underTargetTemp = new Vector3 (underTarget.x + (i - midSpot) * 4, underTarget.y, underTarget.z);
+					underTargetTemp = new Vector3 (underTarget.x + (i - midSpot) * Constructor.UNIT_WIDTH, underTarget.y, underTarget.z);
 				}
 
 				//hitColliders = Physics.OverlapSphere(this.transform.position, 1.0f);

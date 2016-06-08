@@ -52,17 +52,17 @@ public class Hotel : Leased
 		}
     }
 
-    //override maint and evict to delay visit and happiness changes
+    //override maint and evict to delay visit and traffic changes
     protected override void maintainance()
     {
         int oldVisits = Visits;
-        int oldHappiness = Happiness;
+        int oldTraffic = Traffic;
         bool previousMaint = maintainanceDeducted;
         base.maintainance();
         if (!previousMaint && previousMaint != maintainanceDeducted)
         {
             Visits = oldVisits;
-            Happiness = oldHappiness;
+            Traffic = oldTraffic;
         }
     }
 
@@ -70,7 +70,7 @@ public class Hotel : Leased
     {
         base.Evict();
         if (Visits == 0)
-            Happiness -= 10;
+            Traffic -= 10;
         else
             Visits = 0;
     }

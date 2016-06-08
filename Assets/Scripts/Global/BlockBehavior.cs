@@ -80,7 +80,7 @@ public class BlockBehavior : MonoBehaviour
         if (theRoom != null && theRoom.Temp == false)
         {
             toolTipScript.SetProfit(theRoom.Rent * theRoom.Visits - theRoom.Maint);
-            toolTipScript.SetHappiness(theRoom.Happiness);
+            toolTipScript.SetTraffic(theRoom.Traffic);
 
             //determine whether it is leased
             bool leased = false;
@@ -125,7 +125,6 @@ public class BlockBehavior : MonoBehaviour
         toolTipScript.HideTooltip();
     }
 }
-
 
 	/*
 	public bool blockFollowMouse = true;

@@ -6,8 +6,8 @@
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a base patron.
 // ----------------------------------------------------------------------------
-// Notes - Contains the patron's happiness, money, and interests. Each interest
-// must be a value from 0-100. Should the patron's money or happiness reach 0, 
+// Notes - Contains the patron's traffic, money, and interests. Each interest
+// must be a value from 0-100. Should the patron's money or traffic reach 0, 
 // it will route out of the tower.
 // Set movement to true and update currentFloor when ejecting a patron.
 // ----------------------------------------------------------------------------
@@ -31,12 +31,13 @@ public class Patron : MonoBehaviour
         Savory = 5,
         Sweet = 6,
 		Home = 7,
-		Hotel = 8
+		Hotel = 8,
+        Office = 9
     }
     #endregion
 
     #region Variables
-    protected int[] interests = new int[9]; //array of interests all 1-99
+    protected int[] interests = new int[10]; //array of interests all 1-99
     [SerializeField] protected Destination nextDest = null;
     [SerializeField] protected Destination finalDest = null;
     protected float speed = 0.3f;
@@ -79,14 +80,8 @@ public class Patron : MonoBehaviour
         {
             interests[i] = Mathf.CeilToInt(Random.Range(min, max));
         }
-		interests[7] = interests[8] = 100;
+		interests[7] = interests[8] = interests[9] = 100; //set leased rooms to 100% probability
         #endregion	
-    }
-
-    // Use this for initialization
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame
@@ -126,7 +121,7 @@ public class Patron : MonoBehaviour
 
         //only for debugging
         if (movement && nextDest == finalDest && finalDest == globalGameManager.Lobby && CurrentFloor != finalDest.Floor)
-            Debug.Log("shouldnt be here");
+            Debug.Log(this + "shouldnt be here.");
 
         if (globalGameManager.Paused == false)
         {
@@ -140,18 +135,38 @@ public class Patron : MonoBehaviour
             }
             #endregion
 
-            #region Reached next destination
-            if (this == null || nextDest == null || transform == null || transform.position == null || nextDest.transform == null || nextDest.transform.localScale == null)
-                Debug.LogError("wtf");
+            #region Check for floor
+            //only check every unit distance
+            Vector3 target = new Vector3(transform.position.x, transform.position.y, 1); 
+            int x_relativeToWidth = Mathf.FloorToInt(transform.position.x % Constructor.UNIT_WIDTH);
+            if (x_relativeToWidth > Constructor.UNIT_WIDTH / 2)
+            {
+                target.x = Mathf.FloorToInt(transform.position.x) - Mathf.FloorToInt(x_relativeToWidth - Constructor.UNIT_WIDTH / 2);
+            }
+            else if (x_relativeToWidth < Constructor.UNIT_WIDTH / 2)
+            {
+                target.x = Mathf.FloorToInt(transform.position.x) + Mathf.FloorToInt(Constructor.UNIT_WIDTH / 2 - x_relativeToWidth);
+            }
 
+            //determine if the floor ends
+            if (CurrentFloor != 1 && !Physics.CheckSphere(target, 0.01f))
+            {
+                //route home
+                //exiting = true;
+                setDestination();
+                return;
+            }
+            #endregion
+
+            #region Reached next destination
             if (movement == true && Mathf.Abs(nextDest.transform.position.x - transform.position.x) <= nextDest.transform.localScale.x / 4)
             {
-                Debug.Log("Reached " + nextDest);
+                //Debug.Log("Reached " + nextDest);
 
                 //reached lobby exit?
                 if (nextDest == finalDest && nextDest == globalGameManager.Lobby)
                 {
-                    Debug.Log(this + " exited.");
+                    //Debug.Log(this + " exited.");
                     Destroy(gameObject);
                 }
 
@@ -213,7 +228,7 @@ public class Patron : MonoBehaviour
                         else
                         {
                             globalGameManager.NewStatus(nextDest.name + " is crowded!", true);
-                            Happiness -= 20; //happiness deducation
+                            Happiness -= 20; //traffic deducation
                         }
                     }
                     else if(CurrentFloor != nextDest.Floor)
@@ -256,7 +271,6 @@ public class Patron : MonoBehaviour
         //Destination oldnextDest = nextDest; //debug
         //Destination oldfinalDest = finalDest; //debug
 
-
         if (newFinalDest != null)
             finalDest = newFinalDest;
         else
@@ -291,7 +305,6 @@ public class Patron : MonoBehaviour
 		}
 		setDestination (newFinalDestination);			
 	}
-
 
     // randomly determine whether the interest check passed
     private bool interestCheck(Interest check)

@@ -1,0 +1,63 @@
+Todo:
+- various patron art selection: have any leased room pick a variety of office type (patron)
+
+Backlog:
+- particle effect for construction
+- hover for patron info: Happiness, money, destination, interests (patron/new ui element)
+- Optimize find scripts by having global game manager maintain them, and distribute them - and ensure they are static wherever possible - see soundEffects array in GlobalGameManager (game manager)
+- Delay quit action when in game?
+- more status messages? (room/patron)
+- randomize patron name
+- randomize shop name
+- more room art (room)
+- shortest path graph
+
+Feedback:
+- Need more information about how to play the game -> Write descriptions for rooms, set the timeout for first hint message to 0, tutorial?, popup image at start of new game for basic gameflow? any other ideas?
+
+Changed:
+- shift up required to exit construction automatically
+- hold shift for super fast deconstruction
+- Play/pause buttons toggle
+- " Info" added to RoomStats panel
+- Floor sound when constructing floor
+- Unlimited delay for first tip in status bar
+- Moved location of tooltip image
+- Increased notification sound volume
+- Prevented tooltip in construction
+- Hid tooltip in deconstruction
+- Prevent visiting when paused + take in to account current floor + update visits/happiness
+- created stairwell room with floor change behavior
+- Set tooltip properties for the hovered room
+- Updated opacity of toolip
+- Room descriptions
+
+- Improve depth first search (graph)
+- Create array for floors of destinations
+- Improve graph node addition (pather): stair: attach to nearest lower floor; other: attach to l,r and update mid
+- Update graph when deconstructing
+- Deduct money for maintenance at x time + sound + reset visits/happiness (game manager?)
+- Eject patrons from leased rooms based on times - call evict (leased)
+- route out for time (patron)
+- only spawn patrons based on time determined by room variable (room)
+
+- day cycle: change bg color (game manager)
+- cant visit without money
+- only visit shops
+- rent added to information panel
+- rented behavior for apartments and offices
+- Stairs icon
+- tweaked spawn chances
+- tweaked reset behavior for maintenace
+- fix evict/change destination
+- only allow one stair per floor
+
+- attached stairs to above node
+- leave building when out of floor (patron)
+- lose game based on failure to repay debt
+- reduced duration in stairwells from 2s to 1s
+- happiness calculation displayed on happiness button
+- office icon
+- offices only increase traffic when fully visited by all patrons
+- renamed happiness to traffic for rooms
+- sound ambience fade in and out based on patron count

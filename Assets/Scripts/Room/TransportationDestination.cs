@@ -4,7 +4,7 @@
 // Modified - May 26, 2016
 // ----------------------------------------------------------------------------
 // Purpose - Implementation for a base room class that inherits from the 
-// Destination class. Specifies happiness, spawnchance, and spawnDelayModulo.
+// Destination class. Specifies traffic, spawnchance, and spawnDelayModulo.
 // spawnDelayModulo just specifies what minute to attempt to spawn.
 // ----------------------------------------------------------------------------
 // Notes - Child must call spawner() if desired in update.

@@ -63,17 +63,17 @@ public class Apartment : Leased
 		}
     }
 
-    //override maint and evict to delay visit and happiness changes
+    //override maint and evict to delay visit and traffic changes
     protected override void maintainance()
     {
         int oldVisits = Visits;
-        int oldHappiness = Happiness;
+        int oldTraffic = Traffic;
         bool previousMaint = maintainanceDeducted;
         base.maintainance();
         if (gameTimer.Hour == 0 && !gameTimer.PM && !previousMaint)
         {
             Visits = oldVisits;
-            Happiness = oldHappiness;
+            Traffic = oldTraffic;
         }
     }
 
@@ -81,7 +81,7 @@ public class Apartment : Leased
     {
         base.Evict();
         if (Visits == 0)
-            Happiness -= 10;
+            Traffic -= 10;
         else
             Visits = 0;
     }

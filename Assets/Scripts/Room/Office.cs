@@ -17,7 +17,7 @@ public class Office : Leased
     // Use this for fast initialization
     void Awake()
     {
-		theInterest = Patron.Interest.Home;
+		theInterest = Patron.Interest.Office;
         roomSize = Room.Size.Medium;
         constructionCost = 100000;
         maint = 1000;
@@ -57,5 +57,16 @@ public class Office : Leased
                 }
             }
         }
+    }
+
+    public override bool Visit(Patron visitor)
+    {
+        bool retVal = base.Visit(visitor);
+        Traffic -= 10; //negate traffic per visitor
+
+        if(currentCapacity == MaxCapacity)
+            Traffic += 10; //grant traffic when all patrons can visit
+
+        return retVal;
     }
 }

@@ -295,7 +295,7 @@ public class Constructor : MonoBehaviour
 
         if (hitColliders.Length == 1)
         {
-            Vector3 underTarget = new Vector3(target.x, target.y - 10, 1);
+            Vector3 underTarget = new Vector3(target.x, target.y - UNIT_HEIGHT, 1);
 			int size = (int)theRoom.GetComponent<Room>().RoomSize;
 			int midSpot = (size / 2) + 1;
 
@@ -305,7 +305,7 @@ public class Constructor : MonoBehaviour
 
 				if (i < midSpot)
                 {
-					underTargetTemp = new Vector3 (underTarget.x - (i * 4), underTarget.y, underTarget.z);
+					underTargetTemp = new Vector3 (underTarget.x - (i * UNIT_WIDTH), underTarget.y, underTarget.z);
 				}
                 else if (i == midSpot)
                 {
@@ -313,7 +313,7 @@ public class Constructor : MonoBehaviour
 				}
                 else // i > midSpot
                 { 
-					underTargetTemp = new Vector3 (underTarget.x + (i - midSpot)  * 4, underTarget.y, underTarget.z);
+					underTargetTemp = new Vector3 (underTarget.x + (i - midSpot)  * UNIT_WIDTH, underTarget.y, underTarget.z);
 				}
 
 				//Debug.LogFormat ("there are" + hitColliders.Length + " fools here!");
@@ -345,7 +345,7 @@ public class Constructor : MonoBehaviour
 
             if (i < midSpot)
             {
-                underTargetTemp = new Vector3(underTarget.x - (i * 4), underTarget.y, underTarget.z);
+                underTargetTemp = new Vector3(underTarget.x - (i * UNIT_WIDTH), underTarget.y, underTarget.z);
             }
             else if (i == midSpot)
             {
@@ -353,7 +353,7 @@ public class Constructor : MonoBehaviour
             }
             else // i > midSpot
             {
-                underTargetTemp = new Vector3(underTarget.x + (i - midSpot) * 4, underTarget.y, underTarget.z);
+                underTargetTemp = new Vector3(underTarget.x + (i - midSpot) * UNIT_WIDTH, underTarget.y, underTarget.z);
             }
 
             if (!Physics.CheckSphere(underTargetTemp, 0.01f))
@@ -374,27 +374,27 @@ public class Constructor : MonoBehaviour
         //Debug.Log ("mouse: " + currMousePosition);
 
         //target x calculation 
-        int x_relativeToWidth = Mathf.FloorToInt(currMousePosition.x % 4.0f);
-        if (x_relativeToWidth > 4 / 2)
+        int x_relativeToWidth = Mathf.FloorToInt(currMousePosition.x % UNIT_WIDTH);
+        if (x_relativeToWidth > UNIT_WIDTH / 2)
         {
-            target.x = Mathf.FloorToInt(currMousePosition.x) - Mathf.FloorToInt(x_relativeToWidth - 4 / 2);
+            target.x = Mathf.FloorToInt(currMousePosition.x) - Mathf.FloorToInt(x_relativeToWidth - UNIT_WIDTH / 2);
         }
-        else if (x_relativeToWidth < 4 / 2)
+        else if (x_relativeToWidth < UNIT_WIDTH / 2)
         {
             //else
-            target.x = Mathf.FloorToInt(currMousePosition.x) + Mathf.FloorToInt(4 / 2 - x_relativeToWidth);
+            target.x = Mathf.FloorToInt(currMousePosition.x) + Mathf.FloorToInt(UNIT_WIDTH / 2 - x_relativeToWidth);
         }
 
         //target y calculation
-        int y_relativeToWidth = Mathf.FloorToInt(currMousePosition.y % 10);
-        if (x_relativeToWidth > 10 / 2)
+        int y_relativeToWidth = Mathf.FloorToInt(currMousePosition.y % UNIT_HEIGHT);
+        if (x_relativeToWidth > UNIT_HEIGHT / 2)
         {
-            target.y = Mathf.FloorToInt(currMousePosition.y) - Mathf.FloorToInt(y_relativeToWidth - 10 / 2);
+            target.y = Mathf.FloorToInt(currMousePosition.y) - Mathf.FloorToInt(y_relativeToWidth - UNIT_HEIGHT / 2);
         }
-        else if (x_relativeToWidth < 10 / 2)
+        else if (x_relativeToWidth < UNIT_HEIGHT / 2)
         {
             //else
-            target.y = Mathf.FloorToInt(currMousePosition.y) + Mathf.FloorToInt(10 / 2 - y_relativeToWidth);
+            target.y = Mathf.FloorToInt(currMousePosition.y) + Mathf.FloorToInt(UNIT_HEIGHT / 2 - y_relativeToWidth);
         }
 		target.z = roomToSpawn.transform.position.z;
     }

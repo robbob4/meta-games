@@ -58,7 +58,7 @@ public class Pathing : MonoBehaviour
         while (temp.Count > 0 && temp.Peek() != from)
             result = temp.Pop();
 
-        Debug.Log("from " + from + " to " + to + " -> " + result);
+        //Debug.Log("from " + from + " to " + to + " -> " + result);
         return result;
     }
 
@@ -142,11 +142,16 @@ public class Pathing : MonoBehaviour
                 // sever the link between left and right if applicable
                 rooms.RemoveUndirectedEdge(left, right);
                 
-                // if this is transportation, find the below closest (temp)
+                // if this is transportation, find the below closest and above closest (temp)
                 if (newDest.Transportation)
                 {
                     Destination below = belowClosestNode(newDest);
-                    rooms.AddUndirectedEdge(newDest, below);
+                    if (below != null)
+                        rooms.AddUndirectedEdge(newDest, below);
+
+                    Destination above = aboveClosestTransportation(newDest);
+                    if (above != null)
+                        rooms.AddUndirectedEdge(newDest, above);
                 }
                 
                 break;
@@ -257,6 +262,64 @@ public class Pathing : MonoBehaviour
                     // found a closer distance
                     distance = tempDistance;
                     retVal = roomsByFloor[search.Floor - 1, i];
+                }
+            }
+        }
+
+        return retVal;
+    }
+
+    // find the closest destination above the current floor
+    private Destination aboveClosestNode(Destination search)
+    {
+        // validate input
+        if (search == null)
+            return null;
+
+        float distance = -1;
+        Destination retVal = null;
+
+        // search each node on the floor below
+        for (int i = 0; i < MAX_FLOORS_WIDE; i++)
+        {
+            Destination temp = roomsByFloor[search.Floor + 1, i];
+            if (temp != null && temp != search)
+            {
+                float tempDistance = Mathf.Abs(search.transform.position.x - temp.transform.position.x);
+                if (distance == -1 || tempDistance < distance)
+                {
+                    // found a closer distance
+                    distance = tempDistance;
+                    retVal = roomsByFloor[search.Floor + 1, i];
+                }
+            }
+        }
+
+        return retVal;
+    }
+
+    // find the closest transportation node above the current floor
+    private Destination aboveClosestTransportation(Destination search)
+    {
+        // validate input
+        if (search == null)
+            return null;
+
+        float distance = -1;
+        Destination retVal = null;
+
+        // search each node on the floor below
+        for (int i = 0; i < MAX_FLOORS_WIDE; i++)
+        {
+            Destination temp = roomsByFloor[search.Floor + 1, i];
+            if (temp != null && temp != search && temp.Transportation)
+            {
+                float tempDistance = Mathf.Abs(search.transform.position.x - temp.transform.position.x);
+                if (distance == -1 || tempDistance < distance)
+                {
+                    // found a closer distance
+                    distance = tempDistance;
+                    retVal = roomsByFloor[search.Floor + 1, i];
                 }
             }
         }

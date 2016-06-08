@@ -22,7 +22,7 @@ public class ToolTip : MonoBehaviour
 	private GameObject toolTipObj = null;
 	private Text roomName = null;
 	private Text roomProfit = null;
-	private Text roomHappiness = null;
+	private Text roomTraffic = null;
 	private Text roomCapacity = null;
     private Image roomInterest = null;
 	private Vector3 target = new Vector3(0, 0, 0);
@@ -58,9 +58,9 @@ public class ToolTip : MonoBehaviour
 		if (roomProfit == null)
 			Debug.Log("Unable to find RoomProfit for " + this + ".");
 
-		roomHappiness = GameObject.Find("RoomHappiness").GetComponentsInChildren<Text>()[1];
-		if (roomHappiness == null)
-			Debug.Log("Unable to find RoomHappiness for " + this + ".");
+		roomTraffic = GameObject.Find("RoomTraffic").GetComponentsInChildren<Text>()[1];
+		if (roomTraffic == null)
+			Debug.Log("Unable to find RoomTraffic for " + this + ".");
 		
 		roomCapacity = GameObject.Find("RoomCapacity").GetComponentsInChildren<Text>()[1];
 		if (roomCapacity == null)
@@ -203,6 +203,15 @@ public class ToolTip : MonoBehaviour
                 }
                 break;
 
+            case Patron.Interest.Office:
+                temp = Resources.Load<Sprite>("Textures/UI/Interests/Office");
+                if (temp == null)
+                {
+                    Debug.Log("Unable to find Textures/UI/Interests/Office for " + this);
+                    return;
+                }
+                break;
+
             case Patron.Interest.Locked:
                 temp = Resources.Load<Sprite>("Textures/UI/Interests/Locked");
                 if (temp == null)
@@ -248,16 +257,16 @@ public class ToolTip : MonoBehaviour
     }
 
     // Appends % to the end of given string
-    public void SetHappiness(int happiness)
+    public void SetTraffic(int traffic)
     {
         if (!visible)
             ShowTooltip();
-        roomHappiness.text = happiness + "%";
+        roomTraffic.text = traffic + "%";
 
-        if (happiness < 50)
-            roomHappiness.color = Color.red;
+        if (traffic < 50)
+            roomTraffic.color = Color.red;
         else
-            roomHappiness.color = Color.black;
+            roomTraffic.color = Color.black;
     }
 
     // Changes the current and max capacity values with a " / " in between
