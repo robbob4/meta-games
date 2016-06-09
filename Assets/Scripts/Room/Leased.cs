@@ -26,7 +26,10 @@ public class Leased : Room
 			spawnCount = 0;
             if(Traffic <= 20)
                 globalGameManager.NewStatus("A " + this.name + " has a traffic of " + Traffic + ".", true);
-        }            
+        }
+
+        if(Visits == capacity)
+            rented = true;
 
         base.maintainance ();
 	}
@@ -41,15 +44,13 @@ public class Leased : Room
                 rentors[spawnCount] = patronToSpawn; //save them
                 if (spawnCount == 0 && spawner() == true)
                 {
-                    spawnCount++;
+                    spawnCount++;                        
                 }
                 else
                 {
                     if (spawner(true) == true)
                     {
                         spawnCount++;
-                        if (spawnCount == capacity)
-                            rented = true;
                     }
                 }
             }
